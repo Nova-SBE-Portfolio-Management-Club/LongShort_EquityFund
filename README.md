@@ -1,5 +1,5 @@
 # Long-Short Equity Fund
-
+Long-Short Equity Fund using Quantitative Analysis
 
 
 
