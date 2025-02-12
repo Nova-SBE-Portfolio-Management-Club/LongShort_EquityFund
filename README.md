@@ -6,3 +6,4 @@
 ## Authors
 
 - João Fonseca
+- Jack Noel
