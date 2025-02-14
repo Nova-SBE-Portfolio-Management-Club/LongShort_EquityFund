@@ -1,0 +1,24 @@
+from datetime import datetime
+
+class Country:
+    def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str):
+        self.name = name
+        self.isin_code = isin_code
+        self.bloomberg_code = bloomberg_code
+        self.yfinance_code = yfinance_code
+        self.currency = currency
+
+    def __repr__(self):
+        return (f"Country(name='{self.name}', isin_code='{self.isin_code}', bloomberg_code='{self.bloomberg_code}', "
+                f"yfinance_code='{self.yfinance_code}', currency='{self.currency}')")
+
+class PriceData:
+    def __init__(self, date: datetime, ticker: str, open_status: bool, price: float):
+        self.date = date
+        self.ticker = ticker
+        self.open_status = open_status
+        self.price = price
+
+    def __repr__(self):
+        return (f"PriceData(date='{self.date}', ticker='{self.ticker}', open_status={self.open_status}, "
+                f"price={self.price})")
