@@ -10,12 +10,13 @@ Tables:
         - Company
     - Country
     - PriceData
+    -
 
 Dependencies:
     - yfinance
     - investpy
-    
-                                                        
+    -
+                                                         
 """
 
 # IMPORTS
@@ -26,14 +27,25 @@ import requests
 from urllib.error import URLError
 from datetime import datetime
 
+from sqlalchemy import Column, DateTime, String, Integer, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+
+###############################################################################
+
+# DECLARATIONS
+
+Base = declarative_base()
+metadata = Base.metadata
+
 ###############################################################################
 ###############################################################################
 
-
-
-# ASSET
-
-class Asset:
+class Asset(Base):
+    
+    __tablename__ = 'assets'
+    
+    ticker  = Column('ticker',  String(15), primary_key=True)
+    atype   = Column('atype',    String(50)) 
     
     def __init__(self, ticker: str):
         self.ticker = ticker
@@ -43,16 +55,29 @@ class Asset:
 
     def set_ticker(self, ticker: str):
         self.ticker = ticker
+        
+    # This will indicate to SQLAlchemy that this is the parent of the next class
+    __mapper_args__ = {
+        'polymorphic_identity': 'asset',   # To identify the base class
+        'polymorphic_on': 'atype'           # This column will store the type of the object (Asset or Company)
+    }
 
 ###############################################################################
 ###############################################################################
-
-# COMPANY
 
 class Company(Asset):
+    
+    __tablename__ = 'companies'
+    
+    ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker'), primary_key=True) 
+    country = Column('country', String(50))
+    isin    = Column('isin',    String(30))
+    sector  = Column('sector',  String(20))
+    industry= Column('industry',String(20))
+    
     def __init__(self, ticker: str, country: str):
         super().__init__(ticker)    # From mother class (Asset)
-        self.country = country  # Country set manually
+        self.country = country      # Country set manually
         self.isin = None
         self.sector = None
         self.industry = None
@@ -106,10 +131,13 @@ class Company(Asset):
     def get_country(self) -> str:
         return self.country
     
+    
+    __mapper_args__ = {
+        'polymorphic_identity': 'company',  # This identifies the Company class
+    }
+    
 ###############################################################################
 ###############################################################################
-
-# COUNTRY
 
 class Country:
     def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str):
@@ -125,8 +153,6 @@ class Country:
         
 ###############################################################################
 ###############################################################################
-
-# PRICEDATA
 
 class PriceData:
     def __init__(self, date: datetime, ticker: str, open_status: bool, price: float):
