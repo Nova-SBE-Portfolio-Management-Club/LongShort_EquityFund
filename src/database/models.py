@@ -27,7 +27,7 @@ import requests
 from urllib.error import URLError
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String, Integer, ForeignKey
+from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 ###############################################################################
@@ -139,7 +139,7 @@ class Company(Asset):
 ###############################################################################
 ###############################################################################
 
-class Country:
+class Country(Base):
     def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str):
         self.name = name
         self.isin_code = isin_code
@@ -154,16 +154,40 @@ class Country:
 ###############################################################################
 ###############################################################################
 
-class PriceData:
+class PriceData(Base):
+    __tablename__ = "price_data"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    date = Column(DateTime, nullable=False)
+    ticker = Column(String, nullable=False)
+    open_status = Column(Boolean, nullable=False)
+    price = Column(Float, nullable=False)
+     
     def __init__(self, date: datetime, ticker: str, open_status: bool, price: float):
         self.date = date
         self.ticker = ticker
         self.open_status = open_status
         self.price = price
-
+    
     def __repr__(self):
-        return (f"PriceData(date='{self.date}', ticker='{self.ticker}', open_status={self.open_status}, "
-                f"price={self.price})")
-        
+        return(f"PriceData(date='{self.date}', ticker='{self.ticker}', open_status={self.open_status}, price={self.price})")
+
+    def __eq__(self, other):
+        if isinstance(other, PriceData):
+            return (self.date, self.ticker, self.open_status, self.price) == (other.date, other.ticker, other.open_status, other.price)
+        return False
+
 ###############################################################################
 ###############################################################################
+
+class Pair(Base):
+    __tablename__ = "pair"
+
+    tickerA = Column(String, primary_key=True)
+    tickerB = Column(String, primary_key=True)
+    ceof = Column(float, nullable=False)
+
+    def __eq__(self, other):
+        if isinstance(other, Pair):
+            return (self.tickerA, self.tickerB, self.ceof) == (other.tickerA, other.tickerB, other.ceof)
+        return False
