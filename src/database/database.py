@@ -28,12 +28,11 @@ load_dotenv()
 
 class SingletonMeta(type):
     """
-    This is a defintion of a Meta Class
-    It will allow us to create only one instance of DB_Engine (see below)
-    
-    Do not worry if you can not fully grasp what it is doing
-    
-    If cursious, ask chatGPT, he willl explain it better than me
+    This is a definition of a Meta Class.
+    It will allow us to create only one instance of DB_Engine (see below).
+
+    Do not worry if you cannot fully grasp what it is doing.
+    If curious, ask chatGPT, he will explain it better than me.
     """
     
     _instances = {}
@@ -46,21 +45,16 @@ class SingletonMeta(type):
 
 class DB_Engine(metaclass=SingletonMeta):
     """
-    One of our best friends in the program
+    DB_Engine is the bridge between our python code and the postgresql database.
+    Every query, insert, ... that we will do in the code will use this as the "middleman".
     
-    DB_Engine is the bridge between our python code and the postgresql database
-    Every query, insert, ... that we will do in the code will use this as the "middleman"
-    
-    Without this, it would not be possible to connect to the database and "talk" with it
+    Without this, it would not be possible to connect to the database and "talk" with it.
     """
-    
     
     def __init__(self):
         self.dsn = f"{os.getenv('DB_DRIVER')}://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-        
         # The engine is responsible for managing the connection to the database.
         self.engine = None
-        
         # The sessionmaker is a factory that generates session objects.
         # A session object is responsible for interacting with the database, 
         # executing queries, and committing transactions.
@@ -68,12 +62,9 @@ class DB_Engine(metaclass=SingletonMeta):
         
     def connect(self):
         """
-        Descr
-            Builds the engine and the session that will allow us to communicate with the database
-        Output
-            sqlalchemy engine
+        Builds the engine and the session that will allow us to communicate with the database.
+        Output: sqlalchemy engine.
         """
-        
         if self.engine is None:
             # Create the engine
             self.engine = create_engine(self.dsn)
@@ -152,14 +143,162 @@ class DB_Engine(metaclass=SingletonMeta):
 
 
         
+    def insert_country(self, country) -> None:
+        """
+        Inserts a Country object into the database.
+        """
+        session = self.sessionmaker()
+        try:
+            session.add(country)
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting country {country.name}: {e}")
+        finally:
+            session.close()
 
+    def exists_country(self, country) -> bool:
+        """
+        Checks if the given Country object already exists in the database
+        by comparing its unique attributes (e.g., name or ISIN).
+        Returns True if it exists, False otherwise.
+        """
+        session = self.sessionmaker()
+        try:
+            # Example: check by 'name' or 'isin_code'
+            existing = (
+                session.query(Country)
+                .filter_by(name=country.name, isin_code=country.isin_code)
+                .first()
+            )
+            return existing is not None
+        except Exception as e:
+            print(f"Error checking existence of country {country.name}: {e}")
+            return False
+        finally:
+            session.close()
 
+    def get_all_countries(self) -> list:
+        """
+        Returns a list of all Country objects stored in the database.
+        """
+        session = self.sessionmaker()
+        try:
+            countries = session.query(Country).all()
+            return countries
+        except Exception as e:
+            print(f"Error retrieving all countries: {e}")
+            return []
+        finally:
+            session.close()
+
+    def insert_asset(self, asset) -> None:
+        """
+        Inserts an Asset (or Company) into the database.
+        """
+        session = self.sessionmaker()
+        try:
+            session.add(asset)
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting asset {asset.ticker}: {e}")
+        finally:
+            session.close()
+    
+    def exists_asset(self, asset) -> bool:
+        """
+        Checks if the given Asset/Company object already exists in the database
+        by comparing its unique attributes (e.g., ticker, ISIN).
+        Returns True if it exists, False otherwise.
+        """
+        session = self.sessionmaker()
+        try:
+            # Example filter: check by ticker or ISIN code
+            existing = (
+                session.query(Asset)
+                .filter_by(ticker=asset.ticker)
+                .first()
+            )
+            return existing is not None
+        except Exception as e:
+            print(f"Error checking existence of asset {asset.ticker}: {e}")
+            return False
+        finally:
+            session.close()
+
+    def get_all_assets(self) -> list:
+        """
+        Returns a list of all Asset objects stored in the database (including Companies).
+        """
+        session = self.sessionmaker()
+        try:
+            assets = session.query(Asset).all()
+            return assets
+        except Exception as e:
+            print(f"Error retrieving all assets: {e}")
+            return []
+        finally:
+            session.close()
+
+    def insert_all_country_companies(self, country) -> None:
+        """
+        Retrieves all companies for the given country (using investpy or other library),
+        creates Company objects, and inserts them into the database in bulk.
+        """
+        import investpy
+        
+        session = self.sessionmaker()
+        try:
+            # 1. Fetch all companies from investpy
+            companies_data = investpy.stocks.get_stocks(country=country.name)
+            
+            # 2. Create a list of Company objects
+            company_objects = []
+            for _, row in companies_data.iterrows():
+                # Adjust fields to match your Company model.
+                company = Company(
+                    name=row["name"],
+                    ticker=row["symbol"],
+                    isin_code=row["isin"],
+                    country_id=country.id,  # or country=country if using relationship
+                )
+                company_objects.append(company)
+            
+            # 3. Insert them in bulk
+            session.add_all(company_objects)
+            session.commit()
+            
+            print(f"Inserted {len(company_objects)} companies for country {country.name}.")
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting all companies for country {country.name}: {e}")
+        finally:
+            session.close()
+
+    def get_all_country_companies(self, country) -> list:
+        """
+        Returns a list of all Company objects for the given Country that are stored in the DB.
+        """
+        session = self.sessionmaker()
+        try:
+            # Assuming you have a relationship or a foreign key "country_id" in Company.
+            companies = (
+                session.query(Company)
+                .filter_by(country_id=country.id)
+                .all()
+            )
+            return companies
+        except Exception as e:
+            print(f"Error retrieving companies for country {country.name}: {e}")
+            return []
+        finally:
+            session.close()
 
 
 # Usage
 
 if __name__ == '__main__':  
-
     db1 = DB_Engine()
     db2 = DB_Engine()
 

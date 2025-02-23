@@ -55,7 +55,15 @@ class Asset(Base):
 
     def set_ticker(self, ticker: str):
         self.ticker = ticker
-        
+
+    def __repr__(self):
+        return f"<Asset(ticker='{self.ticker}', atype='{self.atype}')>"
+
+    def __eq__(self, other):
+        if isinstance(other, Asset):
+            return self.ticker == other.ticker
+        return False
+
     # This will indicate to SQLAlchemy that this is the parent of the next class
     __mapper_args__ = {
         'polymorphic_identity': 'asset',   # To identify the base class
@@ -74,13 +82,17 @@ class Company(Asset):
     isin    = Column('isin',    String(30))
     sector  = Column('sector',  String(20))
     industry= Column('industry',String(20))
-    
+    shares_outstanding = Column('shares_outstanding', Float)  # New column for shares outstanding
+    floating_shares = Column('floating_shares', Float)         # New column for floating shares
+
     def __init__(self, ticker: str, country: str):
-        super().__init__(ticker)    # From mother class (Asset)
+        super().__init__(ticker)    # From parent class (Asset)
         self.country = country      # Country set manually
         self.isin = None
         self.sector = None
         self.industry = None
+        self.shares_outstanding = None
+        self.floating_shares = None
 
     def get_isin(self) -> str:
         if not self.isin:
@@ -130,16 +142,65 @@ class Company(Asset):
 
     def get_country(self) -> str:
         return self.country
-    
-    
+
+    def get_shares_outstanding(self) -> float:
+        if self.shares_outstanding is None:
+            self.set_shares_outstanding()
+        return self.shares_outstanding
+
+    def set_shares_outstanding(self):
+        try:
+            company = yf.Ticker(self.ticker)
+            shares = company.info.get('sharesOutstanding')
+            if shares:
+                self.shares_outstanding = float(shares)
+            else:
+                raise ValueError("Shares outstanding data not available.")
+        except (requests.exceptions.ConnectionError, URLError) as e:
+            raise ConnectionError(f"Network error while fetching shares outstanding: {e}")
+
+    def get_floating_shares(self) -> float:
+        if self.floating_shares is None:
+            self.set_floating_shares()
+        return self.floating_shares
+
+    def set_floating_shares(self):
+        try:
+            company = yf.Ticker(self.ticker)
+            floats = company.info.get('floatShares')
+            if floats:
+                self.floating_shares = float(floats)
+            else:
+                raise ValueError("Floating shares data not available.")
+        except (requests.exceptions.ConnectionError, URLError) as e:
+            raise ConnectionError(f"Network error while fetching floating shares: {e}")
+
+    def __eq__(self, other):
+        if isinstance(other, Company):
+            return (self.ticker, self.country, self.isin, self.sector, self.industry,
+                    self.shares_outstanding, self.floating_shares) == \
+                   (other.ticker, other.country, other.isin, other.sector, other.industry,
+                    other.shares_outstanding, other.floating_shares)
+        return False
+
     __mapper_args__ = {
         'polymorphic_identity': 'company',  # This identifies the Company class
     }
+
     
 ###############################################################################
 ###############################################################################
 
 class Country(Base):
+    __tablename__ = 'countries'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), unique=True, nullable=False)
+    isin_code = Column(String(20))
+    bloomberg_code = Column(String(20))
+    yfinance_code = Column(String(20))
+    currency = Column(String(10))
+    
     def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str):
         self.name = name
         self.isin_code = isin_code
@@ -150,6 +211,14 @@ class Country(Base):
     def __repr__(self):
         return (f"Country(name='{self.name}', isin_code='{self.isin_code}', bloomberg_code='{self.bloomberg_code}', "
                 f"yfinance_code='{self.yfinance_code}', currency='{self.currency}')")
+
+    def __eq__(self, other):
+        if isinstance(other, Country):
+            return (self.name, self.isin_code, self.bloomberg_code, self.yfinance_code, self.currency) == \
+                   (other.name, other.isin_code, other.bloomberg_code, other.yfinance_code, other.currency)
+        return False
+
+
         
 ###############################################################################
 ###############################################################################
