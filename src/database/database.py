@@ -22,7 +22,7 @@ from sqlalchemy.orm import sessionmaker, Session
 import yfinance as yf
 import pandas as pd
 
-from models import Company, Pair, PriceData
+from models import Company, Pair, PriceData, Country, Asset
 
 load_dotenv()
 

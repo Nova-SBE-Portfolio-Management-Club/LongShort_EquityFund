@@ -254,7 +254,7 @@ class Pair(Base):
 
     tickerA = Column(String, primary_key=True)
     tickerB = Column(String, primary_key=True)
-    ceof = Column(float, nullable=False)
+    ceof = Column(Float, nullable=False)
 
     def __eq__(self, other):
         if isinstance(other, Pair):
