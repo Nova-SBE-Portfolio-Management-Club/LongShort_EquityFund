@@ -192,10 +192,10 @@ class Company(Asset):
 ###############################################################################
 
 class Country(Base):
+    
     __tablename__ = 'countries'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(50), unique=True, nullable=False)
+    name = Column(String(50), primary_key=True, nullable=False)
     isin_code = Column(String(20))
     bloomberg_code = Column(String(20))
     yfinance_code = Column(String(20))
@@ -224,11 +224,11 @@ class Country(Base):
 ###############################################################################
 
 class PriceData(Base):
-    __tablename__ = "price_data"
+    __tablename__ = "prices_data"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime, nullable=False)
-    ticker = Column(String, nullable=False)
+    ticker = Column(String, ForeignKey("assets.ticker"), nullable=False)
     open_status = Column(Boolean, nullable=False)
     price = Column(Float, nullable=False)
      
@@ -250,10 +250,11 @@ class PriceData(Base):
 ###############################################################################
 
 class Pair(Base):
-    __tablename__ = "pair"
+    __tablename__ = "pairs"
 
-    tickerA = Column(String, primary_key=True)
-    tickerB = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    tickerA = Column(String, ForeignKey("assets.ticker"))
+    tickerB = Column(String, ForeignKey("assets.ticker"))
     ceof = Column(Float, nullable=False)
 
     def __eq__(self, other):
