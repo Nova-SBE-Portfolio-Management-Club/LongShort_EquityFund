@@ -76,7 +76,9 @@ class DB_Engine(metaclass=SingletonMeta):
         return self.engine
     
     def insert_pair(self, pair: Pair):
-        # Inserts a pair object into database
+        """
+        Inserts a pair object into database
+        """
         with Session(self.engine) as session:
             session.add(pair)
             session.commit()
@@ -242,6 +244,27 @@ class DB_Engine(metaclass=SingletonMeta):
             return []
         finally:
             session.close()
+            
+    def delete_asset(self, asset: Asset) -> None:
+        """
+        Deletes the specified asset from the database
+        First it check if it exists
+        """
+        pass
+            
+    def delete_assets(self, assets: List[Asset]) -> None:
+        """
+        Deletes the assets in the 'assets' list
+        First it checks if the assets exists
+        """
+        pass
+        
+        
+    def delete_all_assets(self) -> None:
+        """
+        Deletes all the assets stored in the database
+        """
+        pass
 
     def insert_all_country_companies(self, country: Country) -> None:
         """
@@ -311,7 +334,5 @@ if __name__ == '__main__':
     
     c1 = Country('portugal','PT','PL','LS','EUR')
     
-    print('->',db1.get_all_assets())
-    #print('->',db1.insert_all_country_companies(c1))
-    
+
     

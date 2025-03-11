@@ -29,6 +29,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 ###############################################################################
 
@@ -63,6 +64,9 @@ class Asset(Base):
         if isinstance(other, Asset):
             return self.ticker == other.ticker
         return False
+    
+    # To create cascading behaviour -> If an asset gets deleted, the company will also be deleted (vice-versa)
+    asset_child_company = relationship("Company", back_populates="company_parent", cascade="all, delete")
 
     # This will indicate to SQLAlchemy that this is the parent of the next class
     __mapper_args__ = {
@@ -77,7 +81,7 @@ class Company(Asset):
     
     __tablename__ = 'companies'
     
-    ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker'), primary_key=True) 
+    ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker', name='companies_ticker_fkey', ondelete="CASCADE"), primary_key=True) 
     name    = Column('name',    String(50))
     country = Column('country', String(50))
     isin    = Column('isin',    String(30))
@@ -184,6 +188,10 @@ class Company(Asset):
                    (other.ticker, other.country, other.isin, other.sector, other.industry,
                     other.shares_outstanding, other.floating_shares)
         return False
+    
+    
+    # To allow Cascade (see Asset Class)
+    company_parent = relationship("Asset", back_populates="asset_child_company", cascade="all, delete")
 
     __mapper_args__ = {
         'polymorphic_identity': 'company',  # This identifies the Company class
