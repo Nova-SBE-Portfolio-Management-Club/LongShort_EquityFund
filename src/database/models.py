@@ -78,6 +78,7 @@ class Company(Asset):
     __tablename__ = 'companies'
     
     ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker'), primary_key=True) 
+    name    = Column('name',    String(50))
     country = Column('country', String(50))
     isin    = Column('isin',    String(30))
     sector  = Column('sector',  String(20))
@@ -85,14 +86,15 @@ class Company(Asset):
     shares_outstanding = Column('shares_outstanding', Float)  # New column for shares outstanding
     floating_shares = Column('floating_shares', Float)         # New column for floating shares
 
-    def __init__(self, ticker: str, country: str):
-        super().__init__(ticker)    # From parent class (Asset)
-        self.country = country      # Country set manually
-        self.isin = None
-        self.sector = None
-        self.industry = None
+    def __init__(self, ticker: str, name: str, country: str, isin: str = None):
+        super().__init__(ticker)            # From parent class (Asset)
+        self.name               = name      # Name set manually 
+        self.country            = country   # Country set manually
+        self.isin               = isin
+        self.sector             = None
+        self.industry           = None
         self.shares_outstanding = None
-        self.floating_shares = None
+        self.floating_shares    = None
 
     def get_isin(self) -> str:
         if not self.isin:

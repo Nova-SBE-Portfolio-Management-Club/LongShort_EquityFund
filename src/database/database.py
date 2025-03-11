@@ -24,6 +24,8 @@ import pandas as pd
 
 from models import Company, Pair, PriceData, Country, Asset
 
+from typing import List
+
 load_dotenv()
 
 class SingletonMeta(type):
@@ -84,7 +86,7 @@ class DB_Engine(metaclass=SingletonMeta):
         with Session(self.engine) as session:
             session.query(Pair).filter_by(tickerA=pair.tickerA, tickerB=pair.tickerB).first() is not None
 
-    def get_all_pairs(self) -> list[Pair]:
+    def get_all_pairs(self) -> List[Pair]:
         # Returns list of all Pair objects stored in database
         with Session(self.engine) as session:
             return session.query(Pair).all()
@@ -143,7 +145,7 @@ class DB_Engine(metaclass=SingletonMeta):
 
 
         
-    def insert_country(self, country) -> None:
+    def insert_country(self, country: Country) -> None:
         """
         Inserts a Country object into the database.
         """
@@ -157,7 +159,7 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
 
-    def exists_country(self, country) -> bool:
+    def exists_country(self, country: Country) -> bool:
         """
         Checks if the given Country object already exists in the database
         by comparing its unique attributes (e.g., name or ISIN).
@@ -178,7 +180,7 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
 
-    def get_all_countries(self) -> list:
+    def get_all_countries(self) -> List[Country]:
         """
         Returns a list of all Country objects stored in the database.
         """
@@ -241,7 +243,7 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
 
-    def insert_all_country_companies(self, country) -> None:
+    def insert_all_country_companies(self, country: Country) -> None:
         """
         Retrieves all companies for the given country (using investpy or other library),
         creates Company objects, and inserts them into the database in bulk.
@@ -257,11 +259,12 @@ class DB_Engine(metaclass=SingletonMeta):
             company_objects = []
             for _, row in companies_data.iterrows():
                 # Adjust fields to match your Company model.
+                print(row['symbol'])
                 company = Company(
-                    name=row["name"],
                     ticker=row["symbol"],
-                    isin_code=row["isin"],
-                    country_id=country.id,  # or country=country if using relationship
+                    name=row['name'],
+                    country=country.name,
+                    isin=row["isin"],
                 )
                 company_objects.append(company)
             
@@ -305,3 +308,10 @@ if __name__ == '__main__':
     print(db1 is db2)
     
     db1.connect()
+    
+    c1 = Country('portugal','PT','PL','LS','EUR')
+    
+    print('->',db1.get_all_assets())
+    #print('->',db1.insert_all_country_companies(c1))
+    
+    
