@@ -1,0 +1,4 @@
+name,isin_code,bloomberg_code,yfinance_code,currency
+portugal,PT,PL,LS,EUR
+italy,IT,IM,MI,EUR
+united kingdom,GB,LN,L,GBP
