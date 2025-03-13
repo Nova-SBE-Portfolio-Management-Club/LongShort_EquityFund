@@ -47,6 +47,7 @@ class Asset(Base):
     
     ticker  = Column('ticker',  String(15), primary_key=True)
     atype   = Column('atype',    String(50)) 
+    last_update_date = Column(DateTime, nullable=True, default=None) 
     
     def __init__(self, ticker: str):
         self.ticker = ticker
