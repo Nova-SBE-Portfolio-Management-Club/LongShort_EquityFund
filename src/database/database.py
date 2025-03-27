@@ -320,6 +320,24 @@ class DB_Engine(metaclass=SingletonMeta):
             return []
         finally:
             session.close()
+        
+    def get_bloomberg_codes(self, option: str, country: str = None):
+        """
+        Fetch Bloomberg company codes based on user selection.
+        """
+        with Session(self.engine) as session:
+            if option == "all":
+                result = session.execute("SELECT ticker, country_code FROM companies;").fetchall()
+            elif option == "country":
+                result = session.execute(
+                    "SELECT ticker, country_code FROM companies WHERE country_code = :country;",
+                    {"country": country}
+                ).fetchall()
+            else:
+                raise ValueError("Invalid option. Choose 'all' or 'country'.")
+        
+        return [f"{ticker} {country_code} Equity" for ticker, country_code in result]
+    
 
 
 # Usage
