@@ -84,7 +84,7 @@ class Company(Asset):
     
     ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker', name='companies_ticker_fkey', ondelete="CASCADE"), primary_key=True) 
     name    = Column('name',    String(50))
-    country = Column('country', String(50))
+    country = Column('country', String(50), ForeignKey('countries.name', name='companies_cntry_fkey'))
     isin    = Column('isin',    String(30))
     sector  = Column('sector',  String(20))
     industry= Column('industry',String(20))
@@ -191,8 +191,9 @@ class Company(Asset):
         return False
     
     
-    # To allow Cascade (see Asset Class)
+    # Foreign-Key Relationships
     company_parent = relationship("Asset", back_populates="asset_child_company", cascade="all, delete")
+    company_country = relationship("Country", back_populates="country_companies")
 
     __mapper_args__ = {
         'polymorphic_identity': 'company',  # This identifies the Company class
@@ -228,6 +229,10 @@ class Country(Base):
             return (self.name, self.isin_code, self.bloomberg_code, self.yfinance_code, self.currency) == \
                    (other.name, other.isin_code, other.bloomberg_code, other.yfinance_code, other.currency)
         return False
+    
+    
+    # Foreign Key Relationships
+    country_companies = relationship("Company", back_populates="company_country")
 
 
         
