@@ -33,7 +33,7 @@ def handle_bloomberg_command():
             companies = db.get_bloomberg_codes("all")
             filename = "bl_all.csv"
         elif export_choice == "1":
-            country = input("Enter the country code (e.g., 'PL' for Poland): ")
+            country = input("Enter the country code (e.g., 'usa', 'portugal', ...): ")
             companies = db.get_bloomberg_codes("country", country)
             filename = f"bl_{country}.csv"
         else:

@@ -9,3 +9,7 @@ ls_venv/
 # Ignore env variables
 
 .env
+
+# Ignore Bloomberg Exports (but not the folder)
+src/bloomberg/exports/*        
+!src/bloomberg/exports/

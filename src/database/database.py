@@ -16,7 +16,7 @@ Dependencies:
 from dotenv import load_dotenv
 import os
 
-from sqlalchemy import create_engine
+from sqlalchemy import select, create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 import yfinance as yf
@@ -327,15 +327,18 @@ class DB_Engine(metaclass=SingletonMeta):
         """
         with Session(self.engine) as session:
             if option == "all":
-                result = session.execute("SELECT ticker, country_code FROM companies;").fetchall()
+                result = session.execute(
+                    select(Company.ticker, Country.bloomberg_code)
+                    .join(Country, Company.country == Country.name)  # Join condition
+                ).all()
             elif option == "country":
                 result = session.execute(
-                    "SELECT ticker, country_code FROM companies WHERE country_code = :country;",
-                    {"country": country}
-                ).fetchall()
+                    select(Company.ticker, Country.bloomberg_code)
+                    .join(Country, Company.country == Country.name)
+                    .where(Country.name == country)
+                ).all()
             else:
                 raise ValueError("Invalid option. Choose 'all' or 'country'.")
-        
         return [f"{ticker} {country_code} Equity" for ticker, country_code in result]
     
 
@@ -351,6 +354,15 @@ if __name__ == '__main__':
     db1.connect()
     
     c1 = Country('portugal','PT','PL','LS','EUR')
+    c2 = Country('spain','ES','SM','MC','EUR')
+    c3 = Country('usa','US','US',None,'USD')
     
+    comp1 = Company('AAPL','Apple','usa')
+    comp2 = Company('NVDA','Nvidia','usa')
+    comp3 = Company('GALP','GALP','portugal')
+    
+    db1.insert_asset(comp1)
+    db1.insert_asset(comp2)
+    db1.insert_asset(comp3)
 
     
