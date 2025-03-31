@@ -1,79 +1,62 @@
 """
 Functions to handle the GET command
 """
-from dotenv          import load_dotenv
+
+import sys
+import os
 from ..messages      import *
 import pandas as pd
-import psycopg2  # PostgreSQL database connector
-import os
-load_dotenv()
 
-def get_database_connection():
-    """Establish connection to the PostgreSQL database."""
-    return psycopg2.connect(
-      dbname=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        host=os.getenv("DB_HOST"),
-        port=os.getenv("DB_PORT"),
-    )
-def test_db_connection():
-    """Test the database connection."""
-    conn = get_database_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT 1;")
-    result = cur.fetchone()
-    print(f"Database Test Result: {result}")
-    cur.close()
-    conn.close()
+sys.path.append(os.path.abspath("src/database"))
 
-def handle_get_country():
+from database.db_engine import DB_Engine
+
+
+def handle_get_country(db: DB_Engine):
     """Handle the GET country command."""
-    conn = get_database_connection()
-    cur = conn.cursor()
     option = input("Count (0)\n Show All (1)\n ")
-
+    
+    countries = db.get_all_countries()
     if option == "1":
-        """Show all countries."""
-        cur.execute("SELECT COUNT(DISTINCT countries) FROM countries;")
-        countries = cur.fetchall()
-        test_db_connection()
-        print(countries)
+        #Show all countries.
+        for country in countries:
+            print(country)
         
     elif option == "0":
-        cur.execute("SELECT COUNT(DISTINCT countries) FROM countries;")
-        count = cur.fetchone()[0]
-        """Count all countries."""
-        print(f"Total different country: {count}")
-    cur.close()
-    conn.close()
-def handle_get_company():
+        print(f'Total number of countries: {len(countries)}\n')
+        
+        
+        
+def handle_get_company(db: DB_Engine):
     """Handle the GET company command."""   
-    conn = get_database_connection()
-    cur = conn.cursor()
     option = input("Count (0)\nCount By Country (1)\nCount By Sector (2)\n")
-
+    
+    print()
     if option == "0":
-        cur.execute("SELECT COUNT(DISTINCT companies) FROM companies;")
-        count = cur.fetchone()[0]
-        """Count all companies."""
-        print(f"Total companies: {count}")
+        print(f"Total companies: {len(db.get_all_companies())}")
 
     elif option == "1":
-        cur.execute("SELECT country, COUNT(DISTINCT companies) FROM companies GROUP BY companies.country;")
-        comp_by_countries = cur.fetchall()
-        """Count companies by sector."""
-        print(comp_by_countries)
+        # Group By Country
+        dix = db.count_companies_by_attr('country')
+        for country in dix:
+            print(f'{country:<15} {dix[country]:>5} companies')
+        print()
+            
     elif option == "2":
-        cur.execute("SELECT sector, COUNT(DISTINCT companies) FROM companies GROUP BY sector;")
-        comp_by_sector = cur.fetchall()
-        """Count companies by sector."""
-        print(comp_by_sector)
-    cur.close()
-    conn.close()
+        # Group By Sector
+        dix = db.count_companies_by_attr('sector')
+        for country in dix:
+            print(f'{country:<15} {dix[country]:>5} companies')
+        print()
+    
+    
 def handle_get_pairs():
+    
+    return
+    # TODO: Fix this
+    
     """Handle the GET pairs command.""" 
-    conn = get_database_connection()
+    conn = 0#get_database_connection()
     cur = conn.cursor()
     option = input("Count (0)\nCount By Country (1)\n")
 
@@ -91,9 +74,15 @@ def handle_get_pairs():
     
     cur.close()
     conn.close()
+    
+    
 def handle_get_pricedata():
+    
+    return
+    # TODO: Fix this
+    
     """Handle the GET price data command."""
-    conn = get_database_connection()
+    conn = 0#get_database_connection()
     cur = conn.cursor()
     option = input("Count (0)\nCompany\n")
 
@@ -112,9 +101,15 @@ def handle_get_pricedata():
         
     cur.close()
     conn.close()
+    
+    
 def handle_get_industry():
+    
+    return
+    # TODO: Fix this
+    
     """Handle the GET industry command."""
-    conn = get_database_connection()
+    conn = 0#get_database_connection()
     cur = conn.cursor()
     option = input("Count (0)\nShow All (1)\n")
 
@@ -130,7 +125,9 @@ def handle_get_industry():
         print(f"Total different industries: {count}")
     cur.close()
     conn.close()
-def handle_get_command():
+    
+    
+def handle_get_command(db: DB_Engine):
     
     exit = False
     while not(exit):
@@ -145,14 +142,14 @@ def handle_get_command():
             cmd = int(cmd)
             
             if cmd == 0:
-                handle_get_country()
+                handle_get_country(db)
             elif cmd == 1:
-                handle_get_company()
+                handle_get_company(db)
             elif cmd == 2:
-                handle_get_pairs()
+                handle_get_pairs(db)
             elif cmd == 3:
-                handle_get_pricedata()
+                handle_get_pricedata(db)
             elif cmd == 4:
-                handle_get_industry()
+                handle_get_industry(db)
             else:
                 exit = True

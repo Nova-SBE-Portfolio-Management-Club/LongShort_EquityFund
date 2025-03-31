@@ -8,7 +8,7 @@ import pandas as pd
 
 sys.path.append(os.path.abspath("src/database"))
 
-from database import DB_Engine
+from database.db_engine import DB_Engine
 
 def save_to_csv(companies, filename):
     """Saves the fetched company codes to a CSV file."""
@@ -19,11 +19,9 @@ def save_to_csv(companies, filename):
     df.to_csv(os.path.join(export_path, filename), index=False)
     print(f"Exported {len(df)} companies to {filename}")
 
-def handle_bloomberg_command():
+def handle_bloomberg_command(db: DB_Engine):
     """Initiates the Bloomberg command handling process."""
-    db = DB_Engine()
-    db.connect()
-    
+
     choice = input("Export (0)\n  All (0)\n  Country (1)\nImport (1)\n>> ")
     
     if choice == "0":

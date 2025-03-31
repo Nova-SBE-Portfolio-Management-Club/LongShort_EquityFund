@@ -10,8 +10,13 @@ from utils.handlers.bloomberg   import *
 
 from utils.messages             import *
 
+from database.db_engine          import DB_Engine
+
 
 if __name__ == '__main__':
+    
+    db = DB_Engine()
+    db.connect()
 
     exit = False
     while not(exit):
@@ -25,13 +30,13 @@ if __name__ == '__main__':
             cmd = int(cmd)
             
             if cmd == 0:
-                handle_get_command()
+                handle_get_command(db)
             elif cmd == 1:
                 handle_populate_command()
             elif cmd == 2:
                 handle_update_command()
             elif cmd == 3:
-                handle_bloomberg_command()
+                handle_bloomberg_command(db)
             else:
                 exit = True
         

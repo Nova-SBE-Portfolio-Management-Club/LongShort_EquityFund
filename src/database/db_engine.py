@@ -16,7 +16,7 @@ Dependencies:
 from dotenv import load_dotenv
 import os
 
-from sqlalchemy import select, create_engine
+from sqlalchemy import select, create_engine, func
 from sqlalchemy.orm import sessionmaker, Session
 
 import yfinance as yf
@@ -265,6 +265,74 @@ class DB_Engine(metaclass=SingletonMeta):
         Deletes all the assets stored in the database
         """
         pass
+    
+    def get_all_companies(self) -> List[Company]:
+        """
+        Returns a list of all Companies objects stored in the database
+        """
+        session = self.sessionmaker()
+        try:
+            assets = session.query(Company).all()
+            return assets
+        except Exception as e:
+            print(f"Error retrieving all assets: {e}")
+            return []
+        finally:
+            session.close()
+            
+    def get_companies_by_attr(self, attr: str, attr_value: str) -> List[Company]:
+        """
+        Returns a list of all Companies objects stored in the database, by attribute, where:
+        
+        attr        (str):      the attribute to group the companies by (country, sector, industry, ...)
+        attr_value  (str):      the attribute's value
+        """
+        session = self.sessionmaker()
+        try:
+            # Dynamically access the attribute and apply the condition
+            filter_condition = getattr(Company, attr) == attr_value
+            
+            # Query the Company table and apply the filter condition
+            companies = session.query(Company).filter(filter_condition).all()
+            return companies
+        except Exception as e:
+            print(f"Error retrieving companies by {attr}: {e}")
+            return []
+        finally:
+            session.close()
+            
+            
+    def count_companies_by_attr(self, attr: str) -> dict:
+        """
+        Count the number of Companies grouped by a specific attribute (e.g., country, sector, industry).
+        
+        attr(str): the attribute to group by (country, sector, industry, ...)
+        
+        Returns:
+            dict: a dictionary with the attribute values as keys and counts as values.
+        """
+        session = self.sessionmaker()
+        try:
+            # Dynamically access the attribute to group by
+            group_by_attr = getattr(Company, attr)
+            
+            # Query to count companies by the specified attribute and group by it
+            result = session.query(group_by_attr, func.count(Company.ticker)) \
+                            .group_by(group_by_attr) \
+                            .all()
+            
+            # Convert the result into a dictionary
+            count_dict = {row[0]: row[1] for row in result}
+            
+            return count_dict
+            
+        except Exception as e:
+            print(f"Error counting companies by {attr}: {e}")
+            return {}
+        finally:
+            session.close()
+            
+            
 
     def insert_all_country_companies(self, country: Country) -> None:
         """
