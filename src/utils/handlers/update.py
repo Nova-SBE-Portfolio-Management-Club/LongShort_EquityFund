@@ -2,110 +2,98 @@
 Functions to handle the UPGRADE command
 """
 
-
+import sys
+import os
+import time
 import yfinance as yf
-import psycopg2
 from datetime import datetime, timedelta
 
-def get_database_connection():
-    """Establish connection to the PostgreSQL database."""
-    return psycopg2.connect(
-        dbname="pmc_ls",
-        user="postgres",
-        password="postgres",
-        host="localhost",
-        port=5432
-    )
+from typing import List
 
-def fetch_assets(option: str, filter_value: str = None):
+sys.path.append(os.path.abspath("src/database"))
+
+from database.db_engine import DB_Engine
+from database.models    import PriceData, Company
+
+
+def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
     """Fetches assets based on the user selection (all, country, or sector)."""
-    conn = get_database_connection()
-    cursor = conn.cursor()
     
     if option == "all":
-        query = "SELECT ticker, last_update_date FROM assets;"
+        assets = db.get_all_assets()
     elif option == "country":
-        query = "SELECT ticker, last_update_date FROM companies WHERE country = %s;"
+        assets = db.get_companies_by_attr_with_last_update_date("country", filter_value)
+        print("AAAAAAAAAAAAAAAAAAAAAAA")
     elif option == "sector":
-        query = "SELECT ticker, last_update_date FROM companies WHERE sector = %s;"
+        assets = db.get_companies_by_attr_with_last_update_date("sector", filter_value)
     else:
         raise ValueError("Invalid option. Choose 'all', 'country', or 'sector'.")
     
-    cursor.execute(query, (filter_value,) if filter_value else ())
-    rows = cursor.fetchall()
-    conn.close()
-    
-    if not rows:
-        raise ValueError(f"No assets found for the selected {option} '{filter_value}'.")
-    
-    return rows
+    return assets
 
-def fetch_price_data(ticker: str, last_update_date: datetime):
+def fetch_price_data(company: Company, last_update_date: datetime):
     """Fetches daily adjusted open and close prices from Yahoo Finance."""
+    
+    print(111)
     start_date = (last_update_date + timedelta(days=1)).strftime('%Y-%m-%d')
     end_date = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
     
     try:
-        data = yf.download(ticker, start=start_date, end=end_date, progress=False)
+        print(company.get_yfin_ticker(), start_date, end_date)
+        data = yf.download(company.get_yfin_ticker(), start=start_date, end=end_date, progress=False, auto_adjust=True)
+        time.sleep(1)
         if data.empty:
-            print(f"No new price data for {ticker}.")
+            print(f"No new price data for {company.ticker}.")
             return []
         
-        return [(index.strftime('%Y-%m-%d'), ticker, True, row['Open'], row['Close']) for index, row in data.iterrows()]
+        return [PriceData(index.to_pydatetime(),company.ticker, 1, row['Open']) for index, row in data.iterrows()] +\
+            [PriceData(index.to_pydatetime(),company.ticker, 0, row['Close']) for index, row in data.iterrows()]
+            
     except Exception as e:
-        print(f"Error fetching data for {ticker}: {e}")
+        print(f"Error fetching data for {company.ticker}: {e}")
         return []
 
-def update_database(price_data, ticker):
+def update_database(db: DB_Engine, price_data: List[PriceData], company: Company):
     """Updates the database with new price data and last update date."""
     if not price_data:
         return
     
-    conn = get_database_connection()
-    cursor = conn.cursor()
-    
-    insert_query = """
-        INSERT INTO prices_data (date, ticker, open_status, price, close_price)
-        VALUES (%s, %s, %s, %s, %s)
-        ON CONFLICT (date, ticker) DO NOTHING;
-    """
-    cursor.executemany(insert_query, price_data)
+    db.insert_price_data(price_data)
     
     last_date = price_data[-1][0]  # Get the last date from the price data
-    update_query = "UPDATE assets SET last_update_date = %s WHERE ticker = %s;"
-    cursor.execute(update_query, (last_date, ticker))
+    db.update_last_update_date(company.ticker, last_date)
     
-    conn.commit()
-    conn.close()
-    print(f"Updated {ticker} with {len(price_data)} new records.")
 
-def handle_update_command():
+def handle_update_command(db: DB_Engine):
     """Handles the update process based on user selection."""
     print("\n• Update (0)")
     print("  ○ All (0)")
     print("  ○ Country (1)")
     print("  ○ Sector (2)")
+    # TODO: Add the option to Update Non-Company Assets (Futures)
     
     choice = input("Choose an option (0: All, 1: Country, 2: Sector): ")
     
     if choice == "0":
-        assets = fetch_assets("all")
+        assets = fetch_assets(db, "all")
     elif choice == "1":
         country = input("Enter the country name: ")
-        assets = fetch_assets("country", country)
+        assets = fetch_assets(db, "country", country)
     elif choice == "2":
         sector = input("Enter the sector name: ")
-        assets = fetch_assets("sector", sector)
+        assets = fetch_assets(db, "sector", sector)
     else:
         print("Invalid choice. Exiting.")
         return
     
-    for ticker, last_update_date in assets:
+    for company, last_update_date in assets:
         if last_update_date is None:
-            last_update_date = datetime(2000, 1, 1)  # Default if never updated
+            last_update_date = datetime(1998, 1, 1)  # Default if never updated
         
-        price_data = fetch_price_data(ticker, last_update_date)
-        update_database(price_data, ticker)
+        price_data = fetch_price_data(company, last_update_date)
+        update_database(db, price_data, company)
 
 if __name__ == "__main__":
-    handle_update_command()
+    db = DB_Engine()
+    db.connect()
+    handle_update_command(db)

@@ -181,6 +181,14 @@ class Company(Asset):
                 raise ValueError("Floating shares data not available.")
         except (requests.exceptions.ConnectionError, URLError) as e:
             raise ConnectionError(f"Network error while fetching floating shares: {e}")
+        
+        
+    def get_yfin_ticker(self):
+        """
+        Returns the Ticker to be used with YFinance
+        """
+        # TODO: This does not work with European Companies - FIX THIS
+        return self.ticker
 
     def __eq__(self, other):
         if isinstance(other, Company):

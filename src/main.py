@@ -34,7 +34,7 @@ if __name__ == '__main__':
             elif cmd == 1:
                 handle_populate_command()
             elif cmd == 2:
-                handle_update_command()
+                handle_update_command(db)
             elif cmd == 3:
                 handle_bloomberg_command(db)
             else:

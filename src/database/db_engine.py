@@ -17,10 +17,11 @@ from dotenv import load_dotenv
 import os
 
 from sqlalchemy import select, create_engine, func
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, aliased
 
 import yfinance as yf
 import pandas as pd
+import datetime as dt
 
 from models import Company, Pair, PriceData, Country, Asset
 
@@ -107,9 +108,33 @@ class DB_Engine(metaclass=SingletonMeta):
             if to_pandas:
                 return pd.DataFrame([{"ticker": d.ticker, "price": d.price, "date": d.date} for d in data])
             return data
+        
+    def insert_price_data(self, price_data: List[PriceData]) -> None:
+        """
+        Inserts a list of PriceData objects into the database.
+        If a conflict occurs on (date, ticker), it will do nothing.
+        """
+        session = self.sessionmaker()
+        try:
+            # Add all PriceData objects at once
+            session.add_all(price_data)
+            
+            # Commit the transaction to insert the data
+            session.commit()
+        except Exception as e:
+            # Handle exceptions (Rollback)
+            session.rollback()
+            print(f"Error inserting price data: {e}")
+        finally:
+            session.close()
     
-    def insert_company_pricedata(self, company: str, n_years: int):
-        # Fetches historical stock data for a company using yfinance and saves it to database
+    def __insert_company_pricedata(self, company: str, n_years: int):
+        """
+        == DEPRECATED ==
+        To Delete in Future Reviews
+        
+        Fetches historical stock data for a company using yfinance and saves it to database
+        """
         stock = yf.Ticker(company)
         df = stock.history(period=f"{n_years}y")
 
@@ -231,7 +256,7 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
 
-    def get_all_assets(self) -> list:
+    def get_all_assets(self) -> List[Asset]:
         """
         Returns a list of all Asset objects stored in the database (including Companies).
         """
@@ -243,6 +268,39 @@ class DB_Engine(metaclass=SingletonMeta):
             print(f"Error retrieving all assets: {e}")
             return []
         finally:
+            session.close()
+            
+            
+    def update_last_update_date(self, ticker: str, new_date: dt.datetime) -> None:
+        """
+        Update the Last Update Date for a Company (in the Assets table) by ticker.
+        
+        ticker      (str):  The ticker of the company.
+        new_date    (datetime): The new date to set as the last update.
+        """
+        session = self.sessionmaker()
+        try:
+            # Query the Asset using the ticker
+            asset = session.query(Asset).filter(Asset.ticker == ticker).first()
+            
+            # Check if the asset exists
+            if asset:
+                # Update the last_update_date
+                asset.last_update_date = new_date
+                
+                # Commit the changes
+                session.commit()
+                print(f"Successfully updated last update date for ticker {ticker}")
+            else:
+                print(f"No asset found with ticker {ticker}")
+        
+        except Exception as e:
+            # Rollback in case of an error
+            session.rollback()
+            print(f"Error updating last update date for ticker {ticker}: {e}")
+        
+        finally:
+            # Close the session
             session.close()
             
     def delete_asset(self, asset: Asset) -> None:
@@ -280,7 +338,7 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
             
-    def get_companies_by_attr(self, attr: str, attr_value: str) -> List[Company]:
+    def get_companies_by_attr(self, attr: str, attr_value: str, ) -> List[Company]:
         """
         Returns a list of all Companies objects stored in the database, by attribute, where:
         
@@ -295,6 +353,37 @@ class DB_Engine(metaclass=SingletonMeta):
             # Query the Company table and apply the filter condition
             companies = session.query(Company).filter(filter_condition).all()
             return companies
+        except Exception as e:
+            print(f"Error retrieving companies by {attr}: {e}")
+            return []
+        finally:
+            session.close()
+            
+    
+    def get_companies_by_attr_with_last_update_date(self, attr: str, attr_value: str) -> List[tuple]:
+        """
+        Returns a list of tuples (Company, Company_Last_Update_Date), by attribute, where:
+        
+        attr        (str):      the attribute to group the companies by (country, sector, industry, ...)
+        attr_value  (str):      the attribute's value
+        
+        NOTE: Very important function for UPDATE command
+        """
+        session = self.sessionmaker()  # Create session using the sessionmaker
+        try:
+            # Dynamically access the attribute and apply the condition
+            filter_condition = getattr(Company, attr) == attr_value
+            
+            # Create an aliased Asset table to avoid table name conflicts
+            asset_alias = aliased(Asset)
+
+            # Query the Company and the aliased Asset table, getting the relevant fields (Company and Asset's last_update_date)
+            companies = session.query(Company, asset_alias.last_update_date).join(asset_alias, Company.ticker == asset_alias.ticker).filter(filter_condition).all()
+
+            # Return the results as a list of tuples
+            result = [(company, last_update_date) for company, last_update_date in companies]
+            return result
+
         except Exception as e:
             print(f"Error retrieving companies by {attr}: {e}")
             return []
