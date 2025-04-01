@@ -57,9 +57,10 @@ def update_database(db: DB_Engine, price_data: List[PriceData], company: Company
     if not price_data:
         return
     
+    last_date = price_data[-1].date  # Get the last date from the price data
+    
     db.insert_price_data(price_data)
     
-    last_date = price_data[-1].date  # Get the last date from the price data
     db.update_last_update_date(company.ticker, last_date)
     
 
