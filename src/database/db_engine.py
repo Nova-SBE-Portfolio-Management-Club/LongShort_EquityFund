@@ -18,6 +18,7 @@ import os
 
 from sqlalchemy import select, create_engine, func
 from sqlalchemy.orm import sessionmaker, Session, aliased
+from sqlalchemy.dialects.postgresql import insert
 
 import yfinance as yf
 import pandas as pd
@@ -116,6 +117,7 @@ class DB_Engine(metaclass=SingletonMeta):
         """
         session = self.sessionmaker()
         try:
+            print(price_data[0], type(price_data[0]), type(price_data))
             # Add all PriceData objects at once
             session.add_all(price_data)
             
@@ -177,6 +179,7 @@ class DB_Engine(metaclass=SingletonMeta):
         Inserts a Country object into the database.
         """
         session = self.sessionmaker()
+        print(f'Inserting Country {country}')
         try:
             session.add(country)
             session.commit()
@@ -194,10 +197,9 @@ class DB_Engine(metaclass=SingletonMeta):
         """
         session = self.sessionmaker()
         try:
-            # Example: check by 'name' or 'isin_code'
             existing = (
                 session.query(Country)
-                .filter_by(name=country.name, isin_code=country.isin_code)
+                .filter(Country.name == country.name)
                 .first()
             )
             return existing is not None
@@ -436,23 +438,30 @@ class DB_Engine(metaclass=SingletonMeta):
             companies_data = investpy.stocks.get_stocks(country=country.name)
             
             # 2. Create a list of Company objects
-            company_objects = []
+            asset_dicts     = []
+            company_dicts   = []
             for _, row in companies_data.iterrows():
-                # Adjust fields to match your Company model.
-                print(row['symbol'])
+                # Adjust fields to match Company model.
                 company = Company(
                     ticker=row["symbol"],
                     name=row['name'],
                     country=country.name,
                     isin=row["isin"],
                 )
-                company_objects.append(company)
+                company_dicts.append(company.to_dict())
+                asset_dicts.append({'ticker': row['symbol'], 'atype':'company'})
             
-            # 3. Insert them in bulk
-            session.add_all(company_objects)
+            # 3. Insert Assets in bulk
+            insert_statement_assets = insert(Asset).values(asset_dicts).on_conflict_do_nothing(index_elements=["ticker"]) 
+            session.execute(insert_statement_assets)
             session.commit()
             
-            print(f"Inserted {len(company_objects)} companies for country {country.name}.")
+            # 4. Insert Companies in bulk
+            insert_statement_comps = insert(Company).values(company_dicts).on_conflict_do_nothing(index_elements=["ticker"]) 
+            session.execute(insert_statement_comps)
+            session.commit()
+            
+            #print(f"Inserted {len(company_dicts)} companies for country {country.name}.")
         except Exception as e:
             session.rollback()
             print(f"Error inserting all companies for country {country.name}: {e}")
@@ -518,8 +527,8 @@ if __name__ == '__main__':
     comp2 = Company('NVDA','Nvidia','usa')
     comp3 = Company('GALP','GALP','portugal')
     
-    db1.insert_asset(comp1)
-    db1.insert_asset(comp2)
-    db1.insert_asset(comp3)
+    #db1.insert_asset(comp1)
+    #db1.insert_asset(comp2)
+    #db1.insert_asset(comp3)
 
     

@@ -27,7 +27,7 @@ import requests
 from urllib.error import URLError
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float
+from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float, PrimaryKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -57,6 +57,14 @@ class Asset(Base):
 
     def set_ticker(self, ticker: str):
         self.ticker = ticker
+        
+    def to_dict(self):
+        """
+        Returns a dictionary where keys are the attributes, with their respective values
+        This is very handy for saving Python Objects to the database (SQL)
+        Try to find "to_dict" in the db_engine.py file to see some use-cases
+        """
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
     def __repr__(self):
         return f"<Asset(ticker='{self.ticker}', atype='{self.atype}')>"
@@ -84,7 +92,7 @@ class Company(Asset):
     
     ticker  = Column('ticker',  String(15), ForeignKey('assets.ticker', name='companies_ticker_fkey', ondelete="CASCADE"), primary_key=True) 
     name    = Column('name',    String(50))
-    country = Column('country', String(50), ForeignKey('countries.name', name='companies_cntry_fkey'))
+    country = Column('country', String(50), ForeignKey('countries.name', name='companies_cntry_fkey', ondelete="CASCADE"))
     isin    = Column('isin',    String(30))
     sector  = Column('sector',  String(20))
     industry= Column('industry',String(20))
@@ -188,7 +196,15 @@ class Company(Asset):
         Returns the Ticker to be used with YFinance
         """
         # TODO: This does not work with European Companies - FIX THIS
-        return self.ticker
+        return self.ticker + '.LS'
+    
+    def to_dict(self):
+        """
+        Returns a dictionary where keys are the attributes, with their respective values
+        This is very handy for saving Python Objects to the database (SQL)
+        Try to find "to_dict" in the db_engine.py file to see some use-cases
+        """
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
     def __eq__(self, other):
         if isinstance(other, Company):
@@ -200,8 +216,12 @@ class Company(Asset):
     
     
     # Foreign-Key Relationships
-    company_parent = relationship("Asset", back_populates="asset_child_company", cascade="all, delete")
-    company_country = relationship("Country", back_populates="country_companies")
+    company_parent      = relationship("Asset", back_populates="asset_child_company", cascade="all, delete")
+    company_country     = relationship("Country", back_populates="country_companies", cascade="all, delete")
+    company_pricedatas  = relationship("PriceData",back_populates='pricedata_company')
+
+    # Table Args - Needed to handle conflicts 
+    #__table_args__ = (UniqueConstraint("ticker", name="unique_company_ticker"),)
 
     __mapper_args__ = {
         'polymorphic_identity': 'company',  # This identifies the Company class
@@ -250,9 +270,8 @@ class Country(Base):
 class PriceData(Base):
     __tablename__ = "prices_data"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime, nullable=False)
-    ticker = Column(String, ForeignKey("assets.ticker"), nullable=False)
+    ticker = Column(String, ForeignKey("assets.ticker", name='pricedata_cmpny_fkey', ondelete="CASCADE"), nullable=False)
     open_status = Column(Boolean, nullable=False)
     price = Column(Float, nullable=False)
      
@@ -269,6 +288,14 @@ class PriceData(Base):
         if isinstance(other, PriceData):
             return (self.date, self.ticker, self.open_status, self.price) == (other.date, other.ticker, other.open_status, other.price)
         return False
+    
+    # Foreign Key Relationship
+    pricedata_company = relationship("Company",back_populates='company_pricedatas', cascade="all, delete")
+    
+    # Define Composite Primary Key
+    __table_args__ = (
+        PrimaryKeyConstraint('date', 'ticker', 'open_status', name="pk_prices_data"),
+    )
 
 ###############################################################################
 ###############################################################################

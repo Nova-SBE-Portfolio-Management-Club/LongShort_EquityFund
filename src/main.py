@@ -32,7 +32,7 @@ if __name__ == '__main__':
             if cmd == 0:
                 handle_get_command(db)
             elif cmd == 1:
-                handle_populate_command()
+                handle_populate_command(db)
             elif cmd == 2:
                 handle_update_command(db)
             elif cmd == 3:

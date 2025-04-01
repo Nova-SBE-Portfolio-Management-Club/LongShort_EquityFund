@@ -40,14 +40,13 @@ def fetch_price_data(company: Company, last_update_date: datetime):
     
     try:
         print(company.get_yfin_ticker(), start_date, end_date)
-        data = yf.download(company.get_yfin_ticker(), start=start_date, end=end_date, progress=False, auto_adjust=True)
-        time.sleep(1)
+        data = yf.download(company.get_yfin_ticker(), start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
         if data.empty:
             print(f"No new price data for {company.ticker}.")
             return []
         
-        return [PriceData(index.to_pydatetime(),company.ticker, 1, row['Open']) for index, row in data.iterrows()] +\
-            [PriceData(index.to_pydatetime(),company.ticker, 0, row['Close']) for index, row in data.iterrows()]
+        return [PriceData(index.to_pydatetime(),company.ticker, 1, row['Open'][0]) for index, row in data.iterrows()] +\
+            [PriceData(index.to_pydatetime(),company.ticker, 0, row['Close'][0]) for index, row in data.iterrows()]
             
     except Exception as e:
         print(f"Error fetching data for {company.ticker}: {e}")
@@ -60,7 +59,7 @@ def update_database(db: DB_Engine, price_data: List[PriceData], company: Company
     
     db.insert_price_data(price_data)
     
-    last_date = price_data[-1][0]  # Get the last date from the price data
+    last_date = price_data[-1].date  # Get the last date from the price data
     db.update_last_update_date(company.ticker, last_date)
     
 
