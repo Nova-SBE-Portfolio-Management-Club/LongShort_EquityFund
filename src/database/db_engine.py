@@ -456,6 +456,7 @@ class DB_Engine(metaclass=SingletonMeta):
             asset_dicts     = []
             company_dicts   = []
             for _, row in companies_data.iterrows():
+                
                 # Adjust fields to match Company model.
                 company = Company(
                     ticker=row["symbol"],
@@ -463,6 +464,12 @@ class DB_Engine(metaclass=SingletonMeta):
                     country=country.name,
                     isin=row["isin"],
                 )
+                
+                # Check if company is from country
+                if company.isin[:2] != country.isin_code:
+                    # Company not from Country - SKIP IT
+                    continue
+                
                 company_dicts.append(company.to_dict())
                 asset_dicts.append({'ticker': row['symbol'], 'atype':'company'})
             
