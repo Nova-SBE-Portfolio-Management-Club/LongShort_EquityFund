@@ -2,19 +2,12 @@
 Functions to handle the UPGRADE command
 """
 
-import sys
-import os
-import time
 import yfinance as yf
 from datetime import datetime, timedelta
 
 from typing import List
 
-sys.path.append(os.path.abspath("src/database"))
-
-from database.db_engine import DB_Engine
-from database.models    import PriceData, Company
-
+from database import DB_Engine, PriceData, Company
 
 def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
     """Fetches assets based on the user selection (all, country, or sector)."""
@@ -31,7 +24,7 @@ def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
     
     return assets
 
-def fetch_price_data(company: Company, last_update_date: datetime):
+def fetch_price_data(db: DB_Engine, company: Company, last_update_date: datetime):
     """Fetches daily adjusted open and close prices from Yahoo Finance."""
     
     print(111)
@@ -39,8 +32,7 @@ def fetch_price_data(company: Company, last_update_date: datetime):
     end_date = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
     
     try:
-        print(company.get_yfin_ticker(), start_date, end_date)
-        data = yf.download(company.get_yfin_ticker(), start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
+        data = yf.download(company.get_yfin_ticker(db), start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
         if data.empty:
             print(f"No new price data for {company.ticker}.")
             return []
@@ -90,7 +82,7 @@ def handle_update_command(db: DB_Engine):
         if last_update_date is None:
             last_update_date = datetime(1998, 1, 1)  # Default if never updated
         
-        price_data = fetch_price_data(company, last_update_date)
+        price_data = fetch_price_data(db, company, last_update_date)
         update_database(db, price_data, company)
 
 if __name__ == "__main__":

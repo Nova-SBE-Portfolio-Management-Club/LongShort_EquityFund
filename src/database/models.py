@@ -191,12 +191,19 @@ class Company(Asset):
             raise ConnectionError(f"Network error while fetching floating shares: {e}")
         
         
-    def get_yfin_ticker(self):
+    def get_yfin_ticker(self, db):
         """
-        Returns the Ticker to be used with YFinance
+        Returns the Ticker to be used with YFinance. Given a DB_Engine (db)
         """
-        # TODO: This does not work with European Companies - FIX THIS
-        return self.ticker + '.LS'
+        country:Country = db.get_company_country(self)
+        if not country:
+            raise ValueError()
+        
+        yfin_sufx = country.yfinance_code
+        if yfin_sufx is None:
+            return self.ticker
+        else:
+            return self.ticker + '.' + yfin_sufx
     
     def to_dict(self):
         """

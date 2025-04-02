@@ -3,14 +3,11 @@ main.py
 """
 
 
-from utils.handlers.get         import *
-from utils.handlers.populate    import *
-from utils.handlers.update      import *
-from utils.handlers.bloomberg   import *
+from utils.handlers import *
 
-from utils.messages             import *
+from utils.messages import *
 
-from database.db_engine          import DB_Engine
+from database import DB_Engine
 
 
 if __name__ == '__main__':

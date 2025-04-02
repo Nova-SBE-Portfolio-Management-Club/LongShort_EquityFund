@@ -24,7 +24,7 @@ import yfinance as yf
 import pandas as pd
 import datetime as dt
 
-from models import Company, Pair, PriceData, Country, Asset
+from database import Company, Pair, PriceData, Country, Asset
 
 from typing import List
 
@@ -164,13 +164,28 @@ class DB_Engine(metaclass=SingletonMeta):
             return data
         
     def get_company_pricedata_period(self, company: str):
-        # Returns the oldest and newest dates for which we have PriceData for a company
+        """
+        Returns the oldest and newest dates for which we have PriceData for a company
+        """
         with Session(self.engine) as session:
             oldest = session.query(PriceData).filter_by(ticker=company).order_by(PriceData.date.asc()).first()
             newest = session.query(PriceData).filter_by(ticker=company).order_by(PriceData.date.desc()).first()
 
             return {"oldest": oldest.date, "newest": newest.date} if oldest and newest else None
-
+        
+    def get_company_country(self, company: Company) -> Country:
+        """
+        Retrives the Country Object of that Company
+        """
+        session = self.sessionmaker()
+        try:
+            country = session.query(Country).filter_by(name=company.country).first()
+            return country
+        except Exception as e:
+            print(f"Error retrieving country for company {company.ticker}: {e}")
+            return None
+        finally:
+            session.close()
 
 
         

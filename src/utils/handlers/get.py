@@ -2,14 +2,12 @@
 Functions to handle the GET command
 """
 
-import sys
 import os
 from ..messages      import *
 import pandas as pd
 
-sys.path.append(os.path.abspath("src/database"))
 
-from database.db_engine import DB_Engine
+from database import DB_Engine
 
 
 def handle_get_country(db: DB_Engine):

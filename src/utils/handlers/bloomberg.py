@@ -2,13 +2,11 @@
 Functions to handle the BLOOMBERG command
 """
 
-import sys
 import os
 import pandas as pd
 
-sys.path.append(os.path.abspath("src/database"))
 
-from database.db_engine import DB_Engine
+from database import DB_Engine
 
 def save_to_csv(companies, filename):
     """Saves the fetched company codes to a CSV file."""

@@ -9,22 +9,18 @@ def handle_populate_command():
 # Imports
 
 import os
-import sys
 import pandas as pd
 import numpy as np
 
-sys.path.append(os.path.abspath("src/database"))
-
-from database.db_engine import DB_Engine
-from database.models    import Country
+from database import DB_Engine, Country
 
 
 def handle_populate_command(db: DB_Engine):
     """
     Adds to the database the companies of a set of countries the user provides through an CSV file
     """
-    file_path = "src/database/imports/countries.csv"
-    template_path = "src/database/imports/countries_template.csv"
+    file_path = "database/imports/countries.csv"
+    template_path = "database/imports/countries_template.csv"
     
     print("[INFO] Please upload the 'countries.csv' file to the following location:")
     print(f"       {file_path}")
