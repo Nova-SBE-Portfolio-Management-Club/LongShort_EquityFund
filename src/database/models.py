@@ -78,6 +78,7 @@ class Asset(Base):
     
     # To create cascading behaviour -> If an asset gets deleted, the company will also be deleted (vice-versa)
     asset_child_company = relationship("Company", back_populates="company_parent", cascade="all, delete")
+    asset_child_future = relationship("Futures", back_populates="future_parent", cascade="all, delete")
 
     # This will indicate to SQLAlchemy that this is the parent of the next class
     __mapper_args__ = {
@@ -270,7 +271,7 @@ class Country(Base):
     
     # Foreign Key Relationships
     country_companies = relationship("Company", back_populates="company_country")
-
+    country_macrodata = relationship("MacroData", back_populates="macrodata_country")
 
         
 ###############################################################################
@@ -343,3 +344,111 @@ class Pair(Base):
         if isinstance(other, Pair):
             return (self.tickerA, self.tickerB, self.ceof) == (other.tickerA, other.tickerB, other.ceof)
         return False
+
+###############################################################################
+###############################################################################
+
+class Futures(Asset):
+    
+    __tablename__ = 'futures'
+    
+    ticker = Column('ticker', String(15), ForeignKey('assets.ticker', name='futures_ticker_fkey', ondelete="CASCADE"), primary_key=True)
+    bloomberg_ticker = Column('bloomberg_ticker', String(20))
+    
+    def __init__(self, ticker: str, bloomberg_ticker: str):
+        super().__init__(ticker)
+        self.atype = 'future'
+        self.bloomberg_ticker = bloomberg_ticker
+
+    def get_bloomberg_ticker(self) -> str:
+        return self.bloomberg_ticker
+
+    def set_bloomberg_ticker(self, bloomberg_ticker: str):
+        self.bloomberg_ticker = bloomberg_ticker
+        
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+    def __repr__(self):
+        return f"<Futures(ticker='{self.ticker}', bloomberg_ticker='{self.bloomberg_ticker}')>"
+
+    def __eq__(self, other):
+        if isinstance(other, Futures):
+            return (self.ticker, self.bloomberg_ticker) == (other.ticker, other.bloomberg_ticker)
+        return False
+    
+    # Relationships
+    future_parent = relationship("Asset", back_populates="asset_child_future", cascade="all, delete")
+    
+    __mapper_args__ = {
+        'polymorphic_identity': 'future',
+    }
+
+###############################################################################
+###############################################################################
+
+class MacroData(Base):
+    __tablename__ = "macro_data"
+
+    country = Column(String(50), ForeignKey("countries.name", name='macrodata_cntry_fkey', ondelete="CASCADE"), nullable=False)
+    data_name = Column(String(20), nullable=False)  # YC_2Y, CPI, GDP, etc.
+    date = Column(DateTime, nullable=False)
+    value = Column(Float, nullable=False)
+    
+    def __init__(self, country: str, data_name: str, date: datetime, value: float):
+        self.country = country
+        self.data_name = data_name
+        self.date = date
+        self.value = value
+
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+    def __repr__(self):
+        return (f"MacroData(country='{self.country}', data_name='{self.data_name}', "
+                f"date='{self.date}', value={self.value})")
+
+    def __eq__(self, other):
+        if isinstance(other, MacroData):
+            return (self.country, self.data_name, self.date, self.value) == \
+                   (other.country, other.data_name, other.date, other.value)
+        return False
+    
+    # Relationships
+    macrodata_country = relationship("Country", back_populates="country_macrodata")
+    
+    # Composite Primary Key
+    __table_args__ = (
+        PrimaryKeyConstraint('country', 'data_name', 'date', name="pk_macro_data"),
+    )
+
+###############################################################################
+###############################################################################
+
+class MiscelIData(Base):
+    __tablename__ = "misceli_data"
+
+    data_name = Column(String(50), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
+    date = Column(DateTime, nullable=False)
+    value = Column(Float, nullable=False)
+    
+    def __init__(self, data_name: str, date: datetime, value: float):
+        self.data_name = data_name
+        self.date = date
+        self.value = value
+
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+    def __repr__(self):
+        return f"MiscelIData(data_name='{self.data_name}', date='{self.date}', value={self.value})"
+
+    def __eq__(self, other):
+        if isinstance(other, MiscelIData):
+            return (self.data_name, self.date, self.value) == (other.data_name, other.date, other.value)
+        return False
+    
+    # Composite Primary Key
+    __table_args__ = (
+        PrimaryKeyConstraint('data_name', 'date', name="pk_misceli_data"),
+    )
