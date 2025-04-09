@@ -48,9 +48,11 @@ class Asset(Base):
     ticker  = Column('ticker',  String(15), primary_key=True)
     atype   = Column('atype',    String(50)) 
     last_update_date = Column(DateTime, nullable=True, default=None) 
+    valid = Column(Boolean, nullable=False, default=True)  
     
     def __init__(self, ticker: str):
         self.ticker = ticker
+        self.valid  = True
 
     def get_ticker(self) -> str:
         return self.ticker
@@ -279,21 +281,43 @@ class PriceData(Base):
 
     date = Column(DateTime, nullable=False)
     ticker = Column(String, ForeignKey("assets.ticker", name='pricedata_cmpny_fkey', ondelete="CASCADE"), nullable=False)
-    open_status = Column(Boolean, nullable=False)
-    price = Column(Float, nullable=False)
+    open_price = Column(Float, nullable=False)
+    close_price = Column(Float, nullable=False)
+    
+    def to_dict(self):
+        """
+        Returns a dictionary where keys are the attributes, with their respective values
+        This is very handy for saving Python Objects to the database (SQL)
+        Try to find "to_dict" in the db_engine.py file to see some use-cases
+        """
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+    
+    def to_dict_update(self):
+        """
+        Returns a dictionary of the model's fields excluding the conflict keys.
+        Useful for Updating the database in CONFLICT situations.
+        
+        This function is not being used right now, but it can be useful in the future.
+        """
+        primary_keys = {"date", "ticker"} # Update this if you change the primary key
+        return {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+            if column.name not in primary_keys
+        }
      
-    def __init__(self, date: datetime, ticker: str, open_status: bool, price: float):
+    def __init__(self, date: datetime, ticker: str, open_price: float, close_price: float):
         self.date = date
         self.ticker = ticker
-        self.open_status = open_status
-        self.price = price
+        self.open_price = open_price
+        self.close_price = close_price
     
     def __repr__(self):
-        return(f"PriceData(date='{self.date}', ticker='{self.ticker}', open_status={self.open_status}, price={self.price})")
+        return(f"PriceData(date='{self.date}', ticker='{self.ticker}', open_price={self.open_price}, close_price={self.close_price})")
 
     def __eq__(self, other):
         if isinstance(other, PriceData):
-            return (self.date, self.ticker, self.open_status, self.price) == (other.date, other.ticker, other.open_status, other.price)
+            return (self.date, self.ticker, self.open_price, self.close_price) == (other.date, other.ticker, other.open_price, other.close_price)
         return False
     
     # Foreign Key Relationship
@@ -301,7 +325,7 @@ class PriceData(Base):
     
     # Define Composite Primary Key
     __table_args__ = (
-        PrimaryKeyConstraint('date', 'ticker', 'open_status', name="pk_prices_data"),
+        PrimaryKeyConstraint('date', 'ticker', name="pk_prices_data"),
     )
 
 ###############################################################################

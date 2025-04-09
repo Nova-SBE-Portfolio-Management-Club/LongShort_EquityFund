@@ -16,7 +16,7 @@ Dependencies:
 from dotenv import load_dotenv
 import os
 
-from sqlalchemy import select, create_engine, func
+from sqlalchemy import select, delete, create_engine, func
 from sqlalchemy.orm import sessionmaker, Session, aliased
 from sqlalchemy.dialects.postgresql import insert
 
@@ -110,23 +110,30 @@ class DB_Engine(metaclass=SingletonMeta):
                 return pd.DataFrame([{"ticker": d.ticker, "price": d.price, "date": d.date} for d in data])
             return data
         
-    def insert_price_data(self, price_data: List[PriceData]) -> None:
+    def insert_price_data(self, price_data: List[PriceData]) -> bool:
         """
         Inserts a list of PriceData objects into the database.
         If a conflict occurs on (date, ticker), it will do nothing.
         """
         session = self.sessionmaker()
         try:
-            print(price_data[0], type(price_data[0]), type(price_data))
-            # Add all PriceData objects at once
-            session.add_all(price_data)
-            
-            # Commit the transaction to insert the data
+            # Convert to dicts and strip SQLAlchemy internals
+            if not price_data:
+                return False
+
+            # Convert to dicts using the model's to_dict() method
+            price_data_dicts = [row.to_dict() for row in price_data]
+            # Create insert statement with ON CONFLICT DO NOTHING
+            insert_stmt = insert(PriceData).values(price_data_dicts).on_conflict_do_nothing(
+                index_elements=["date", "ticker"]
+            )
+
+            session.execute(insert_stmt)
             session.commit()
+            return True # Successfully inserted
         except Exception as e:
-            # Handle exceptions (Rollback)
             session.rollback()
-            print(f"Error inserting price data: {e}")
+            return False # Insertion failed
         finally:
             session.close()
     
@@ -320,6 +327,43 @@ class DB_Engine(metaclass=SingletonMeta):
             # Close the session
             session.close()
             
+    def set_invalid_asset(self, ticker: str) -> None:
+        """
+        Marks an asset as invalid by setting its last_update_date to None.
+        
+        ticker      (str):  The ticker of the asset to mark as invalid.
+        """
+        session = self.sessionmaker()
+        try:
+            # Query the Asset using the ticker
+            asset = session.query(Asset).filter(Asset.ticker == ticker).first()
+            if asset:
+                asset.valid = False
+                session.commit()
+        except Exception as e:
+            session.rollback()
+        finally:
+            session.close()
+            
+    def is_invalid_asset(self, ticker: str) -> bool:
+        """
+        Checks if an asset is marked as invalid.
+        
+        ticker      (str):  The ticker of the asset to check.
+        
+        Returns:
+            bool: True if the asset is invalid, False otherwise.
+        """
+        session = self.sessionmaker()
+        try:
+            # Query the Asset using the ticker
+            asset = session.query(Asset).filter(Asset.ticker == ticker).first()
+            return not(asset.valid) if asset else True
+        except Exception as e:
+            return True
+        finally:
+            session.close()
+            
     def delete_asset(self, asset: Asset) -> None:
         """
         Deletes the specified asset from the database
@@ -351,6 +395,29 @@ class DB_Engine(metaclass=SingletonMeta):
             return assets
         except Exception as e:
             print(f"Error retrieving all assets: {e}")
+            return []
+        finally:
+            session.close()
+            
+    def get_all_companies_with_last_update_date(self) -> List[tuple]:
+        """
+        Returns a list of tuples (Company, Company_Last_Update_Date), for all companies
+        NOTE: Very important function for UPDATE command
+        """
+        session = self.sessionmaker()  # Create session using the sessionmaker
+        try:
+            # Create an aliased Asset table to avoid table name conflicts
+            asset_alias = aliased(Asset)
+
+            # Query the Company and the aliased Asset table, getting the relevant fields (Company and Asset's last_update_date)
+            companies = session.query(Company, asset_alias.last_update_date).join(asset_alias, Company.ticker == asset_alias.ticker).all()
+
+            # Return the results as a list of tuples
+            result = [(company, last_update_date) for company, last_update_date in companies]
+            return result
+
+        except Exception as e:
+            print(f"Error retrieving companies with last update date: {e}")
             return []
         finally:
             session.close()
@@ -437,6 +504,49 @@ class DB_Engine(metaclass=SingletonMeta):
             return {}
         finally:
             session.close()
+            
+    def delete_company(self, cmpny: Company) -> None:
+        """
+        Deletes the specified Company from the database
+        First it check if it exists
+        """
+        ticker = cmpny.ticker
+        
+        session = self.sessionmaker()
+        try:
+            # Prepare the delete statement
+            delete_stmt = delete(Asset).where(Asset.ticker == ticker)
+
+            # Execute the delete statement
+            session.execute(delete_stmt)
+            session.commit()  # Commit the transaction to the database
+                
+        except Exception as e:
+            print(f"Error deleting asset {ticker}: {e}")
+            return False
+        finally:
+            session.close()
+            
+            
+    def delete_companies_from_country(self, country: Country) -> None:
+        """
+        Deletes all assets which are companies and have country == country.name
+        """
+        session = self.sessionmaker()
+        try:
+            # Prepare the delete statement
+            delete_stmt = delete(Asset).where(Asset.asset_child_company.any(Company.country == country.name))
+
+            # Execute the delete statement
+            session.execute(delete_stmt)
+            session.commit()  # Commit the transaction to the database
+                
+        except Exception as e:
+            print(f"Error deleting asset {country.name}: {e}")
+            return False
+        finally:
+            session.close()
+       
             
             
 
@@ -541,10 +651,14 @@ if __name__ == '__main__':
     
     db1.connect()
     
+    
     c1 = Country('portugal','PT','PL','LS','EUR')
     c2 = Country('spain','ES','SM','MC','EUR')
-    c3 = Country('usa','US','US',None,'USD')
+    c3 = Country('united states','US','US',None,'USD')
     
+    db1.delete_companies_from_country(c3)
+    print('Done')
+            
     comp1 = Company('AAPL','Apple','usa')
     comp2 = Company('NVDA','Nvidia','usa')
     comp3 = Company('GALP','GALP','portugal')
