@@ -45,8 +45,9 @@ def fetch_price_data(db: DB_Engine, company: Company, last_update_date: datetime
         return []
     
     try:
+        yfin_ticker = company.get_yfin_ticker(db)
         t0 = pc()
-        data = yf.download(company.get_yfin_ticker(db), start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
+        data = yf.download(yfin_ticker, start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
         t1 = pc()
         print(f"Time taken to fetch data for {company.ticker}: {t1 - t0:.2f} seconds")
         if data.empty:
@@ -55,9 +56,15 @@ def fetch_price_data(db: DB_Engine, company: Company, last_update_date: datetime
                 db.set_invalid_asset(company.ticker)
             
             return []
-        
-        return [PriceData(index.to_pydatetime(),company.ticker, 1, row['Open'][0]) for index, row in data.iterrows()] +\
-            [PriceData(index.to_pydatetime(),company.ticker, 0, row['Close'][0]) for index, row in data.iterrows()]
+        price_data = [
+            PriceData(dt, company.ticker, open_, close_)
+            for dt, open_, close_ in zip(
+                data.index.to_pydatetime(),
+                data[('Open', yfin_ticker)].values,
+                data[('Close', yfin_ticker)].values
+            )
+        ]
+        return price_data
             
     except Exception as e:
         print(f"Error fetching data for {company.ticker}: {e}")
@@ -113,7 +120,7 @@ def handle_update_command(db: DB_Engine, batches = 20):
 
                 # Fetch price data
                 price_data = fetch_price_data(db, company, last_update_date)
-                
+
                 t1 = pc()
                 print(f"Time taken to call fetch_price_data {company.ticker}: {t1 - to:.2f} seconds")
                 
