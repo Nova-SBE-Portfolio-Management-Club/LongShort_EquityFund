@@ -425,8 +425,8 @@ class MacroData(Base):
 ###############################################################################
 ###############################################################################
 
-class MiscelIData(Base):
-    __tablename__ = "misceli_data"
+class MiscellData(Base):
+    __tablename__ = "miscell_data"
 
     data_name = Column(String(50), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
     date = Column(DateTime, nullable=False)
@@ -441,14 +441,14 @@ class MiscelIData(Base):
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
     def __repr__(self):
-        return f"MiscelIData(data_name='{self.data_name}', date='{self.date}', value={self.value})"
+        return f"MiscellData(data_name='{self.data_name}', date='{self.date}', value={self.value})"
 
     def __eq__(self, other):
-        if isinstance(other, MiscelIData):
+        if isinstance(other, MiscellData):
             return (self.data_name, self.date, self.value) == (other.data_name, other.date, other.value)
         return False
     
     # Composite Primary Key
     __table_args__ = (
-        PrimaryKeyConstraint('data_name', 'date', name="pk_misceli_data"),
+        PrimaryKeyConstraint('data_name', 'date', name="pk_miscell_data"),
     )
