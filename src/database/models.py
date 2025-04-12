@@ -452,3 +452,81 @@ class MiscellData(Base):
     __table_args__ = (
         PrimaryKeyConstraint('data_name', 'date', name="pk_miscell_data"),
     )
+
+###############################################################################
+###############################################################################
+
+class MacroData_Info(Base):
+    __tablename__ = "macro_data_info"
+
+    data_name = Column(String(20), ForeignKey("macro_data.data_name", name='macrodata_info_name_fkey'), nullable=False)
+    country = Column(String(50), ForeignKey("countries.name", name='macrodata_info_cntry_fkey'), nullable=False)
+    last_update_date = Column(DateTime, nullable=True, default=None)
+    description = Column(String(200), nullable=True)
+    frequency = Column(String(20), nullable=True)  
+    source = Column(String(50), nullable=True)
+    
+    def __init__(self, data_name: str, country: str, description: str = None, frequency: str = None, source: str = None):
+        self.data_name = data_name
+        self.country = country
+        self.description = description
+        self.frequency = frequency
+        self.source = source
+
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+    def __repr__(self):
+        return (f"MacroData_Info(data_name='{self.data_name}', country='{self.country}', "
+                f"last_update='{self.last_update_date}', description='{self.description}')")
+
+    def __eq__(self, other):
+        if isinstance(other, MacroData_Info):
+            return (self.data_name, self.country) == (other.data_name, other.country)
+        return False
+    
+    # Relationships
+    macrodata_info_parent = relationship("MacroData", foreign_keys=[data_name])
+    macrodata_info_country = relationship("Country", foreign_keys=[country])
+    
+    # Composite Primary Key
+    __table_args__ = (
+        PrimaryKeyConstraint('data_name', 'country', name="pk_macro_data_info"),
+    )
+
+###############################################################################
+###############################################################################
+
+class MiscData_info(Base):
+    __tablename__ = "misc_data_info"
+
+    data_name = Column(String(50), ForeignKey("miscell_data.data_name", name='miscdata_info_name_fkey'), primary_key=True, nullable=False)
+    last_update_date = Column(DateTime, nullable=True, default=None)
+    description = Column(String(200), nullable=True)
+    frequency = Column(String(20), nullable=True)  
+    source = Column(String(50), nullable=True)     
+    
+    def __init__(self, data_name: str, description: str = None, 
+                 frequency: str = None, source: str = None):
+        self.data_name = data_name
+        self.description = description
+        self.frequency = frequency
+        self.source = source
+
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+    def __repr__(self):
+        return (f"MiscData_info(data_name='{self.data_name}', "
+                f"last_update='{self.last_update_date}', description='{self.description}')")
+
+    def __eq__(self, other):
+        if isinstance(other, MiscData_info):
+            return self.data_name == other.data_name
+        return False
+    
+    # Relationship
+    miscdata_info_parent = relationship("MiscellData", foreign_keys=[data_name])
+
+###############################################################################
+###############################################################################
