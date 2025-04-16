@@ -27,7 +27,7 @@ import requests
 from urllib.error import URLError
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float, PrimaryKeyConstraint
+from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float, PrimaryKeyConstraint, ForeignKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -416,10 +416,20 @@ class MacroData(Base):
     
     # Relationships
     macrodata_country = relationship("Country", back_populates="country_macrodata")
-    
-    # Composite Primary Key
+    macrodata_info = relationship(
+        "MacroData_Info",
+        primaryjoin="and_(MacroData.data_name==MacroData_Info.data_name, MacroData.country==MacroData_Info.country)",
+        back_populates="macrodata_entries"
+    )
+
     __table_args__ = (
         PrimaryKeyConstraint('country', 'data_name', 'date', name="pk_macro_data"),
+        ForeignKeyConstraint(
+            ['data_name', 'country'],
+            ['macro_data_info.data_name', 'macro_data_info.country'],
+            name="macrodata_info_fk",
+            ondelete="CASCADE"
+        ),
     )
 
 ###############################################################################
@@ -428,7 +438,7 @@ class MacroData(Base):
 class MiscellData(Base):
     __tablename__ = "miscell_data"
 
-    data_name = Column(String(50), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
+    data_name = Column(String(50), ForeignKey("miscell_data_info.data_name", name='miscdata_name_fkey'), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
     date = Column(DateTime, nullable=False)
     value = Column(Float, nullable=False)
     
@@ -453,14 +463,17 @@ class MiscellData(Base):
         PrimaryKeyConstraint('data_name', 'date', name="pk_miscell_data"),
     )
 
+    # Relationships
+    miscdata_parent = relationship("MiscData_Info", foreign_keys=[data_name])
+
 ###############################################################################
 ###############################################################################
 
 class MacroData_Info(Base):
     __tablename__ = "macro_data_info"
 
-    data_name = Column(String(20), ForeignKey("macro_data.data_name", name='macrodata_info_name_fkey'), nullable=False)
-    country = Column(String(50), ForeignKey("countries.name", name='macrodata_info_cntry_fkey'), nullable=False)
+    data_name = Column(String(20), nullable=False)
+    country = Column(String(50), ForeignKey("countries.name", name='macrodatainfo_cntry_fkey', ondelete="CASCADE"), nullable=False)
     last_update_date = Column(DateTime, nullable=True, default=None)
     description = Column(String(200), nullable=True)
     frequency = Column(String(20), nullable=True)  
@@ -486,21 +499,24 @@ class MacroData_Info(Base):
         return False
     
     # Relationships
-    macrodata_info_parent = relationship("MacroData", foreign_keys=[data_name])
     macrodata_info_country = relationship("Country", foreign_keys=[country])
-    
-    # Composite Primary Key
+    macrodata_entries = relationship(
+        "MacroData",
+        primaryjoin="and_(MacroData_Info.data_name==MacroData.data_name, MacroData_Info.country==MacroData.country)",
+        back_populates="macrodata_info"
+    )
+
     __table_args__ = (
         PrimaryKeyConstraint('data_name', 'country', name="pk_macro_data_info"),
     )
-
+ 
 ###############################################################################
 ###############################################################################
 
-class MiscData_info(Base):
+class MiscData_Info(Base):
     __tablename__ = "misc_data_info"
 
-    data_name = Column(String(50), ForeignKey("miscell_data.data_name", name='miscdata_info_name_fkey'), primary_key=True, nullable=False)
+    data_name = Column(String(50), primary_key=True, nullable=False)
     last_update_date = Column(DateTime, nullable=True, default=None)
     description = Column(String(200), nullable=True)
     frequency = Column(String(20), nullable=True)  
@@ -517,16 +533,13 @@ class MiscData_info(Base):
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
     def __repr__(self):
-        return (f"MiscData_info(data_name='{self.data_name}', "
+        return (f"MiscData_Info(data_name='{self.data_name}', "
                 f"last_update='{self.last_update_date}', description='{self.description}')")
 
     def __eq__(self, other):
-        if isinstance(other, MiscData_info):
+        if isinstance(other, MiscData_Info):
             return self.data_name == other.data_name
         return False
-    
-    # Relationship
-    miscdata_info_parent = relationship("MiscellData", foreign_keys=[data_name])
 
 ###############################################################################
 ###############################################################################

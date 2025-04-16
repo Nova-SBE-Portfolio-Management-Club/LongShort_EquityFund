@@ -26,27 +26,7 @@ def upgrade() -> None:
         sa.Column('bloomberg_ticker', sa.String(20)),
     )
 
-    # MacroData table
-    op.create_table(
-        'macro_data',
-        sa.Column('country', sa.String(50), sa.ForeignKey('countries.name', ondelete="CASCADE")),
-        sa.Column('data_name', sa.String(20)),
-        sa.Column('date', sa.DateTime),
-        sa.Column('value', sa.Float()),
-        sa.PrimaryKeyConstraint('country', 'data_name', 'date'),
-    )
-
-    # MiscellData table
-    op.create_table(
-        'miscell_data',
-        sa.Column('data_name', sa.String(50)),
-        sa.Column('date', sa.DateTime),
-        sa.Column('value', sa.Float()),
-        sa.PrimaryKeyConstraint('data_name', 'date'),
-    )
-
 def downgrade() -> None:
     # Drop tables
     op.drop_table('futures')
-    op.drop_table('macro_data')
-    op.drop_table('miscell_data')
+
