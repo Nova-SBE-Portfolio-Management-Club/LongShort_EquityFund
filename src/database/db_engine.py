@@ -24,7 +24,7 @@ import yfinance as yf
 import pandas as pd
 import datetime as dt
 
-from database import Company, Pair, PriceData, Country, Asset
+from database import Company,Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset
 
 from typing import List
 
@@ -421,6 +421,43 @@ class DB_Engine(metaclass=SingletonMeta):
             return []
         finally:
             session.close()
+
+    def get_all_futures_with_last_update_date(self) -> List[tuple]:
+        """
+        Returns a list of tuples (Company, Company_Last_Update_Date), for all companies
+        NOTE: Very important function for UPDATE command
+        """
+        session = self.sessionmaker()  # Create session using the sessionmaker
+        try:
+            # Create an aliased Asset table to avoid table name conflicts
+            asset_alias = aliased(Asset)
+
+            # Query the Company and the aliased Asset table, getting the relevant fields (Company and Asset's last_update_date)
+            futures = session.query(Futures, asset_alias.last_update_date).join(asset_alias, Futures.ticker == asset_alias.ticker).all()
+
+            # Return the results as a list of tuples
+            result = [(future, last_update_date) for future, last_update_date in futures]
+            return result
+
+        except Exception as e:
+            print(f"Error retrieving companies with last update date: {e}")
+            return []
+        finally:
+            session.close()
+    def get_all_misc_data(self) -> List[MiscellData]:
+        """
+        Returns a list of all MiscellData objects stored in the database
+        """
+        session = self.sessionmaker()
+        try:
+            miscdata = session.query(MiscellData).all()
+            return miscdata
+        except Exception as e:
+            print(f"Error retrieving all data: {e}")
+            return []
+        finally:
+            session.close()
+    
             
     def get_companies_by_attr(self, attr: str, attr_value: str, ) -> List[Company]:
         """

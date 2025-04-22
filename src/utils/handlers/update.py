@@ -9,14 +9,14 @@ from time import perf_counter as pc
 
 from typing import List
 
-from database import DB_Engine, PriceData, Company, Asset
+from database import DB_Engine, PriceData, Company, Asset, Futures, MiscellData, MacroData
 
 from sqlalchemy import update
 
 
 
 def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
-    """Fetches assets based on the user selection (all_comps, country, or sector)."""
+    """Fetches assets based on the user selection (all_comps, country, sector, futures, miscellaneous data or macro data)."""
     
     if option == "all_comps":
         assets = db.get_all_companies_with_last_update_date()
@@ -24,12 +24,18 @@ def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
         assets = db.get_companies_by_attr_with_last_update_date("country", filter_value)
     elif option == "sector":
         assets = db.get_companies_by_attr_with_last_update_date("sector", filter_value)
+    elif option == "futures":
+        assets = db.get_all_futures_with_last_update_date()
+    elif option == "miscell":
+        assets = db.get_all_misc_data()
+    elif option == "macro":
+        assets = db.get_all_macro_data()
     else:
         raise ValueError("Invalid option.")
     
     return assets
 
-def fetch_price_data(db: DB_Engine, company: Company, last_update_date: datetime):
+def fetch_company_price_data(db: DB_Engine, company: Company, last_update_date: datetime):
     """Fetches daily adjusted open and close prices from Yahoo Finance."""
     
     if last_update_date is None:
@@ -70,6 +76,151 @@ def fetch_price_data(db: DB_Engine, company: Company, last_update_date: datetime
         print(f"Error fetching data for {company.ticker}: {e}")
         return []
 
+
+def check_valid_asset(db: DB_Engine,company: Company, last_update_date: datetime ) -> bool:
+    """Uses 3 month average volume to check validity."""
+    
+    if last_update_date is None:
+        is_none = True
+        last_update_date = datetime(1998, 1, 1)
+    else:
+        is_none = False
+    
+    start_date = (last_update_date + timedelta(days=1)).strftime('%Y-%m-%d')
+    end_date = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+    
+    if start_date == end_date:
+        return []
+    
+    try:
+        yfin_ticker = company.get_yfin_ticker(db)
+        t0 = pc()
+        data = yf.download(yfin_ticker, period='3mo', interval='1d', progress=False, auto_adjust=True)
+        avg_volume = data['Volume'].mean()  
+        if avg_volume < 1000000:  # Example threshold
+            db.set_invalid_asset(company.ticker)
+            return []
+        t1 = pc()
+        print(f"Time taken to fetch data for {company.ticker}: {t1 - t0:.2f} seconds")
+        if data.empty:
+            
+            if is_none:
+                db.set_invalid_asset(company.ticker)
+            
+            return []
+    except Exception as e:
+        print(f"Error fetching data for {company.ticker}: {e}")
+        return []
+def fetch_futures_price_data(db: DB_Engine, future: Futures, last_update_date: datetime):
+    """Fetches daily adjusted open and close prices from Yahoo Finance."""
+    
+    if last_update_date is None:
+        is_none = True
+        last_update_date = datetime(1998, 1, 1)
+    else:
+        is_none = False
+    
+    start_date = (last_update_date + timedelta(days=1)).strftime('%Y-%m-%d')
+    end_date = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+    
+    if start_date == end_date:
+        return []
+    
+    try:
+        yfin_ticker = future.bloomberg_ticker(db)
+        t0 = pc()
+        data = yf.download(yfin_ticker, start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
+        t1 = pc()
+        print(f"Time taken to fetch data for {future.ticker}: {t1 - t0:.2f} seconds")
+        if data.empty:
+            
+            if is_none:
+                db.set_invalid_asset(future.ticker)
+            
+            return []
+        price_data = [
+            PriceData(dt, future.ticker, open_, close_)
+            for dt, open_, close_ in zip(
+                data.index.to_pydatetime(),
+                data[('Open', yfin_ticker)].values,
+                data[('Close', yfin_ticker)].values
+            )
+        ]
+        return price_data
+            
+    except Exception as e:
+        print(f"Error fetching data for {future.ticker}: {e}")
+        return []
+
+def fetch_miscell_data(db: DB_Engine, misc: MiscellData, last_update_date: datetime):
+    """Calculates the current moon phase."""
+
+    if last_update_date is None:
+        is_none = True
+        last_update_date = datetime(1998, 1, 1)
+    else:
+        is_none = False
+    
+    
+    try:
+        # Calculate the current moon phase
+        current_date = datetime.today()
+        moon_phase = get_moon_phase(current_date)
+        
+        return [MiscellData(current_date, moon_phase)]
+    except Exception as e:
+        print(f"Error fetching data for {misc.moonphase}: {e}")
+        return []
+
+    
+def get_julian_date(date: datetime) :
+    """Calculate the Julian Date for a given date."""
+    a = int((14 - datetime.month) / 12)
+    y = date.year + 4800 - a
+    m = date.month + 12 * a - 3
+    jd = date.day + int((153 * m + 2) / 5) + 365 * y + int(y / 4) - int(y / 100) + int(y / 400) - 32045
+    jd = jd + (date.hour - 12) / 24 + date.minute / 1440 + date.second / 86400
+    return jd
+
+def get_moon_phase(date: datetime) -> str:
+    """Determine the moon phase based on the given date."""
+    # Get the Julian Date for the reference New Moon and the current date
+    SYNODIC_MONTH = 29.53059  
+    REFERENCE_NEW_MOON_DATE = datetime(2025, 2, 28)  
+
+    reference_jd = get_julian_date(REFERENCE_NEW_MOON_DATE)
+    current_jd = get_julian_date(date)
+    
+
+    days_since_new_moon = current_jd - reference_jd
+    lunar_cycle = days_since_new_moon % SYNODIC_MONTH
+    
+    # Get the moon phase based on the lunar cycle
+    if lunar_cycle < 1.84566:
+        return "New Moon"
+    elif lunar_cycle < 7.4:
+        return "Waxing Crescent"
+    elif lunar_cycle < 8.5:
+        return "Waxing Half Moon"
+    elif lunar_cycle < 14.77:
+        return "Waxing Gibbous"
+    elif lunar_cycle < 15.77:
+        return "Full Moon"
+    elif lunar_cycle < 22.14:
+        return "Waning Gibbous"
+    elif lunar_cycle < 23.94:
+        return "Waning Half Moon"
+    else:
+        return "Waning Crescent"
+
+
+
+def fetch_macro_data(db: DB_Engine, macro: MacroData, last_update_date: datetime):
+    """Fetches macroeconomic data from Yahoo Finance."""
+    
+    
+    
+
 def update_database(db: DB_Engine, price_data: List[PriceData], company: Company):
     """Updates the database with new price data and last update date."""
     if not price_data:
@@ -80,7 +231,8 @@ def update_database(db: DB_Engine, price_data: List[PriceData], company: Company
     db.insert_price_data(price_data)
     
     db.update_last_update_date(company.ticker, last_date)
-    
+
+
 
 def handle_update_command(db: DB_Engine, batches = 20):
     """Handles the update process based on user selection."""
@@ -100,6 +252,12 @@ def handle_update_command(db: DB_Engine, batches = 20):
     elif choice == "2":
         sector = input("Enter the sector name: ")
         assets = fetch_assets(db, "sector", sector)
+    elif choice == "3":
+        assets = fetch_assets(db, "futures")
+    elif choice == "4":
+        assets = fetch_assets(db, "miscell")
+    elif choice == "5": 
+        assets = fetch_assets(db, "macro")
     else:
         print("Invalid choice. Exiting.")
         return
@@ -119,7 +277,7 @@ def handle_update_command(db: DB_Engine, batches = 20):
                     continue
 
                 # Fetch price data
-                price_data = fetch_price_data(db, company, last_update_date)
+                price_data = fetch_company_price_data(db, company, last_update_date)
 
                 t1 = pc()
                 print(f"Time taken to call fetch_price_data {company.ticker}: {t1 - to:.2f} seconds")
