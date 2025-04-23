@@ -419,7 +419,8 @@ class MacroData(Base):
     macrodata_info = relationship(
         "MacroData_Info",
         primaryjoin="and_(MacroData.data_name==MacroData_Info.data_name, MacroData.country==MacroData_Info.country)",
-        back_populates="macrodata_entries"
+        back_populates="macrodata_entries",
+         overlaps="macrodata_country,country_macrodata"
     )
 
     __table_args__ = (
@@ -438,7 +439,7 @@ class MacroData(Base):
 class MiscellData(Base):
     __tablename__ = "miscell_data"
 
-    data_name = Column(String(50), ForeignKey("miscell_data_info.data_name", name='miscdata_name_fkey'), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
+    data_name = Column(String(50), ForeignKey("misc_data_info.data_name", name='miscdata_name_fkey'), nullable=False)  # MOON_CYCLE, DAYS_UNTIL_XMAS, etc.
     date = Column(DateTime, nullable=False)
     value = Column(Float, nullable=False)
     
@@ -503,7 +504,8 @@ class MacroData_Info(Base):
     macrodata_entries = relationship(
         "MacroData",
         primaryjoin="and_(MacroData_Info.data_name==MacroData.data_name, MacroData_Info.country==MacroData.country)",
-        back_populates="macrodata_info"
+        back_populates="macrodata_info",
+        overlaps="macrodata_country,country_macrodata"
     )
 
     __table_args__ = (
