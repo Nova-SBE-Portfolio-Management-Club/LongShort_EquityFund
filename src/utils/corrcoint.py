@@ -39,4 +39,4 @@ def cointegration(series1, series2):
     """
     _, p_value, _ = coint(series1, series2)
     
-    return coint_mapper(p_value)
+    return coint_mapper(1-p_value)
