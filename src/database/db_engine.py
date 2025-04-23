@@ -689,19 +689,17 @@ if __name__ == '__main__':
     db1.connect()
     
     
-    c1 = Country('portugal','PT','PL','LS','EUR')
-    c2 = Country('spain','ES','SM','MC','EUR')
-    c3 = Country('united states','US','US',None,'USD')
+    #c1 = Country('portugal','PT','PL','LS','EUR')
+    #c2 = Country('spain','ES','SM','MC','EUR')
+    #c3 = Country('united states','US','US',None,'USD')
     
-    db1.delete_companies_from_country(c3)
-    print('Done')
+    Ftr = Futures('ES=F','ES1 Index')
+    db1.insert_asset(Ftr)
+    
             
-    comp1 = Company('AAPL','Apple','usa')
-    comp2 = Company('NVDA','Nvidia','usa')
-    comp3 = Company('GALP','GALP','portugal')
+    #comp1 = Company('AAPL','Apple','usa')
+    #comp2 = Company('NVDA','Nvidia','usa')
+    #comp3 = Company('GALP','GALP','portugal')
     
-    #db1.insert_asset(comp1)
-    #db1.insert_asset(comp2)
-    #db1.insert_asset(comp3)
 
     

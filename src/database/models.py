@@ -420,7 +420,7 @@ class MacroData(Base):
         "MacroData_Info",
         primaryjoin="and_(MacroData.data_name==MacroData_Info.data_name, MacroData.country==MacroData_Info.country)",
         back_populates="macrodata_entries",
-         overlaps="macrodata_country,country_macrodata"
+        overlaps="macrodata_country,country_macrodata"
     )
 
     __table_args__ = (
