@@ -250,22 +250,24 @@ class Country(Base):
     bloomberg_code = Column(String(20))
     yfinance_code = Column(String(20))
     currency = Column(String(10))
+    yc_code = Column(String(20))
     
-    def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str):
+    def __init__(self, name: str, isin_code: str, bloomberg_code: str, yfinance_code: str, currency: str, yc_code: str):
         self.name = name
         self.isin_code = isin_code
         self.bloomberg_code = bloomberg_code
         self.yfinance_code = yfinance_code
         self.currency = currency
+        self.yc_code = yc_code
 
     def __repr__(self):
         return (f"Country(name='{self.name}', isin_code='{self.isin_code}', bloomberg_code='{self.bloomberg_code}', "
-                f"yfinance_code='{self.yfinance_code}', currency='{self.currency}')")
+                f"yfinance_code='{self.yfinance_code}', currency='{self.currency}', yc_code='{self.yc_code}')")
 
     def __eq__(self, other):
         if isinstance(other, Country):
-            return (self.name, self.isin_code, self.bloomberg_code, self.yfinance_code, self.currency) == \
-                   (other.name, other.isin_code, other.bloomberg_code, other.yfinance_code, other.currency)
+            return (self.name, self.isin_code, self.bloomberg_code, self.yfinance_code, self.currency, self.yc_code) == \
+                   (other.name, other.isin_code, other.bloomberg_code, other.yfinance_code, other.currency, other.yc_code)
         return False
     
     

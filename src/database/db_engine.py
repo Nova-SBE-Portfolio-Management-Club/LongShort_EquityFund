@@ -24,7 +24,7 @@ import yfinance as yf
 import pandas as pd
 import datetime as dt
 
-from database import Company,Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset
+from database.models import Company, MacroData_Info, MiscData_Info, Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset 
 
 from typing import List
 
@@ -62,8 +62,8 @@ class DB_Engine(metaclass=SingletonMeta):
         # The sessionmaker is a factory that generates session objects.
         # A session object is responsible for interacting with the database, 
         # executing queries, and committing transactions.
-        self.sessionmaker = None
-        
+        self.Session = sessionmaker(bind=self.engine)
+    
     def connect(self):
         """
         Builds the engine and the session that will allow us to communicate with the database.
@@ -444,6 +444,7 @@ class DB_Engine(metaclass=SingletonMeta):
             return []
         finally:
             session.close()
+
     def get_all_misc_data(self) -> List[MiscellData]:
         """
         Returns a list of all MiscellData objects stored in the database
@@ -676,7 +677,16 @@ class DB_Engine(metaclass=SingletonMeta):
                 raise ValueError("Invalid option. Choose 'all' or 'country'.")
         return [f"{ticker} {country_code} Equity" for ticker, country_code in result]
     
-
+    def get_yc_data(self):
+        with self.Session() as session:
+            results = (
+                session.query(Country.yc_code, MacroData_Info.last_update_date)
+                .join(MacroData_Info, MacroData_Info.country == Country.name)
+                .filter(MacroData_Info.data_name.ilike('YC%'))
+                .distinct(Country.name)
+                .all()
+            )
+            return results
 
 # Usage
 
