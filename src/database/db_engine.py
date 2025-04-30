@@ -700,5 +700,3 @@ if __name__ == '__main__':
     Ftr = Futures('ES=F','ES1 Index')
     db1.insert_asset(Ftr)
     
- 
-    
