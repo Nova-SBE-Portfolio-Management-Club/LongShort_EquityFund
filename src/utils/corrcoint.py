@@ -15,7 +15,7 @@ def correlation(series1, series2):
     Returns:
     float: Correlation coefficient.
     """
-    return series1.corr(series2)
+    return (series1.corr(series2)+1)/2
 
 def coint_mapper(p_value):
     """
