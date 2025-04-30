@@ -203,7 +203,7 @@ def get_moon_phase(date: datetime) -> str:
     
     
 
-def update_database(db: DB_Engine, price_data: List[PriceData], company: Company):
+def update_company_database(db: DB_Engine, price_data: List[PriceData], company: Company):
     """Updates the database with new price data and last update date."""
     if not price_data:
         return
@@ -251,6 +251,134 @@ def handle_update_command(db: DB_Engine, batches = 20):
         total_assets = len(assets)
 
         # Initialize progress bar
+        if choice in ["0", "1", "2"]:  # Companies
+            with tqdm(total=total_assets, desc="Fetching price data", unit="company") as pbar:
+             for idx, (company, last_update_date) in enumerate(assets, start=1):
+                to = pc()
+
+                if db.is_invalid_asset(company.ticker):
+                   continue
+
+                # Fetch price data
+                price_data = fetch_company_price_data(db, company, last_update_date)
+
+                t1 = pc()
+                print(f"Time taken to call fetch_price_data {company.ticker}: {t1 - to:.2f} seconds")
+
+                # Update progress bar
+                pbar.update(1)
+
+                if not price_data:
+                   continue  # Skip if no price data
+
+                # Get last date of price data
+                last_date = price_data[-1].date
+                last_update_dict[company.ticker] = last_date
+
+                # Collect price data
+                all_price_data.extend(price_data)
+
+                # Save data every `batches` companies
+                if idx % batches == 0 or idx == total_assets:
+                    t2 = pc()
+                if all_price_data:
+                    status = db.insert_price_data(all_price_data)
+                    all_price_data.clear()  # Free memory
+
+                if last_update_dict:
+                    if status:
+                    # Only update, if the insert was successful
+                        for ticker, date in last_update_dict.items():
+                            stmt = update(Asset).where(Asset.ticker == ticker).values(last_update_date=date)
+                            session.execute(stmt)
+                        last_update_dict.clear()  # Free memory
+
+                # Commit the batch
+                session.commit()
+
+                t3 = pc()
+                print(f"Time taken to save data for {idx} companies: {t3 - t2:.2f} seconds")
+
+        elif choice == "3":  # Futures
+            with tqdm(total=total_assets, desc="Fetching futures data", unit="future") as pbar:
+             for idx, (future, last_update_date) in enumerate(assets, start=1):
+                to = pc()
+
+                if db.is_invalid_asset(future.ticker):
+                  continue
+
+                # Fetch futures price data
+                price_data = fetch_futures_price_data(db, future, last_update_date)
+
+                t1 = pc()
+                print(f"Time taken to call fetch_futures_price_data {future.ticker}: {t1 - to:.2f} seconds")
+
+                # Update progress bar
+                pbar.update(1)
+
+                if not price_data:
+                 continue  # Skip if no price data
+
+                # Get last date of price data
+                last_date = price_data[-1].date
+                last_update_dict[future.ticker] = last_date
+
+                # Collect price data
+                all_price_data.extend(price_data)
+
+                # Save data every `batches` futures
+                if idx % batches == 0 or idx == total_assets:
+                 t2 = pc()
+                if all_price_data:
+                    status = db.insert_price_data(all_price_data)
+                    all_price_data.clear()  # Free memory
+
+                if last_update_dict:
+                    if status:
+                    # Only update, if the insert was successful
+                     for ticker, date in last_update_dict.items():
+                        stmt = update(Futures).where(Futures.ticker == ticker).values(last_update_date=date)
+                        session.execute(stmt)
+                    last_update_dict.clear()  # Free memory
+
+                # Commit the batch
+                session.commit()
+
+                t3 = pc()
+                print(f"Time taken to save data for {idx} futures: {t3 - t2:.2f} seconds")
+
+        elif choice == "4":  # Miscellaneous Data
+            with tqdm(total=total_assets, desc="Fetching miscellaneous data", unit="misc") as pbar:
+             for idx, (misc, last_update_date) in enumerate(assets, start=1):
+                to = pc()
+
+                # Fetch miscellaneous data
+                misc_data = fetch_miscell_data(db, misc, last_update_date)
+
+                t1 = pc()
+                print(f"Time taken to call fetch_miscell_data: {t1 - to:.2f} seconds")
+
+                # Update progress bar
+                pbar.update(1)
+
+                if not misc_data:
+                  continue  # Skip if no data
+
+                # Collect miscellaneous data
+                all_price_data.extend(misc_data)
+
+                # Save data every `batches` items
+                if idx % batches == 0 or idx == total_assets:
+                  t2 = pc()
+                if all_price_data:
+                    status = db.insert_miscell_data(all_price_data)
+                    all_price_data.clear()  # Free memory
+
+                # Commit the batch
+                session.commit()
+
+                t3 = pc()
+                print(f"Time taken to save data for {idx} miscellaneous items: {t3 - t2:.2f} seconds")
         with tqdm(total=total_assets, desc="Fetching price data", unit="company") as pbar:
             for idx, (company, last_update_date) in enumerate(assets, start=1):
                 
