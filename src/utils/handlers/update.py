@@ -9,14 +9,14 @@ from time import perf_counter as pc
 
 from typing import List
 
-from database import DB_Engine, PriceData, Company, Asset, Futures, MiscellData, MacroData
+from database import DB_Engine, PriceData, Company, Asset, Futures, MiscellData
 
 from sqlalchemy import update
 
 
 
 def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
-    """Fetches assets based on the user selection (all_comps, country, sector, futures, miscellaneous data or macro data)."""
+    """Fetches assets based on the user selection (all_comps, country, sector, futures, miscellaneous data )."""
     
     if option == "all_comps":
         assets = db.get_all_companies_with_last_update_date()
@@ -28,8 +28,7 @@ def fetch_assets(db: DB_Engine, option: str, filter_value: str = None):
         assets = db.get_all_futures_with_last_update_date()
     elif option == "miscell":
         assets = db.get_all_misc_data()
-    elif option == "macro":
-        assets = db.get_all_macro_data()
+
     else:
         raise ValueError("Invalid option.")
     
@@ -77,7 +76,7 @@ def fetch_company_price_data(db: DB_Engine, company: Company, last_update_date: 
         return []
 
 
-def check_valid_asset(db: DB_Engine,company: Company, last_update_date: datetime ) -> bool:
+def check_valid_company(db: DB_Engine,company: Company, last_update_date: datetime ) -> bool:
     """Uses 3 month average volume to check validity."""
     
     if last_update_date is None:
@@ -97,7 +96,7 @@ def check_valid_asset(db: DB_Engine,company: Company, last_update_date: datetime
         t0 = pc()
         data = yf.download(yfin_ticker, period='3mo', interval='1d', progress=False, auto_adjust=True)
         avg_volume = data['Volume'].mean()  
-        if avg_volume < 1000000:  # Example threshold
+        if avg_volume < 500000:  # Example threshold
             db.set_invalid_asset(company.ticker)
             return []
         t1 = pc()
@@ -127,7 +126,7 @@ def fetch_futures_price_data(db: DB_Engine, future: Futures, last_update_date: d
         return []
     
     try:
-        yfin_ticker = future.bloomberg_ticker(db)
+        yfin_ticker = future.ticker
         t0 = pc()
         data = yf.download(yfin_ticker, start=start_date, end=end_date, interval='1d', progress=False, auto_adjust=True)
         t1 = pc()
@@ -194,30 +193,13 @@ def get_moon_phase(date: datetime) -> str:
 
     days_since_new_moon = current_jd - reference_jd
     lunar_cycle = days_since_new_moon % SYNODIC_MONTH
+    return round(lunar_cycle)
     
-    # Get the moon phase based on the lunar cycle
-    if lunar_cycle < 1.84566:
-        return "New Moon"
-    elif lunar_cycle < 7.4:
-        return "Waxing Crescent"
-    elif lunar_cycle < 8.5:
-        return "Waxing Half Moon"
-    elif lunar_cycle < 14.77:
-        return "Waxing Gibbous"
-    elif lunar_cycle < 15.77:
-        return "Full Moon"
-    elif lunar_cycle < 22.14:
-        return "Waning Gibbous"
-    elif lunar_cycle < 23.94:
-        return "Waning Half Moon"
-    else:
-        return "Waning Crescent"
-
-
-
-def fetch_macro_data(db: DB_Engine, macro: MacroData, last_update_date: datetime):
-    """Fetches macroeconomic data from Yahoo Finance."""
     
+
+
+
+
     
     
 
@@ -240,6 +222,8 @@ def handle_update_command(db: DB_Engine, batches = 20):
     print("  ○ All - Companies (0)")
     print("  ○ Country (1)")
     print("  ○ Sector (2)")
+    print("  ○ Futures (3)")
+    print("  ○ Miscellaneous Data (4)")
     # TODO: Add the option to Update Non-Company Assets (Futures)
     
     choice = input("Choose an option (0: All - Companies, 1: Country, 2: Sector): ")
@@ -256,8 +240,7 @@ def handle_update_command(db: DB_Engine, batches = 20):
         assets = fetch_assets(db, "futures")
     elif choice == "4":
         assets = fetch_assets(db, "miscell")
-    elif choice == "5": 
-        assets = fetch_assets(db, "macro")
+   
     else:
         print("Invalid choice. Exiting.")
         return
