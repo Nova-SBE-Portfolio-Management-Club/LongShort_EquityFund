@@ -656,6 +656,21 @@ class DB_Engine(metaclass=SingletonMeta):
             return []
         finally:
             session.close()
+            
+    def insert_macrodata_info(self, macrodata_info_list: List[MacroData_Info]) -> None:
+        """
+        Inserts a list of MacroData_Info objects into the database in a single batch.
+        """
+        session = self.sessionmaker()
+        try:
+            session.add_all(macrodata_info_list)
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting macrodata info list: {e}")
+        finally:
+            session.close()
+
         
     def get_bloomberg_codes(self, option: str, country: str = None):
         """
@@ -678,15 +693,22 @@ class DB_Engine(metaclass=SingletonMeta):
         return [f"{ticker} {country_code} Equity" for ticker, country_code in result]
     
     def get_yc_data(self):
-        with self.Session() as session:
+        session = self.sessionmaker()
+        try:
             results = (
                 session.query(Country.yc_code, MacroData_Info.last_update_date)
                 .join(MacroData_Info, MacroData_Info.country == Country.name)
-                .filter(MacroData_Info.data_name.ilike('YC%'))
                 .distinct(Country.name)
                 .all()
             )
             return results
+
+        except Exception as e:
+            print(f"Error retrieving YC data: {e}")
+            return []
+
+        finally:
+            session.close()
 
 # Usage
 

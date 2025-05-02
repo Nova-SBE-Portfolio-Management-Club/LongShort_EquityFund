@@ -4,9 +4,9 @@ Functions to handle the BLOOMBERG command
 
 import os
 import pandas as pd
+import datetime as dt
 
-
-from database import DB_Engine
+from database import DB_Engine, MacroData_Info
 
 def save_to_csv(companies, filename):
     """Saves the fetched company codes to a CSV file."""
@@ -20,10 +20,35 @@ def save_to_csv(companies, filename):
 def export_yc_data(db: DB_Engine):
     data = db.get_yc_data()
     
-    export_path = "src/bloomberg/exports/"
+    if not(data):
+        # If data is empty
+        countries = db.get_all_countries()
+        macrodata_infos = []
+        for country in countries:
+     
+            for yc in [1,2,5,10]:
+                macrodata_infos.append(
+                    MacroData_Info(
+                        data_name=f'YC_{yc}',
+                        last_update_date=dt.datetime(1998,1,1),
+                        country=country.name,
+                        description=f'Yield Curve {yc} years',
+                        frequency='D',
+                        source='BLOOMBERG')
+                )
+        # Insert macrodata_infos into the database
+        db.insert_macrodata_info(macrodata_infos)
+        # Recall get_yc_data
+        data = db.get_yc_data()
+
+    
+    export_path = "bloomberg/exports/"
     os.makedirs(export_path, exist_ok=True)
 
     df = pd.DataFrame(data, columns=["YC_Ticker", "Last Update Date"])
+    # Edit the YC_Ticker column
+    df["YC_Ticker"] = "YCGT" + df["YC_Ticker"].str.zfill(4) + " Index"
+    
     filename = "yc_data.csv"
     df.to_csv(os.path.join(export_path, filename), index=False)
     print(f"Exported yield curve data for {len(df)} countries to {filename}")

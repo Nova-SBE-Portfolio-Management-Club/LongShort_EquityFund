@@ -482,8 +482,9 @@ class MacroData_Info(Base):
     frequency = Column(String(20), nullable=True)  
     source = Column(String(50), nullable=True)
     
-    def __init__(self, data_name: str, country: str, description: str = None, frequency: str = None, source: str = None):
+    def __init__(self, data_name: str, last_update_date: datetime, country: str, description: str = None, frequency: str = None, source: str = None):
         self.data_name = data_name
+        self.last_update_date = last_update_date
         self.country = country
         self.description = description
         self.frequency = frequency
