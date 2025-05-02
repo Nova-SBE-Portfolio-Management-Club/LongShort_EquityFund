@@ -24,7 +24,7 @@ import yfinance as yf
 import pandas as pd
 import datetime as dt
 
-from database.models import Company, MacroData_Info, MiscData_Info, Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset 
+from database.models import Company, MacroData_Info, MiscData_Info, Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset, YieldCurveData
 
 from typing import List
 
@@ -63,6 +63,7 @@ class DB_Engine(metaclass=SingletonMeta):
         # A session object is responsible for interacting with the database, 
         # executing queries, and committing transactions.
         self.Session = sessionmaker(bind=self.engine)
+        self.session = Session
     
     def connect(self):
         """
@@ -76,6 +77,12 @@ class DB_Engine(metaclass=SingletonMeta):
             self.sessionmaker = sessionmaker(bind=self.engine)
             print("Database connected.")
         return self.engine
+    
+    # def get_session(self):
+    #     """Return the session."""
+    #     if not self.Session:
+    #         self.connect()  # Ensure session is created
+    #     return self.Session()
     
     def insert_pair(self, pair: Pair):
         """
@@ -688,6 +695,64 @@ class DB_Engine(metaclass=SingletonMeta):
             )
             return results
 
+    def insert_bloomberg_codes(self, companies: list[str]):
+        """Inserts a list of Bloomberg company codes into the database."""
+        if not companies:
+            return
+
+        # Get a session
+        with self.connect().begin() as session:  # Automatically commits and handles rollback on failure
+            for code in companies:
+                # Assuming you have a model called `BloombergCompany` mapped to the `bloomberg_companies` table
+                company = Company(company_code=code)
+                session.add(company)
+
+            # Commit all added companies in one transaction
+            session.commit()
+
+        print(f"Inserted {len(companies)} Bloomberg company codes.")
+
+
+    # Assuming this method is inside your DB_Engine class or similar
+    def insert_yc_data(self, yc_data: list, session) -> None:
+        # Ensure yc_data is a DataFrame
+        if isinstance(yc_data, list):
+            yc_data = pd.DataFrame(yc_data)
+
+        for _, row in yc_data.iterrows():
+            # Check if macro_data_info entry exists
+            existing_info = session.query(MacroData_Info).filter_by(
+                country=row['country'],
+                data_name=row['data_name']
+            ).first()
+
+            # If it doesn't exist, add it
+            if not existing_info:
+                session.add(MacroData_Info(
+                    country=row['country'],
+                    data_name=row['data_name'],
+                    description=f"{row['data_name']} for {row['country']}",  # simple placeholder
+                    source="Bloomberg"  # adjust as needed
+                ))
+                session.commit()  # commit here to make sure FK constraint won't fail
+
+            # Now insert the actual macro data
+            session.add(MacroData(
+                country=row['country'],
+                data_name=row['data_name'],
+                date=row['date'],
+                value=row['value']
+            ))
+
+        session.commit()
+
+    
+
+
+
+
+
+
 # Usage
 
 if __name__ == '__main__':  
@@ -697,6 +762,8 @@ if __name__ == '__main__':
     print(db1 is db2)
     
     db1.connect()
-    Ftr = Futures('ES=F','ES1 Index')
-    db1.insert_asset(Ftr)
-    
+    #Ftr = Futures('ES=F','ES1 Index')
+    #db1.insert_asset(Ftr)
+
+    a = db1.get_yc_data()
+
