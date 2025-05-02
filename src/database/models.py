@@ -548,3 +548,13 @@ class MiscData_Info(Base):
 
 ###############################################################################
 ###############################################################################
+
+class YieldCurveData(Base):
+    __tablename__ = 'yield_curve_data'
+
+    yc_ticker = Column(String, primary_key=True)
+    last_update_date = Column(DateTime)
+
+    def __init__(self, yc_ticker: str, last_update_date: datetime):
+        self.yc_ticker = yc_ticker
+        self.last_update_date = last_update_date
