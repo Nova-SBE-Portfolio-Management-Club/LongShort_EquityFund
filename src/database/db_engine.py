@@ -24,7 +24,7 @@ import yfinance as yf
 import pandas as pd
 import datetime as dt
 
-from database.models import Company, MacroData_Info, MiscData_Info, Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset, YieldCurveData
+from database.models import Company, MacroData_Info, MiscData_Info, Futures, MacroData, MiscellData, Pair, PriceData, Country, Asset
 
 from typing import List
 
@@ -718,16 +718,20 @@ class DB_Engine(metaclass=SingletonMeta):
             session.close()
 
 
+
     def insert_bloomberg_codes(self, companies: list[str]):
         """Inserts a list of Bloomberg company codes into the database."""
         if not companies:
             return
 
-        # Get a session
-        with self.connect().begin() as session:  # Automatically commits and handles rollback on failure
+        # Create a session using the sessionmaker
+        Session = sessionmaker(bind=self.engine)
+        
+        with Session() as session:  # Automatically handles committing or rolling back on failure
             for code in companies:
-                # Assuming you have a model called `BloombergCompany` mapped to the `bloomberg_companies` table
-                company = Company(company_code=code)
+                # Truncate the ticker if it exceeds the max length
+                truncated_code = code[:15]  # Keep only the first 15 characters
+                company = Company(ticker=code, name="Unknown", country="Unknown")
                 session.add(company)
 
             # Commit all added companies in one transaction
@@ -736,7 +740,6 @@ class DB_Engine(metaclass=SingletonMeta):
         print(f"Inserted {len(companies)} Bloomberg company codes.")
 
 
-    # Assuming this method is inside your DB_Engine class or similar
     def insert_yc_data(self, yc_data: list, session) -> None:
         # Ensure yc_data is a DataFrame
         if isinstance(yc_data, list):
