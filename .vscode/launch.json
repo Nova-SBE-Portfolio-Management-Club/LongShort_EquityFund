@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run basic_ranking.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/playground/basic_ranking/basic_ranking.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": { "PYTHONPATH": "${workspaceFolder}/src" },
+      "justMyCode": true
+    }
+  ]
+}
