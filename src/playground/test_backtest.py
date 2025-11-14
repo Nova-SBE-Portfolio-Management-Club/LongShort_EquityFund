@@ -8,7 +8,6 @@ a long-short equity strategy.
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 import pandas as pd
 import numpy as np
 from utils import (
@@ -17,7 +16,6 @@ from utils import (
     plot_backtest_results,
     compare_strategies
 )
-
 
 def generate_sample_data(n_days=252, seed=42):
     """
