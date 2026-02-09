@@ -71,6 +71,29 @@ def backtest(
     return results
 
 
+def alpha_beta(
+    returns: pd.Series,
+    benchmark: pd.Series,
+    periods_per_year: int = 252,
+) -> Tuple[float, float]:
+    """
+    Compute alpha and beta versus a benchmark using a simple linear regression:
+    returns = alpha + beta * benchmark + epsilon.
+
+    Alpha is annualized by multiplying the daily intercept by periods_per_year.
+    """
+    aligned = pd.concat([returns, benchmark], axis=1).dropna()
+    if aligned.empty:
+        return float('nan'), float('nan')
+    y = aligned.iloc[:, 0].values
+    x = aligned.iloc[:, 1].values
+    # fit y = a + b*x
+    b, a = np.polyfit(x, y, 1)
+    alpha_daily = a
+    alpha_annual = alpha_daily * periods_per_year
+    return alpha_annual, b
+
+
 def annualized_return(returns: pd.Series, periods_per_year: int = 252) -> float:
     """
     Calculate annualized return.
@@ -115,6 +138,43 @@ def annualized_vol(returns: pd.Series, periods_per_year: int = 252) -> float:
         Annualized volatility as a decimal
     """
     return returns.std() * np.sqrt(periods_per_year)
+
+
+def _infer_periods_per_year(index: pd.Index) -> int:
+    """
+    Best-effort inference of observation frequency to annualize returns sensibly.
+    Falls back to daily (252) if the frequency is unknown.
+    """
+    if not isinstance(index, pd.DatetimeIndex):
+        return 252
+
+    freq = pd.infer_freq(index)
+    if freq:
+        code = freq.upper()
+        if code.startswith(("D", "B")):
+            return 252
+        if code.startswith("W"):
+            return 52
+        if code.startswith("M"):
+            return 12
+        if code.startswith("Q"):
+            return 4
+        if code.startswith(("A", "Y")):
+            return 1
+
+    delta = index.to_series().diff().median()
+    if pd.isna(delta):
+        return 252
+    days = delta / pd.Timedelta(days=1)
+    if days <= 3:
+        return 252
+    if days <= 10:
+        return 52
+    if days <= 40:
+        return 12
+    if days <= 120:
+        return 4
+    return 1
 
 
 def sharpe_ratio(
@@ -193,7 +253,8 @@ def drawdown_curve(returns: pd.Series) -> pd.Series:
 def summary_stats(
     returns: pd.Series,
     risk_free_rate: float = 0.02,
-    periods_per_year: int = 252
+    periods_per_year: Optional[int] = None,
+    benchmark_returns: Optional[pd.Series] = None,
 ) -> Dict[str, float]:
     """
     Calculate comprehensive summary statistics.
@@ -204,14 +265,20 @@ def summary_stats(
         Series of periodic returns
     risk_free_rate : float, default=0.02
         Annual risk-free rate
-    periods_per_year : int, default=252
-        Number of periods in a year
+    periods_per_year : Optional[int], default=None
+        Number of periods in a year. If None, attempt to infer from the index
+        (e.g., daily -> 252, weekly -> 52, monthly -> 12).
+    benchmark_returns : Optional[pd.Series], default=None
+        If provided, compute alpha/beta versus this benchmark.
     
     Returns
     -------
     Dict[str, float]
         Dictionary containing various performance metrics
     """
+    if periods_per_year is None:
+        periods_per_year = _infer_periods_per_year(returns.index)
+
     total_return = (1 + returns).prod() - 1
     ann_return = annualized_return(returns, periods_per_year)
     ann_vol = annualized_vol(returns, periods_per_year)
@@ -243,6 +310,11 @@ def summary_stats(
         'Worst Day': worst_day,
         'Total Days': len(returns)
     }
+
+    if benchmark_returns is not None:
+        a, b = alpha_beta(returns, benchmark_returns, periods_per_year)
+        stats['Alpha (annual)'] = a
+        stats['Beta'] = b
     
     return stats
 
@@ -304,7 +376,7 @@ def plot_backtest_results(
 def compare_strategies(
     strategies: Dict[str, pd.Series],
     risk_free_rate: float = 0.02,
-    periods_per_year: int = 252
+    periods_per_year: Optional[int] = None
 ) -> pd.DataFrame:
     """
     Compare multiple strategies side by side.
@@ -315,8 +387,8 @@ def compare_strategies(
         Dictionary mapping strategy names to their return series
     risk_free_rate : float, default=0.02
         Annual risk-free rate
-    periods_per_year : int, default=252
-        Number of periods in a year
+    periods_per_year : Optional[int], default=None
+        Number of periods in a year; inferred from each series if None.
     
     Returns
     -------

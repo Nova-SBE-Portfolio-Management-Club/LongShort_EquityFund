@@ -11,12 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import pandas as pd
 import numpy as np
-from utils import (
-    backtest,
-    summary_stats,
-    plot_backtest_results,
-    compare_strategies
-)
+from utils import backtest, summary_stats, plot_backtest_results, compare_strategies
 
 
 def generate_sample_data(n_days=252, seed=42):
@@ -33,7 +28,7 @@ def generate_sample_data(n_days=252, seed=42):
     Returns
     -------
     tuple
-        (long_returns, short_returns) as pd.Series
+        (long_returns, short_returns, benchmark_returns) as pd.Series
     """
     np.random.seed(seed)
     
@@ -54,7 +49,14 @@ def generate_sample_data(n_days=252, seed=42):
         name='Short Returns'
     )
     
-    return long_returns, short_returns
+    # Simple benchmark series with modest positive drift
+    benchmark_returns = pd.Series(
+        np.random.normal(0.0002, 0.01, n_days),
+        index=dates,
+        name='Benchmark Returns'
+    )
+    
+    return long_returns, short_returns, benchmark_returns
 
 
 def main():
@@ -68,7 +70,7 @@ def main():
     
     # Generate sample data
     print("Generating sample data...")
-    long_returns, short_returns = generate_sample_data(n_days=252)
+    long_returns, short_returns, benchmark_returns = generate_sample_data(n_days=252)
     print(f"✓ Generated {len(long_returns)} days of return data")
     print()
     
@@ -95,7 +97,7 @@ def main():
     print("PERFORMANCE METRICS")
     print("=" * 70)
     
-    stats = summary_stats(results['returns'], risk_free_rate=0.02)
+    stats = summary_stats(results['returns'], risk_free_rate=0.02, benchmark_returns=benchmark_returns)
     
     print(f"\nReturns:")
     print(f"  Total Return:        {stats['Total Return'] * 100:>8.2f}%")
@@ -105,6 +107,9 @@ def main():
     print(f"\nRisk Metrics:")
     print(f"  Sharpe Ratio:        {stats['Sharpe Ratio']:>8.2f}")
     print(f"  Max Drawdown:        {stats['Max Drawdown'] * 100:>8.2f}%")
+    if 'Alpha (annual)' in stats and 'Beta' in stats:
+        print(f"  Alpha (annual):      {stats['Alpha (annual)'] * 100:>8.2f}%")
+        print(f"  Beta:                {stats['Beta']:>8.3f}")
     
     print(f"\nTrading Statistics:")
     print(f"  Total Days:          {stats['Total Days']:>8.0f}")
