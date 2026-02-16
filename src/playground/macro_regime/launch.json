@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Backtest (macro_regime.main)",
+      "type": "python",
+      "request": "launch",
+      "module": "macro_regime.main",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "Run backtest.py directly",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/macro_regime/backtest.py",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "Run Jupyter (macro_regime/notebooks)",
+      "type": "python",
+      "request": "launch",
+      "module": "jupyter",
+      "args": [
+        "notebook"
+      ],
+      "cwd": "${workspaceFolder}/macro_regime/notebooks",
+      "justMyCode": true
+    }
+  ]
+}

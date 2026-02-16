@@ -1,0 +1,16 @@
+__pycache__/
+.yfinance_cache/
+*.pyc
+*.pyo
+
+# Backtest outputs
+reports/*.csv
+reports/*.txt
+
+# Generated local data artifacts
+data/dropped_rows.csv
+data/quality_report.csv
+data/frozen_config.json
+
+# Windows metadata artifacts
+*:Zone.Identifier
