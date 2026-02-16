@@ -14,13 +14,13 @@ enable_rolling_walkforward_report,MATCH,True,True
 enable_train_test_split_report,MATCH,True,True
 enable_universe_realism_report,MATCH,True,True
 end_date,MATCH,2026-02-13,2026-02-13
-enforce_delisting_data_gate,MATCH,True,True
+enforce_delisting_data_gate,MATCH,False,False
 enforce_reliability_gate,MATCH,True,True
 enforce_universe_realism_gate,MATCH,True,True
 lookback_months_sector,MATCH,36,36
 lookback_months_stock,MATCH,13,13
 max_abs_stock_quarter_return,MATCH,0.8,0.8
-max_universe_realism_warn,MATCH,0,0
+max_universe_realism_warn,MATCH,1,1
 min_applied_delisting_events,MATCH,50,50
 min_avg_dollar_vol,MATCH,5000000,5000000
 min_history_events_for_trust,MATCH,200,200

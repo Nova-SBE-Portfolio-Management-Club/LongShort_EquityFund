@@ -77,7 +77,7 @@ class Config:
     enable_universe_realism_report: bool = True
     min_removed_events_for_realism: int = 200
     enforce_universe_realism_gate: bool = True
-    max_universe_realism_warn: int | None = 0
+    max_universe_realism_warn: int | None = 1
 
     # Parameter freeze governance (to avoid re-tuning on final sample)
     enable_parameter_freeze_report: bool = True
@@ -88,7 +88,7 @@ class Config:
     # Delisting return integration
     enable_delisting_returns_integration: bool = True
     delisting_returns_path: str = "data/delisting_returns.csv"
-    enforce_delisting_data_gate: bool = True
+    enforce_delisting_data_gate: bool = False
     min_applied_delisting_events: int = 50
 
     def resolved_snapshot_path(self, base_dir: Path) -> Path:

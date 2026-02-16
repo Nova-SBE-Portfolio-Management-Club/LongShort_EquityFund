@@ -3,4 +3,5 @@ constituent_price_overlap,PASS,Overlap symbols=501/503 (99.60%)
 point_in_time_columns,PASS,DateAdded present=True DateRemoved present=False
 history_events_presence,PASS,History rows=738
 removed_events_count,PASS,Removed events=367 (target >= 200 for stronger survivorship control)
+delisting_returns_rows,WARN,Delisting return rows available: 0
 symbols_disappearing_before_end,PASS,Symbols with no prices in final 12m: 113 (can indicate delisting/death coverage rather than survivor-only panel)

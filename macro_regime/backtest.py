@@ -213,7 +213,6 @@ def run_backtest_pipeline(output_dir: str | Path | None = None) -> tuple[pd.Data
             monthly_returns_from_prices,
             quarter_returns_from_monthly,
         )
-        from .report import summarize
         from .universe import load_sp500_constituents, load_constituents_history
         from .data_checks import run_data_checks
         from .validation import run_bias_diagnostics
@@ -235,7 +234,6 @@ def run_backtest_pipeline(output_dir: str | Path | None = None) -> tuple[pd.Data
             monthly_returns_from_prices,
             quarter_returns_from_monthly,
         )
-        from report import summarize
         from universe import load_sp500_constituents, load_constituents_history
         from data_checks import run_data_checks
         from validation import run_bias_diagnostics
@@ -535,34 +533,6 @@ def run_backtest_pipeline(output_dir: str | Path | None = None) -> tuple[pd.Data
             for sec, picks in r.selected_stocks.items():
                 f.write(f"  - {sec}: {picks}\n")
 
-    print(summarize(bt_df))
-    print("\n=== DATA CHECKS ===")
-    print(dq_txt.read_text(encoding="utf-8"))
-    print("\n=== DIAGNOSTICS ===")
-    print(diagnostics_text)
-    print("\n=== RELIABILITY ===")
-    print(reliability_text)
-    if cfg.enable_universe_realism_report:
-        print("\n=== UNIVERSE REALISM ===")
-        print(ur_txt.read_text(encoding="utf-8"))
-    if cfg.enable_delisting_returns_integration:
-        print("\n=== DELISTING INTEGRATION ===")
-        print(delist_txt.read_text(encoding="utf-8"))
-    if cfg.enable_period_backtests:
-        print("\n=== PERIOD BACKTESTS ===")
-        print(period_txt.read_text(encoding="utf-8"))
-    if cfg.enable_train_test_split_report:
-        print("\n=== TRAIN/TEST SPLIT ===")
-        print(tt_txt.read_text(encoding="utf-8"))
-    if cfg.enable_rolling_walkforward_report:
-        print("\n=== ROLLING WALK-FORWARD ===")
-        print(rw_txt.read_text(encoding="utf-8"))
-    if cfg.enable_bootstrap_report:
-        print("\n=== BOOTSTRAP SIGNIFICANCE ===")
-        print(bs_txt.read_text(encoding="utf-8"))
-    if cfg.enable_parameter_freeze_report:
-        print("\n=== PARAMETER FREEZE ===")
-        print(pf_txt.read_text(encoding="utf-8"))
     print(f"\nSaved: {bt_path}, {qlog_path}, {diagnostics_path}, {diagnostics_txt_path}, {dq_csv}, {dq_txt}, {reliability_txt_path}")
     return bt_df, bt_details
 
