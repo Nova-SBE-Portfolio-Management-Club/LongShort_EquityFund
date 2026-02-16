@@ -1,15 +1,84 @@
-# Ignore pychache
+# ============================================================================
+# LongShort Equity Fund - Git Ignore File
+# ============================================================================
 
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Ignore virtual environment
-
+# Virtual Environments
+venv/
 ls_venv/
+ENV/
+env/
+.venv
 
-# Ignore env variables
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
 
-.env
+# Data & Cache Files
+*.cache
+.data_cache/
+.stress_test_cache/
+*.pkl
+*.pickle
+.cache/
 
-# Ignore Bloomberg Exports (but not the folder)
-src/bloomberg/exports/*        
-!src/bloomberg/exports/
+# API Keys & Secrets (IMPORTANT!)
+**/config_private.py
+**/*_secrets.py
+**/.env
+.env.local
+credentials.json
+**/api_keys.txt
+
+# Model Outputs & Logs
+*.log
+sector_analysis.log
+stress_test_v3.log
+results/logs/
+
+# IDE Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Test Coverage
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Keep specific important data files (override)
+!models/data/*.csv
+!results/stress_tests/*.csv

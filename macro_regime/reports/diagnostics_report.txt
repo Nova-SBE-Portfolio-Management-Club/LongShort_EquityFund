@@ -1,0 +1,9 @@
+Bias/Leakage Diagnostics Summary
+Benchmark source: SPY column from local stock_prices.csv.
+Universe source: point-in-time filter enabled using DateAdded plus Added/Removed history events.
+Main strategy Sharpe: 1.172
+Tests run: Strategy, EqualWeight baseline, RandomSector baseline, StaleFeatures, LeakedFeatures, ShuffledLabels
+Flags:
+- Stale-feature test did not degrade much; check feature/label date alignment.
+
+Important residual risk: event file is sparse/template-level; use full constituent history and delisting returns for complete bias control.

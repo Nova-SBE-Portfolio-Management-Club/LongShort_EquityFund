@@ -1,0 +1,9 @@
+Reliability Score Report
+Score: 66.0/100
+Target: 65.0
+Status: PASS
+Drivers:
+- Data checks WARN count: 1
+- Coverage warning present.
+- Stale-feature test does not degrade enough.
+Action: acceptable to present with disclosed assumptions.

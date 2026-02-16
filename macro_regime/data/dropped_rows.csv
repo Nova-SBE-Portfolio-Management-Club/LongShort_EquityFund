@@ -1,0 +1,540 @@
+Ticker,DroppedCount,Reason
+MCK,315,Zombie/Out-of-Window data removed
+USL,219,Zombie/Out-of-Window data removed
+SUN,162,Zombie/Out-of-Window data removed
+CPWR,170,Zombie/Out-of-Window data removed
+GRN,78,Zombie/Out-of-Window data removed
+AN,315,Zombie/Out-of-Window data removed
+SBUX,6,Zombie/Out-of-Window data removed
+TMC,54,Zombie/Out-of-Window data removed
+INTU,12,Zombie/Out-of-Window data removed
+OI,207,Zombie/Out-of-Window data removed
+CCK,303,Zombie/Out-of-Window data removed
+GLK,137,Zombie/Out-of-Window data removed
+STZ,67,Zombie/Out-of-Window data removed
+T,244,Zombie/Out-of-Window data removed
+AMZN,71,Zombie/Out-of-Window data removed
+ABS,11,Zombie/Out-of-Window data removed
+AVB,85,Zombie/Out-of-Window data removed
+ADCT,70,Zombie/Out-of-Window data removed
+ICE,22,Zombie/Out-of-Window data removed
+TDC,105,Zombie/Out-of-Window data removed
+EXPE,27,Zombie/Out-of-Window data removed
+GME,189,Zombie/Out-of-Window data removed
+RRC,189,Zombie/Out-of-Window data removed
+MEE,82,Zombie/Out-of-Window data removed
+BC,213,Zombie/Out-of-Window data removed
+CFC,136,Zombie/Out-of-Window data removed
+CRM,51,Zombie/Out-of-Window data removed
+FAST,105,Zombie/Out-of-Window data removed
+WB,143,Zombie/Out-of-Window data removed
+VTR,111,Zombie/Out-of-Window data removed
+HRL,111,Zombie/Out-of-Window data removed
+FTI,157,Zombie/Out-of-Window data removed
+TEL,28,Zombie/Out-of-Window data removed
+PCS,7,Zombie/Out-of-Window data removed
+FMC,128,Zombie/Out-of-Window data removed
+CBE,88,Zombie/Out-of-Window data removed
+SGP,1,Zombie/Out-of-Window data removed
+CIEN,194,Zombie/Out-of-Window data removed
+V,21,Zombie/Out-of-Window data removed
+DYN,66,Zombie/Out-of-Window data removed
+ROST,120,Zombie/Out-of-Window data removed
+KBH,195,Zombie/Out-of-Window data removed
+MBI,195,Zombie/Out-of-Window data removed
+CLF,263,Zombie/Out-of-Window data removed
+HP,192,Zombie/Out-of-Window data removed
+RX,10,Zombie/Out-of-Window data removed
+KMX,130,Zombie/Out-of-Window data removed
+CB,127,Zombie/Out-of-Window data removed
+SII,187,Zombie/Out-of-Window data removed
+PTV,78,Zombie/Out-of-Window data removed
+KG,183,Zombie/Out-of-Window data removed
+FFIV,132,Zombie/Out-of-Window data removed
+NYT,183,Zombie/Out-of-Window data removed
+NFLX,103,Zombie/Out-of-Window data removed
+NFX,133,Zombie/Out-of-Window data removed
+MMI,149,Zombie/Out-of-Window data removed
+EW,132,Zombie/Out-of-Window data removed
+BLK,136,Zombie/Out-of-Window data removed
+CMG,63,Zombie/Out-of-Window data removed
+RSH,70,Zombie/Out-of-Window data removed
+MI,124,Zombie/Out-of-Window data removed
+ACN,120,Zombie/Out-of-Window data removed
+NSM,77,Zombie/Out-of-Window data removed
+MOS,141,Zombie/Out-of-Window data removed
+ITT,172,Zombie/Out-of-Window data removed
+BWA,156,Zombie/Out-of-Window data removed
+DLTR,144,Zombie/Out-of-Window data removed
+PRGO,198,Zombie/Out-of-Window data removed
+TLAB,25,Zombie/Out-of-Window data removed
+TRIP,75,Zombie/Out-of-Window data removed
+CEG,1,Zombie/Out-of-Window data removed
+CCI,147,Zombie/Out-of-Window data removed
+MHS,73,Zombie/Out-of-Window data removed
+FOSL,270,Zombie/Out-of-Window data removed
+EP,166,Zombie/Out-of-Window data removed
+KMI,15,Zombie/Out-of-Window data removed
+LRCX,150,Zombie/Out-of-Window data removed
+SLE,85,Zombie/Out-of-Window data removed
+MNST,150,Zombie/Out-of-Window data removed
+STX,115,Zombie/Out-of-Window data removed
+GR,67,Zombie/Out-of-Window data removed
+SHLD,30,Zombie/Out-of-Window data removed
+LYB,29,Zombie/Out-of-Window data removed
+ADT,98,Zombie/Out-of-Window data removed
+PNR,154,Zombie/Out-of-Window data removed
+DV,59,Zombie/Out-of-Window data removed
+MDLZ,136,Zombie/Out-of-Window data removed
+DG,37,Zombie/Out-of-Window data removed
+GRMN,144,Zombie/Out-of-Window data removed
+TIE,79,Zombie/Out-of-Window data removed
+PVH,200,Zombie/Out-of-Window data removed
+REGN,160,Zombie/Out-of-Window data removed
+MAC,236,Zombie/Out-of-Window data removed
+GM,31,Zombie/Out-of-Window data removed
+ZTS,4,Zombie/Out-of-Window data removed
+FHN,153,Zombie/Out-of-Window data removed
+NWSA,1,Zombie/Out-of-Window data removed
+S,57,Zombie/Out-of-Window data removed
+BMC,103,Zombie/Out-of-Window data removed
+DAL,76,Zombie/Out-of-Window data removed
+AME,165,Zombie/Out-of-Window data removed
+AMD,42,Zombie/Out-of-Window data removed
+VRTX,165,Zombie/Out-of-Window data removed
+RIG,270,Zombie/Out-of-Window data removed
+DELL,97,Zombie/Out-of-Window data removed
+ALLE,1,Zombie/Out-of-Window data removed
+MOLX,1,Zombie/Out-of-Window data removed
+ANF,147,Zombie/Out-of-Window data removed
+MHK,171,Zombie/Out-of-Window data removed
+TER,81,Zombie/Out-of-Window data removed
+LIFE,2,Zombie/Out-of-Window data removed
+TSCO,169,Zombie/Out-of-Window data removed
+ESS,172,Zombie/Out-of-Window data removed
+GOOGL,116,Zombie/Out-of-Window data removed
+UA,45,Zombie/Out-of-Window data removed
+BEAM,73,Zombie/Out-of-Window data removed
+SLM,142,Zombie/Out-of-Window data removed
+NAVI,94,Zombie/Out-of-Window data removed
+AVGO,57,Zombie/Out-of-Window data removed
+AMG,250,Zombie/Out-of-Window data removed
+MLM,175,Zombie/Out-of-Window data removed
+GHC,138,Zombie/Out-of-Window data removed
+UHS,177,Zombie/Out-of-Window data removed
+BTU,107,Zombie/Out-of-Window data removed
+URI,177,Zombie/Out-of-Window data removed
+JBL,109,Zombie/Out-of-Window data removed
+RCL,180,Zombie/Out-of-Window data removed
+HCA,46,Zombie/Out-of-Window data removed
+SWKS,183,Zombie/Out-of-Window data removed
+HSIC,183,Zombie/Out-of-Window data removed
+AAL,132,Zombie/Out-of-Window data removed
+EQIX,175,Zombie/Out-of-Window data removed
+NBR,132,Zombie/Out-of-Window data removed
+SLG,243,Zombie/Out-of-Window data removed
+O,184,Zombie/Out-of-Window data removed
+QRVO,20,Zombie/Out-of-Window data removed
+TEG,76,Zombie/Out-of-Window data removed
+JBHT,187,Zombie/Out-of-Window data removed
+ATI,128,Zombie/Out-of-Window data removed
+AAP,195,Zombie/Out-of-Window data removed
+NE,57,Zombie/Out-of-Window data removed
+SIG,283,Zombie/Out-of-Window data removed
+UAL,115,Zombie/Out-of-Window data removed
+NWS,27,Zombie/Out-of-Window data removed
+VRSK,72,Zombie/Out-of-Window data removed
+HPE,1,Zombie/Out-of-Window data removed
+GNW,124,Zombie/Out-of-Window data removed
+SYF,16,Zombie/Out-of-Window data removed
+ILMN,205,Zombie/Out-of-Window data removed
+CHD,192,Zombie/Out-of-Window data removed
+EXR,137,Zombie/Out-of-Window data removed
+CFG,17,Zombie/Out-of-Window data removed
+FRT,194,Zombie/Out-of-Window data removed
+PCL,7,Zombie/Out-of-Window data removed
+CNX,120,Zombie/Out-of-Window data removed
+AWK,95,Zombie/Out-of-Window data removed
+UDR,195,Zombie/Out-of-Window data removed
+POM,5,Zombie/Out-of-Window data removed
+HOLX,195,Zombie/Out-of-Window data removed
+CNC,171,Zombie/Out-of-Window data removed
+CAM,5,Zombie/Out-of-Window data removed
+THC,119,Zombie/Out-of-Window data removed
+ULTA,102,Zombie/Out-of-Window data removed
+GPN,183,Zombie/Out-of-Window data removed
+AYI,266,Zombie/Out-of-Window data removed
+ALK,224,Zombie/Out-of-Window data removed
+SNDK,9,Zombie/Out-of-Window data removed
+DLR,139,Zombie/Out-of-Window data removed
+LKQ,154,Zombie/Out-of-Window data removed
+CCE,10,Zombie/Out-of-Window data removed
+AJG,197,Zombie/Out-of-Window data removed
+TDG,123,Zombie/Out-of-Window data removed
+LNT,199,Zombie/Out-of-Window data removed
+TE,74,Zombie/Out-of-Window data removed
+ALB,199,Zombie/Out-of-Window data removed
+MTD,201,Zombie/Out-of-Window data removed
+EMC,34,Zombie/Out-of-Window data removed
+CHTR,80,Zombie/Out-of-Window data removed
+HOT,7,Zombie/Out-of-Window data removed
+COO,201,Zombie/Out-of-Window data removed
+COTY,105,Zombie/Out-of-Window data removed
+AA,112,Zombie/Out-of-Window data removed
+EVHC,41,Zombie/Out-of-Window data removed
+MAA,204,Zombie/Out-of-Window data removed
+IDXX,205,Zombie/Out-of-Window data removed
+SE,101,Zombie/Out-of-Window data removed
+INCY,206,Zombie/Out-of-Window data removed
+PBI,108,Zombie/Out-of-Window data removed
+CBOE,81,Zombie/Out-of-Window data removed
+REG,207,Zombie/Out-of-Window data removed
+HAR,61,Zombie/Out-of-Window data removed
+SNPS,207,Zombie/Out-of-Window data removed
+RJF,207,Zombie/Out-of-Window data removed
+ARE,207,Zombie/Out-of-Window data removed
+URBN,108,Zombie/Out-of-Window data removed
+FSLR,69,Zombie/Out-of-Window data removed
+DXC,237,Zombie/Out-of-Window data removed
+IT,208,Zombie/Out-of-Window data removed
+TGNA,105,Zombie/Out-of-Window data removed
+INFO,17,Zombie/Out-of-Window data removed
+HLT,42,Zombie/Out-of-Window data removed
+ALGN,197,Zombie/Out-of-Window data removed
+R,105,Zombie/Out-of-Window data removed
+BKR,211,Zombie/Out-of-Window data removed
+BBBY,104,Zombie/Out-of-Window data removed
+AOS,211,Zombie/Out-of-Window data removed
+MUR,104,Zombie/Out-of-Window data removed
+RMD,211,Zombie/Out-of-Window data removed
+MGM,211,Zombie/Out-of-Window data removed
+PKG,210,Zombie/Out-of-Window data removed
+BHF,84,Zombie/Out-of-Window data removed
+DOW,1,Zombie/Out-of-Window data removed
+DD,21,Zombie/Out-of-Window data removed
+SBAC,213,Zombie/Out-of-Window data removed
+SPLS,2,Zombie/Out-of-Window data removed
+CDNS,213,Zombie/Out-of-Window data removed
+NCLH,57,Zombie/Out-of-Window data removed
+HII,82,Zombie/Out-of-Window data removed
+IPGP,180,Zombie/Out-of-Window data removed
+TTWO,219,Zombie/Out-of-Window data removed
+NKTR,296,Zombie/Out-of-Window data removed
+MSCI,125,Zombie/Out-of-Window data removed
+EVRG,222,Zombie/Out-of-Window data removed
+BR,135,Zombie/Out-of-Window data removed
+CPRT,223,Zombie/Out-of-Window data removed
+ANET,50,Zombie/Out-of-Window data removed
+ROL,226,Zombie/Out-of-Window data removed
+FTNT,107,Zombie/Out-of-Window data removed
+CA,27,Zombie/Out-of-Window data removed
+KEYS,49,Zombie/Out-of-Window data removed
+EQT,47,Zombie/Out-of-Window data removed
+JKHY,227,Zombie/Out-of-Window data removed
+LW,25,Zombie/Out-of-Window data removed
+COL,24,Zombie/Out-of-Window data removed
+FANG,74,Zombie/Out-of-Window data removed
+CE,179,Zombie/Out-of-Window data removed
+PCG,45,Zombie/Out-of-Window data removed
+TFX,241,Zombie/Out-of-Window data removed
+ATO,230,Zombie/Out-of-Window data removed
+GT,85,Zombie/Out-of-Window data removed
+WAB,230,Zombie/Out-of-Window data removed
+FLR,81,Zombie/Out-of-Window data removed
+CTVA,1,Zombie/Out-of-Window data removed
+MAT,81,Zombie/Out-of-Window data removed
+AMCR,85,Zombie/Out-of-Window data removed
+MKTX,182,Zombie/Out-of-Window data removed
+TMUS,147,Zombie/Out-of-Window data removed
+LDOS,154,Zombie/Out-of-Window data removed
+IEX,236,Zombie/Out-of-Window data removed
+APC,1,Zombie/Out-of-Window data removed
+CDW,75,Zombie/Out-of-Window data removed
+JEF,78,Zombie/Out-of-Window data removed
+NVR,237,Zombie/Out-of-Window data removed
+LVS,178,Zombie/Out-of-Window data removed
+NOW,89,Zombie/Out-of-Window data removed
+WRB,240,Zombie/Out-of-Window data removed
+ODFL,240,Zombie/Out-of-Window data removed
+STI,46,Zombie/Out-of-Window data removed
+STE,240,Zombie/Out-of-Window data removed
+ZBRA,240,Zombie/Out-of-Window data removed
+LYV,168,Zombie/Out-of-Window data removed
+PAYC,69,Zombie/Out-of-Window data removed
+HWM,41,Zombie/Out-of-Window data removed
+CARR,1,Zombie/Out-of-Window data removed
+OTIS,1,Zombie/Out-of-Window data removed
+M,71,Zombie/Out-of-Window data removed
+DXCM,181,Zombie/Out-of-Window data removed
+CPRI,70,Zombie/Out-of-Window data removed
+DPZ,190,Zombie/Out-of-Window data removed
+WST,245,Zombie/Out-of-Window data removed
+TYL,246,Zombie/Out-of-Window data removed
+HOG,69,Zombie/Out-of-Window data removed
+TDY,246,Zombie/Out-of-Window data removed
+BIO,264,Zombie/Out-of-Window data removed
+ETSY,83,Zombie/Out-of-Window data removed
+HRB,66,Zombie/Out-of-Window data removed
+KSS,66,Zombie/Out-of-Window data removed
+POOL,250,Zombie/Out-of-Window data removed
+VNT,61,Zombie/Out-of-Window data removed
+AIV,63,Zombie/Out-of-Window data removed
+TSLA,126,Zombie/Out-of-Window data removed
+ENPH,112,Zombie/Out-of-Window data removed
+TRMB,253,Zombie/Out-of-Window data removed
+MPWR,195,Zombie/Out-of-Window data removed
+NXPI,127,Zombie/Out-of-Window data removed
+FLS,60,Zombie/Out-of-Window data removed
+PENN,297,Zombie/Out-of-Window data removed
+CZR,84,Zombie/Out-of-Window data removed
+GNRC,133,Zombie/Out-of-Window data removed
+XRX,60,Zombie/Out-of-Window data removed
+PTC,256,Zombie/Out-of-Window data removed
+CRL,251,Zombie/Out-of-Window data removed
+OGN,30,Zombie/Out-of-Window data removed
+MRNA,31,Zombie/Out-of-Window data removed
+TECH,260,Zombie/Out-of-Window data removed
+MTCH,261,Zombie/Out-of-Window data removed
+BRO,261,Zombie/Out-of-Window data removed
+NOV,54,Zombie/Out-of-Window data removed
+UNM,54,Zombie/Out-of-Window data removed
+EPAM,118,Zombie/Out-of-Window data removed
+SBNY,19,Zombie/Out-of-Window data removed
+WU,51,Zombie/Out-of-Window data removed
+FDS,264,Zombie/Out-of-Window data removed
+SEDG,108,Zombie/Out-of-Window data removed
+LEG,51,Zombie/Out-of-Window data removed
+NDSN,266,Zombie/Out-of-Window data removed
+MOH,224,Zombie/Out-of-Window data removed
+CPT,268,Zombie/Out-of-Window data removed
+WBD,201,Zombie/Out-of-Window data removed
+VICI,53,Zombie/Out-of-Window data removed
+KDP,169,Zombie/Out-of-Window data removed
+ON,265,Zombie/Out-of-Window data removed
+UAA,45,Zombie/Out-of-Window data removed
+CSGP,273,Zombie/Out-of-Window data removed
+INVH,67,Zombie/Out-of-Window data removed
+TRGP,142,Zombie/Out-of-Window data removed
+ACGL,275,Zombie/Out-of-Window data removed
+MBC,39,Zombie/Out-of-Window data removed
+STLD,276,Zombie/Out-of-Window data removed
+GEHC,1,Zombie/Out-of-Window data removed
+VNO,38,Zombie/Out-of-Window data removed
+PODD,190,Zombie/Out-of-Window data removed
+BG,259,Zombie/Out-of-Window data removed
+LUMN,36,Zombie/Out-of-Window data removed
+FICO,279,Zombie/Out-of-Window data removed
+AXON,263,Zombie/Out-of-Window data removed
+PANW,131,Zombie/Out-of-Window data removed
+KVUE,3,Zombie/Out-of-Window data removed
+NWL,30,Zombie/Out-of-Window data removed
+ABNB,33,Zombie/Out-of-Window data removed
+LNC,30,Zombie/Out-of-Window data removed
+BX,195,Zombie/Out-of-Window data removed
+HUBB,286,Zombie/Out-of-Window data removed
+LULU,195,Zombie/Out-of-Window data removed
+BLDR,222,Zombie/Out-of-Window data removed
+SEE,27,Zombie/Out-of-Window data removed
+UBER,55,Zombie/Out-of-Window data removed
+ZION,24,Zombie/Out-of-Window data removed
+DECK,291,Zombie/Out-of-Window data removed
+WHR,24,Zombie/Out-of-Window data removed
+SMCI,204,Zombie/Out-of-Window data removed
+SOLV,1,Zombie/Out-of-Window data removed
+GEV,1,Zombie/Out-of-Window data removed
+XRAY,23,Zombie/Out-of-Window data removed
+VFC,23,Zombie/Out-of-Window data removed
+VST,91,Zombie/Out-of-Window data removed
+GDDY,111,Zombie/Out-of-Window data removed
+CMA,20,Zombie/Out-of-Window data removed
+CRWD,60,Zombie/Out-of-Window data removed
+RHI,21,Zombie/Out-of-Window data removed
+KKR,167,Zombie/Out-of-Window data removed
+PLTR,48,Zombie/Out-of-Window data removed
+ERIE,297,Zombie/Out-of-Window data removed
+AMTM,15,Zombie/Out-of-Window data removed
+BBWI,17,Zombie/Out-of-Window data removed
+TPL,299,Zombie/Out-of-Window data removed
+APO,165,Zombie/Out-of-Window data removed
+LII,300,Zombie/Out-of-Window data removed
+WDAY,146,Zombie/Out-of-Window data removed
+EXE,49,Zombie/Out-of-Window data removed
+WSM,303,Zombie/Out-of-Window data removed
+TKO,303,Zombie/Out-of-Window data removed
+DASH,51,Zombie/Out-of-Window data removed
+COIN,49,Zombie/Out-of-Window data removed
+DDOG,70,Zombie/Out-of-Window data removed
+TTD,106,Zombie/Out-of-Window data removed
+XYZ,116,Zombie/Out-of-Window data removed
+IBKR,219,Zombie/Out-of-Window data removed
+EME,309,Zombie/Out-of-Window data removed
+APP,53,Zombie/Out-of-Window data removed
+HOOD,50,Zombie/Out-of-Window data removed
+SOLS,3,Zombie/Out-of-Window data removed
+EMN,4,Zombie/Out-of-Window data removed
+ARES,139,Zombie/Out-of-Window data removed
+FIX,312,Zombie/Out-of-Window data removed
+CVNA,104,Zombie/Out-of-Window data removed
+CRH,312,Zombie/Out-of-Window data removed
+DAY,1,Zombie/Out-of-Window data removed
+FB,All,Merged into META
+VIAB,All,Renamed to PARA
+STI,All,Merged into TFC
+LLTC,All,Merged into ADI
+GME,All,Merged into GME
+GOOG,All,Merged into GOOGL
+FOX,All,Merged into FOXA
+CBE,1,Bad tick removed (2000-07-31)
+EP,1,Bad tick removed (2001-01-31)
+CBE,1,Bad tick removed (2006-05-31)
+CBE,1,Bad tick removed (2006-08-31)
+CFC,1,Bad tick removed (2007-01-31)
+TIE,1,Bad tick removed (2010-04-30)
+TIE,1,Bad tick removed (2011-01-31)
+CPWR,1,Bad tick removed (2011-05-31)
+TIE,1,Bad tick removed (2012-04-30)
+NCC,1,Bad tick removed (2013-08-31)
+NCC,1,Bad tick removed (2013-11-30)
+NCC,1,Bad tick removed (2017-05-31)
+NCC,1,Bad tick removed (2018-07-31)
+APA,1,Bad tick removed (2020-03-31)
+CBE,1,Strict Outlier Removal (587.50%)
+TIE,1,Strict Outlier Removal (94.44%)
+CBE,1,Strict Outlier Removal (411.92%)
+CBE,1,Strict Outlier Removal (80.47%)
+CBE,1,Strict Outlier Removal (669.18%)
+CBE,1,Strict Outlier Removal (92.07%)
+CBE,1,Strict Outlier Removal (86.30%)
+EP,1,Strict Outlier Removal (92.31%)
+PWR,1,Reversion Outlier (80.65%)
+EP,1,Strict Outlier Removal (400.00%)
+EP,1,Strict Outlier Removal (266.67%)
+CBE,1,Strict Outlier Removal (212.50%)
+CBE,1,Strict Outlier Removal (87.50%)
+CBE,1,Strict Outlier Removal (3208.14%)
+CBE,1,Strict Outlier Removal (97.27%)
+CBE,1,Strict Outlier Removal (4114.29%)
+CBE,1,Strict Outlier Removal (97.38%)
+CBE,1,Strict Outlier Removal (4346.80%)
+CBE,1,Strict Outlier Removal (98.21%)
+CBE,1,Strict Outlier Removal (5372.88%)
+CBE,1,Strict Outlier Removal (98.93%)
+EP,1,Strict Outlier Removal (95.45%)
+CBE,1,Strict Outlier Removal (7650.00%)
+CPWR,1,Strict Outlier Removal (100.00%)
+EP,1,Strict Outlier Removal (185.71%)
+EP,1,Strict Outlier Removal (107.45%)
+TIE,1,Strict Outlier Removal (177887.96%)
+CPWR,1,Strict Outlier Removal (100.00%)
+CPWR,1,Strict Outlier Removal (175.00%)
+EP,1,Strict Outlier Removal (86.67%)
+CPWR,1,Strict Outlier Removal (300.00%)
+NCC,1,Strict Outlier Removal (189.60%)
+NCC,1,Strict Outlier Removal (163.51%)
+CBE,1,Strict Outlier Removal (99.91%)
+NCC,1,Strict Outlier Removal (233.33%)
+NCC,1,Strict Outlier Removal (80.96%)
+NCC,1,Strict Outlier Removal (660.39%)
+NCC,1,Strict Outlier Removal (89.69%)
+NCC,1,Strict Outlier Removal (816.27%)
+NCC,1,Strict Outlier Removal (242.86%)
+NCC,1,Strict Outlier Removal (359.91%)
+NCC,1,Strict Outlier Removal (281.68%)
+NCC,1,Strict Outlier Removal (247.33%)
+NCC,1,Strict Outlier Removal (249.65%)
+NCC,1,Strict Outlier Removal (147.49%)
+NCC,1,Strict Outlier Removal (164.01%)
+NCC,1,Strict Outlier Removal (268.81%)
+NCC,1,Strict Outlier Removal (187.78%)
+NCC,1,Strict Outlier Removal (161.87%)
+NCC,1,Strict Outlier Removal (133.39%)
+NCC,1,Strict Outlier Removal (144.73%)
+NCC,1,Strict Outlier Removal (128.95%)
+NCC,1,Strict Outlier Removal (126.42%)
+NCC,1,Strict Outlier Removal (117.82%)
+GME,All,Excluded: Data Download Failed
+BATCH,832,Zombie Data Removal (Strict Window)
+CBE,1,"Outlier Removal (adjustment_issue, 575.50%)"
+CIEN,1,"Outlier Removal (adjustment_issue, 143.52%)"
+BKNG,1,"Outlier Removal (adjustment_issue, 102.38%)"
+WDC,1,"Outlier Removal (adjustment_issue, 116.62%)"
+ISRG,1,"Outlier Removal (adjustment_issue, 109.46%)"
+CBE,1,"Outlier Removal (adjustment_issue, 1160.27%)"
+AKAM,1,"Outlier Removal (adjustment_issue, 112.37%)"
+AMT,1,"Outlier Removal (adjustment_issue, 175.89%)"
+GLW,1,"Outlier Removal (adjustment_issue, 136.90%)"
+SEE,1,"Outlier Removal (adjustment_issue, 149.35%)"
+EP,1,"Outlier Removal (adjustment_issue, 200.00%)"
+CBE,1,"Outlier Removal (adjustment_issue, 212.50%)"
+CBE,1,"Outlier Removal (adjustment_issue, 3354.07%)"
+CBE,1,"Outlier Removal (adjustment_issue, 4464.29%)"
+CBE,1,"Outlier Removal (adjustment_issue, 4484.62%)"
+CBE,1,"Outlier Removal (adjustment_issue, 5530.51%)"
+EP,1,"Outlier Removal (adjustment_issue, 109.09%)"
+CBE,1,"Outlier Removal (adjustment_issue, 7946.30%)"
+RX,1,"Outlier Removal (adjustment_issue, 139.44%)"
+CFC,1,"Outlier Removal (adjustment_issue, 147.42%)"
+MBI,1,"Outlier Removal (adjustment_issue, 173.52%)"
+CPWR,1,"Outlier Removal (adjustment_issue, 120.00%)"
+GR,1,"Outlier Removal (adjustment_issue, 200.00%)"
+EP,1,"Outlier Removal (adjustment_issue, 185.71%)"
+F,1,"Outlier Removal (adjustment_issue, 127.38%)"
+GNW,1,"Outlier Removal (adjustment_issue, 150.85%)"
+RX,1,"Outlier Removal (adjustment_issue, 130.56%)"
+AIG,1,"Outlier Removal (adjustment_issue, 244.98%)"
+EP,1,"Outlier Removal (adjustment_issue, 123.40%)"
+GR,1,"Outlier Removal (adjustment_issue, 233.33%)"
+TIE,1,"Outlier Removal (adjustment_issue, 227758.98%)"
+MEE,1,"Outlier Removal (adjustment_issue, 7819.68%)"
+CPWR,1,"Outlier Removal (adjustment_issue, 200.00%)"
+CPWR,1,"Outlier Removal (adjustment_issue, 150.00%)"
+EP,1,"Outlier Removal (adjustment_issue, 166.67%)"
+BMC,1,"Outlier Removal (adjustment_issue, 347.37%)"
+NCC,1,"Outlier Removal (adjustment_issue, 231.05%)"
+NCC,1,"Outlier Removal (adjustment_issue, 660.39%)"
+NCC,1,"Outlier Removal (adjustment_issue, 816.27%)"
+NCC,1,"Outlier Removal (adjustment_issue, 271.43%)"
+NCC,1,"Outlier Removal (adjustment_issue, 299.03%)"
+NCC,1,"Outlier Removal (adjustment_issue, 170.69%)"
+NCC,1,"Outlier Removal (adjustment_issue, 182.70%)"
+NCC,1,"Outlier Removal (adjustment_issue, 205.58%)"
+NCC,1,"Outlier Removal (adjustment_issue, 187.78%)"
+NCC,1,"Outlier Removal (adjustment_issue, 133.39%)"
+NCC,1,"Outlier Removal (adjustment_issue, 144.73%)"
+NCC,1,"Outlier Removal (bad_tick, 110.49%)"
+NCC,1,"Outlier Removal (adjustment_issue, 127.99%)"
+SNDK,1,"Outlier Removal (adjustment_issue, 142.75%)"
+BKNG,1,"Outlier Removal (adjustment_issue, 104.76%)"
+CBE,1,"Outlier Removal (adjustment_issue, 1160.27%)"
+AMT,1,"Outlier Removal (adjustment_issue, 150.35%)"
+SEE,1,"Outlier Removal (adjustment_issue, 143.47%)"
+EP,1,"Outlier Removal (adjustment_issue, 200.00%)"
+CBE,1,"Outlier Removal (adjustment_issue, 180.00%)"
+CBE,1,"Outlier Removal (adjustment_issue, 3354.07%)"
+CBE,1,"Outlier Removal (adjustment_issue, 4636.43%)"
+CBE,1,"Outlier Removal (adjustment_issue, 4484.62%)"
+CBE,1,"Outlier Removal (adjustment_issue, 5759.32%)"
+CBE,1,"Outlier Removal (adjustment_issue, 8367.59%)"
+RX,1,"Outlier Removal (adjustment_issue, 139.44%)"
+CFC,1,"Outlier Removal (adjustment_issue, 126.80%)"
+CPWR,1,"Outlier Removal (adjustment_issue, 120.00%)"
+GR,1,"Outlier Removal (adjustment_issue, 225.00%)"
+F,1,"Outlier Removal (adjustment_issue, 118.63%)"
+GNW,1,"Outlier Removal (adjustment_issue, 196.19%)"
+RX,1,"Outlier Removal (adjustment_issue, 130.56%)"
+AIG,1,"Outlier Removal (adjustment_issue, 235.69%)"
+EP,1,"Outlier Removal (adjustment_issue, 134.04%)"
+GR,1,"Outlier Removal (adjustment_issue, 344.44%)"
+TIE,1,"Outlier Removal (adjustment_issue, 227758.98%)"
+MEE,1,"Outlier Removal (adjustment_issue, 7585.26%)"
+CPWR,1,"Outlier Removal (adjustment_issue, 300.00%)"
+BMC,1,"Outlier Removal (adjustment_issue, 347.37%)"
+NCC,1,"Outlier Removal (adjustment_issue, 197.95%)"
+NCC,1,"Outlier Removal (adjustment_issue, 660.39%)"
+NCC,1,"Outlier Removal (adjustment_issue, 193.06%)"
+SNDK,1,"Outlier Removal (adjustment_issue, 165.52%)"
+ACE,Map,Mapped to CB (Renaming)
+ACT,Map,Mapped to AGN (Renaming)
+TE,Map,Mapped to D (Renaming)
+PCLN,Map,Mapped to BKNG (Survivor)
+KORS,Map,Mapped to CPRI (Survivor)
