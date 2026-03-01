@@ -5,9 +5,5 @@
     "files.exclude": {
         "**/__pycache__": true,
         "**/.git": true,
-        "**/.venv": true,
-        "**/ls_venv": true
     },
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true
 }
