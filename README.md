@@ -7,4 +7,3 @@ Long-Short Equity Fund using Quantitative Analysis
 
 - João Fonseca
 - Jack Noel
-- Gabriel Vilaça
