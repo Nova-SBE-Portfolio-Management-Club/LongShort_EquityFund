@@ -5,6 +5,7 @@ __pycache__/
 # Ignore virtual environment
 
 ls_venv/
+.venv
 
 # Ignore env variables
 
