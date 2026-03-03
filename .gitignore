@@ -14,3 +14,7 @@ ls_venv/
 # Ignore Bloomberg Exports (but not the folder)
 src/bloomberg/exports/*        
 !src/bloomberg/exports/*.png
+
+# local data/cache
+src/playground/**/data/
+*.parquet
