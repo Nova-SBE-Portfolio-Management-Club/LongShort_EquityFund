@@ -18,3 +18,4 @@ src/bloomberg/exports/*
 # local data/cache
 src/playground/**/data/
 *.parquet
+*.png
