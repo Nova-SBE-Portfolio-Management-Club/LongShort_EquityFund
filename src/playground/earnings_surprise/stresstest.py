@@ -1,5 +1,5 @@
 """
-PEAD Strategy A — Stress Testing & Robustness Analysis
+PEAD Strategy — Stress Testing & Robustness Analysis
 
 Tests:
 1. Sub-period performance (non-overlapping windows)
