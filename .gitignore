@@ -13,3 +13,6 @@ ls_venv/
 # Ignore Bloomberg Exports (but not the folder)
 src/bloomberg/exports/*        
 !src/bloomberg/exports/
+
+# Ignore macOS system files
+.DS_Store
