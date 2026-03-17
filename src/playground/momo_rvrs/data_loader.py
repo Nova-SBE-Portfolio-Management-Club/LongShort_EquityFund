@@ -1,553 +1,702 @@
-# src/playground/MomentumReversal/data_loader.py
+# src/playground/momo_rvrs/data_loader.py
 from __future__ import annotations
 
-from datetime import date
+import json
+import re
+from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
+from typing import Any, Iterable
+from urllib.parse import parse_qs, quote, unquote, urlparse
 
 import pandas as pd
 import requests
 import yfinance as yf
 
-from src.playground.momo_rvrs.config import (
-    SP500_CSV_PATH,
-    WIKI_SP500_URL,
-    PRICES_PARQUET_PATH,
-    VOLUME_PARQUET_PATH,
+try:
+    import pdfplumber  # type: ignore
+except Exception:  # pragma: no cover
+    pdfplumber: Any = None
+
+
+# ============================================================
+# Paths / caching
+# ============================================================
+
+THIS_DIR = Path(__file__).resolve().parent
+DATA_DIR = THIS_DIR / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+SESSION = requests.Session()
+SESSION.headers.update(
+    {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari"}
 )
 
 
-def _clean_ticker(sym: str) -> str:
-    # Wikipedia uses "." (BRK.B), yfinance often uses "-" (BRK-B)
-    sym = str(sym).strip()
-    sym = sym.replace(".", "-")
-    return sym
+# ============================================================
+# Universe specs
+# ============================================================
+
+@dataclass(frozen=True)
+class UniverseSpec:
+    code: str
+    name: str
+    source: str               # constituents source
+    yfinance_suffix: str | None = None
 
 
-def generate_sp500_csv(force: bool = False) -> pd.DataFrame:
+UNIVERSES: dict[str, UniverseSpec] = {
+    "SPX": UniverseSpec("SPX", "S&P 500", "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"),
+    "SX5E": UniverseSpec("SX5E", "EURO STOXX 50", "https://en.wikipedia.org/wiki/EURO_STOXX_50"),
+    "FTSE100": UniverseSpec("FTSE100", "FTSE 100", "https://en.wikipedia.org/wiki/FTSE_100_Index", yfinance_suffix=".L"),
+    "FTSE250": UniverseSpec("FTSE250", "FTSE 250", "https://en.wikipedia.org/wiki/FTSE_250_Index", yfinance_suffix=".L"),
+    "NI225": UniverseSpec("NI225", "Nikkei 225", "https://en.wikipedia.org/wiki/Nikkei_225", yfinance_suffix=".T"),
+    "JPX400": UniverseSpec(
+        "JPX400",
+        "JPX-Nikkei 400",
+        "https://www.jpx.co.jp/english/markets/indices/jpx-nikkei400/tvdivq00000031dd-att/400_e.pdf",
+        yfinance_suffix=".T",
+    ),
+    "SSE50": UniverseSpec("SSE50", "SSE 50", "https://en.wikipedia.org/wiki/SSE_50_Index", yfinance_suffix=".SS"),
+    "CSI300": UniverseSpec("CSI300", "CSI 300", "https://en.wikipedia.org/wiki/CSI_300_Index"),
+}
+
+BENCHMARK_TICKER: dict[str, str] = {
+    "SPX": "SPY",
+    "SX5E": "^STOXX50E",
+    "FTSE100": "^FTSE",
+    "FTSE250": "^FTMC",
+    "NI225": "^N225",
+    "JPX400": "1592.T",
+    "SSE50": "000016.SS",
+    "CSI300": "000300.SS",
+}
+
+
+# ============================================================
+# Small helpers
+# ============================================================
+
+def _wikipedia_render_url(url: str) -> str:
     """
-    Create (or load) a local CSV containing current S&P 500 tickers + GICS sector.
-
-    Output columns:
-      - ticker
-      - sector
+    Convert Wikipedia URLs into the stable rendered HTML endpoint:
+      https://en.wikipedia.org/wiki/Page_Name
+      -> https://en.wikipedia.org/w/index.php?title=Page_Name&action=render
     """
-    if SP500_CSV_PATH.exists() and not force:
-        return pd.read_csv(SP500_CSV_PATH)
+    u = url.strip()
 
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
-        )
-    }
+    if "/w/index.php" in u and "title=" in u:
+        if "action=render" not in u:
+            joiner = "&" if "?" in u else "?"
+            u = u + f"{joiner}action=render"
+        return u
 
-    resp = requests.get(WIKI_SP500_URL, headers=headers, timeout=30)
+    if "wikipedia.org/wiki/" in u:
+        parsed = urlparse(u)
+        title = parsed.path.split("/wiki/")[-1]
+        title = unquote(title)
+        title_q = quote(title, safe=":/()_-")
+        return f"{parsed.scheme}://{parsed.netloc}/w/index.php?title={title_q}&action=render"
+
+    parsed = urlparse(u)
+    qs = parse_qs(parsed.query)
+    if "title" in qs and len(qs["title"]) > 0:
+        title = qs["title"][0]
+        title_q = quote(title, safe=":/()_-")
+        return f"{parsed.scheme}://{parsed.netloc}/w/index.php?title={title_q}&action=render"
+
+    return u
+
+
+def _read_html(url: str) -> str:
+    target = _wikipedia_render_url(url) if "wikipedia.org" in url else url
+    resp = SESSION.get(target, timeout=30)
+    resp.raise_for_status()
+    return resp.text
+
+
+def _read_html_tables(url: str) -> list[pd.DataFrame]:
+    """
+    Robust HTML table reader:
+    - downloads via requests SESSION
+    - Wikipedia: action=render
+    - IMPORTANT: pass HTML via StringIO so pandas does NOT treat it as a filename/URL
+      (this was the source of your huge stderr "yap")
+    """
+    target = _wikipedia_render_url(url) if "wikipedia.org" in url else url
+
+    resp = SESSION.get(
+        target,
+        timeout=30,
+        headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "en-US,en;q=0.9"},
+    )
     resp.raise_for_status()
 
-    tables = pd.read_html(StringIO(resp.text), match="Symbol")
-    if not tables:
-        raise RuntimeError("No tables found on Wikipedia page (unexpected).")
+    html = resp.text
+    try:
+        return pd.read_html(StringIO(html))
+    except ValueError as e:
+        # no tables found (don’t dump HTML)
+        raise RuntimeError(f"pd.read_html found no tables for url={target}") from e
+    except Exception as e:
+        # any parser failures (don’t dump HTML)
+        raise RuntimeError(f"pd.read_html failed for url={target}: {type(e).__name__}: {e}") from e
 
-    sp500_table = tables[0].copy()
+import pandas as pd
+import numpy as np
 
-    if "Symbol" not in sp500_table.columns:
-        raise RuntimeError(f"Expected 'Symbol' column, got: {list(sp500_table.columns)}")
-    if "GICS Sector" not in sp500_table.columns:
-        raise RuntimeError(f"Expected 'GICS Sector' column, got: {list(sp500_table.columns)}")
+_OHLCV_FIELDS = ["Open", "High", "Low", "Close", "Adj Close", "Volume"]
 
-    sp500_table["Symbol"] = sp500_table["Symbol"].map(_clean_ticker)
-    sp500_table["GICS Sector"] = sp500_table["GICS Sector"].astype(str).str.strip()
+def _ensure_datetime_index(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Make sure df is indexed by DatetimeIndex (Date).
+    Accepts either:
+      - df with Date column
+      - df with DatetimeIndex already
+    """
+    if isinstance(df.index, pd.DatetimeIndex):
+        df = df.copy()
+        df.index = pd.to_datetime(df.index)
+        df.index.name = df.index.name or "Date"
+        return df
 
-    df = sp500_table[["Symbol", "GICS Sector"]].rename(
-        columns={"Symbol": "ticker", "GICS Sector": "sector"}
+    if "Date" in df.columns:
+        df = df.copy()
+        df["Date"] = pd.to_datetime(df["Date"])
+        df = df.set_index("Date")
+        return df
+
+    # Sometimes parquet stores index but loses name; if it’s not datetime we can’t guess.
+    raise KeyError("No 'Date' column and index is not DatetimeIndex. Cannot infer dates.")
+
+
+def _split_ohlcv_from_wide(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Split a wide yfinance-style DataFrame into OHLCV panels.
+    Handles MultiIndex columns in either order:
+      (Field, Ticker)  OR  (Ticker, Field)
+    Returns: open, high, low, close, adjclose, volume (all DataFrames date x ticker)
+    """
+    df = _ensure_datetime_index(df)
+
+    if not isinstance(df.columns, pd.MultiIndex):
+        raise ValueError("Expected MultiIndex columns for wide OHLCV, got flat columns.")
+
+    lvl0 = set(df.columns.get_level_values(0))
+    lvl1 = set(df.columns.get_level_values(1))
+
+    has_fields_lvl0 = set(_OHLCV_FIELDS).issubset(lvl0)
+    has_fields_lvl1 = set(_OHLCV_FIELDS).issubset(lvl1)
+
+    if has_fields_lvl0:
+        # columns like ("Open","AAPL")
+        panels = {f: df[f].copy() for f in _OHLCV_FIELDS}
+    elif has_fields_lvl1:
+        # columns like ("AAPL","Open")
+        panels = {f: df.xs(f, level=1, axis=1).copy() for f in _OHLCV_FIELDS}
+    else:
+        raise ValueError(f"MultiIndex columns but cannot find OHLCV fields in either level. levels0 sample={list(sorted(lvl0))[:10]} levels1 sample={list(sorted(lvl1))[:10]}")
+
+    # Standardize column names to tickers (strings)
+    for k, v in panels.items():
+        v.columns = v.columns.astype(str)
+        panels[k] = v.sort_index(axis=1)
+
+    o = panels["Open"]
+    h = panels["High"]
+    l = panels["Low"]
+    c = panels["Close"]
+    a = panels["Adj Close"]
+    v = panels["Volume"]
+    return o, h, l, c, a, v
+
+
+def _chunked(xs: list[str], n: int) -> Iterable[list[str]]:
+    for i in range(0, len(xs), n):
+        yield xs[i : i + n]
+
+
+def _normalize_suffix(t: str, suffix: str | None) -> str:
+    t = str(t).strip()
+    if not t or t.lower() == "nan":
+        return ""
+    if suffix is None:
+        return t
+    if "." in t:
+        return t
+    return f"{t}{suffix}"
+
+
+# ============================================================
+# Constituents fetchers
+# ============================================================
+
+def _tickers_spx() -> list[str]:
+    tables = _read_html_tables(UNIVERSES["SPX"].source)
+    df = tables[0]
+    col = "Symbol" if "Symbol" in df.columns else df.columns[0]
+    tickers = df[col].astype(str).str.strip().tolist()
+    tickers = [t.replace(".", "-") for t in tickers]
+    return sorted(set(tickers))
+
+
+def _tickers_sx5e() -> list[str]:
+    tables = _read_html_tables(UNIVERSES["SX5E"].source)
+    for df in tables:
+        if any(str(c).lower() == "ticker" for c in df.columns):
+            tick_col = [c for c in df.columns if str(c).lower() == "ticker"][0]
+            out = df[tick_col].astype(str).str.strip()
+            out = out[out.notna() & (out.str.lower() != "nan")]
+            return sorted(set(out.tolist()))
+    raise RuntimeError("SX5E: could not find a 'Ticker' column on the page")
+
+
+def _tickers_ftse(code: str) -> list[str]:
+    spec = UNIVERSES[code]
+    tables = _read_html_tables(spec.source)
+
+    candidate_cols = ["ticker", "ticker symbol", "epic", "symbol", "security", "constituent", "company"]
+    best: list[str] = []
+
+    for df in tables:
+        cols_l = {str(c).strip().lower(): c for c in df.columns}
+
+        hit = None
+        for cand in candidate_cols:
+            if cand in cols_l:
+                hit = cols_l[cand]
+                break
+        if hit is None:
+            continue
+
+        raw = df[hit].astype(str).str.strip()
+        raw = raw[raw.notna() & (raw.str.lower() != "nan")]
+
+        cleaned = []
+        for t in raw.tolist():
+            t2 = t.split()[0].strip()
+            if len(t2) < 1 or len(t2) > 8:
+                continue
+            cleaned.append(t2)
+
+        tickers = [_normalize_suffix(t, spec.yfinance_suffix) for t in cleaned]
+        tickers = [t for t in tickers if t]
+
+        if len(tickers) > len(best):
+            best = tickers
+
+    if not best:
+        raise RuntimeError(f"{code}: could not find a plausible ticker column.")
+    return sorted(set(best))
+
+
+def _tickers_ni225() -> list[str]:
+    html = _read_html(UNIVERSES["NI225"].source)
+    codes = sorted(set(re.findall(r"www2\.jpx\.co\.jp[^\"']*?(\d{4})", html)))
+    return [f"{c}.T" for c in codes]
+
+
+def _tickers_jpx400() -> list[str]:
+    if pdfplumber is None:
+        raise RuntimeError("JPX400 requires pdfplumber. Install: pip install pdfplumber")
+
+    pdf_url = UNIVERSES["JPX400"].source
+    pdf_path = DATA_DIR / "jpx400_constituents.pdf"
+    r = SESSION.get(pdf_url, timeout=60)
+    r.raise_for_status()
+    pdf_path.write_bytes(r.content)
+
+    codes: set[str] = set()
+    with pdfplumber.open(str(pdf_path)) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text() or ""
+            for m in re.finditer(r"(?m)^\s*(\d{4})\s+", text):
+                codes.add(m.group(1))
+
+    return [f"{c}.T" for c in sorted(codes)]
+
+
+def _tickers_sse50() -> list[str]:
+    html = _read_html(UNIVERSES["SSE50"].source)
+    codes = sorted(set(re.findall(r"english\.sse\.com\.cn[^\"']*?(\d{6})", html)))
+    return [f"{c}.SS" for c in codes]
+
+
+def _tickers_csi300() -> list[str]:
+    html = _read_html(UNIVERSES["CSI300"].source)
+    sh = set(re.findall(r"english\.sse\.com\.cn[^\"']*?(\d{6})", html))
+    sz = set(re.findall(r"szse\.cn[^\"']*?(\d{6})", html))
+    return sorted({*(f"{c}.SS" for c in sh), *(f"{c}.SZ" for c in sz)})
+
+
+def get_universe_tickers(universe: str, force_refresh: bool = False) -> list[str]:
+    u = universe.strip().upper()
+    if u not in UNIVERSES:
+        raise ValueError(f"Unknown universe '{universe}'. Supported: {sorted(UNIVERSES)}")
+
+    cache = DATA_DIR / f"{u.lower()}_tickers.json"
+    if cache.exists() and not force_refresh:
+        return json.loads(cache.read_text())
+
+    if u == "SPX":
+        tickers = _tickers_spx()
+    elif u == "SX5E":
+        tickers = _tickers_sx5e()
+    elif u in {"FTSE100", "FTSE250"}:
+        tickers = _tickers_ftse(u)
+    elif u == "NI225":
+        tickers = _tickers_ni225()
+    elif u == "JPX400":
+        tickers = _tickers_jpx400()
+    elif u == "SSE50":
+        tickers = _tickers_sse50()
+    elif u == "CSI300":
+        tickers = _tickers_csi300()
+    else:
+        raise RuntimeError(f"No fetcher implemented for {u}")
+
+    cache.write_text(json.dumps(tickers, indent=2))
+    return tickers
+
+
+# ============================================================
+# OHLCV download + cache
+# ============================================================
+
+_FIELDS = ["Open", "High", "Low", "Close", "Adj Close", "Volume"]
+
+
+def _stack_yf(raw: pd.DataFrame, tickers: list[str]) -> pd.DataFrame:
+    """
+    Ensure output columns are MultiIndex (Field, Ticker).
+    """
+    if raw is None or raw.empty:
+        # Return empty frame with expected structure
+        return pd.DataFrame(index=pd.DatetimeIndex([]))
+
+    if isinstance(raw.columns, pd.MultiIndex):
+        lv0 = raw.columns.get_level_values(0).astype(str)
+        lv1 = raw.columns.get_level_values(1).astype(str)
+
+        # If first level looks like tickers (not fields), swap to (Field, Ticker)
+        if len(set(lv0) & set(_FIELDS)) == 0 and len(set(lv1) & set(_FIELDS)) > 0:
+            raw = raw.swaplevel(0, 1, axis=1)
+
+        raw.columns = pd.MultiIndex.from_tuples([(str(a), str(b)) for a, b in raw.columns])
+        return raw
+
+    # single ticker request returns single-level columns
+    if len(tickers) != 1:
+        raise RuntimeError("Unexpected yfinance output shape (single-level columns but multiple tickers).")
+
+    t = tickers[0]
+    out = raw.copy()
+    out.columns = pd.MultiIndex.from_product([out.columns.astype(str).tolist(), [t]])
+    return out
+
+
+def _split_ohlcv(df: pd.DataFrame):
+    def pick(field: str) -> pd.DataFrame:
+        if not isinstance(df.columns, pd.MultiIndex):
+            return pd.DataFrame(index=df.index)
+        if field not in df.columns.get_level_values(0):
+            return pd.DataFrame(index=df.index)
+        out = df[field].copy()
+        out.columns = out.columns.astype(str)
+        return out.sort_index(axis=1)
+
+    return (
+        pick("Open"),
+        pick("High"),
+        pick("Low"),
+        pick("Close"),
+        pick("Adj Close"),
+        pick("Volume"),
     )
 
-    # Remove any known-bad tickers (keep your previous behavior)
-    bad = {"XYZ"}
-    df = df[~df["ticker"].isin(bad)].copy()
 
-    df = df.sort_values("ticker").reset_index(drop=True)
+def get_universe_ohlcv(
+    universe: str,
+    start: str = "2000-01-01",
+    end: str | None = None,
+    force: bool = False,
+    chunk_size: int = 80,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Returns: open, high, low, close, adjclose, volume as (date x tickers) DataFrames.
+    Cached per universe: data/<universe>_ohlcv.parquet
 
-    SP500_CSV_PATH.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(SP500_CSV_PATH, index=False)
+    Cache format (normalized):
+      - Date in index (DatetimeIndex)
+      - Columns are MultiIndex with OHLCV fields in level 0 and tickers in level 1:
+          ("Open","AAPL"), ("High","AAPL"), ... etc.
+    """
+    u = universe.strip().upper()
+    start_dt = pd.to_datetime(start)
+    end_dt = pd.to_datetime(end) if end is not None else None
+
+    p = DATA_DIR / f"{u.lower()}_ohlcv.parquet"
+
+    # ----------------------------
+    # helpers (local)
+    # ----------------------------
+    OHLCV_FIELDS = ["Open", "High", "Low", "Close", "Adj Close", "Volume"]
+
+    def _slice_dates(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.sort_index()
+        if end_dt is None:
+            return df.loc[start_dt:]
+        return df.loc[start_dt:end_dt]
+
+    def _ensure_datetime_index(df: pd.DataFrame) -> pd.DataFrame:
+        # Case 1: already datetime index
+        if isinstance(df.index, pd.DatetimeIndex):
+            out = df.copy()
+            out.index = pd.to_datetime(out.index)
+            out.index.name = out.index.name or "Date"
+            return out
+
+        # Case 2: Date column exists
+        if "Date" in df.columns:
+            out = df.copy()
+            out["Date"] = pd.to_datetime(out["Date"])
+            out = out.set_index("Date")
+            out = out.sort_index()
+            return out
+
+        raise KeyError("No 'Date' column and index is not DatetimeIndex.")
+
+    def _normalize_wide_multiindex(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Ensure columns are MultiIndex (Field, Ticker) with OHLCV_FIELDS present.
+        Supports:
+          - (Field, Ticker)
+          - (Ticker, Field)
+        """
+        if not isinstance(df.columns, pd.MultiIndex):
+            raise ValueError("Expected MultiIndex columns for wide OHLCV data.")
+
+        lvl0 = set(df.columns.get_level_values(0))
+        lvl1 = set(df.columns.get_level_values(1))
+
+        has_fields_lvl0 = set(OHLCV_FIELDS).issubset(lvl0)
+        has_fields_lvl1 = set(OHLCV_FIELDS).issubset(lvl1)
+
+        if has_fields_lvl0:
+            # already (Field, Ticker)
+            out = df.copy()
+            # standardize ticker strings
+            out.columns = pd.MultiIndex.from_tuples(
+                [(str(a), str(b)) for a, b in out.columns.to_list()],
+                names=["Field", "Ticker"],
+            )
+            return out
+
+        if has_fields_lvl1:
+            # swap (Ticker, Field) -> (Field, Ticker)
+            out = df.copy()
+            out.columns = pd.MultiIndex.from_tuples(
+                [(str(b), str(a)) for a, b in out.columns.to_list()],
+                names=["Field", "Ticker"],
+            )
+            return out
+
+        raise ValueError(
+            "MultiIndex columns detected but cannot locate OHLCV fields "
+            f"in either level. lvl0 sample={list(sorted(lvl0))[:10]} "
+            f"lvl1 sample={list(sorted(lvl1))[:10]}"
+        )
+
+    def _split_ohlcv_from_wide(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        """
+        df must be wide with MultiIndex columns normalized to (Field, Ticker) and Date index.
+        """
+        df = _ensure_datetime_index(df)
+        df = _normalize_wide_multiindex(df)
+
+        # Keep only expected fields (some feeds add weird extras)
+        keep_cols = [c for c in df.columns if c[0] in OHLCV_FIELDS]
+        df = df.loc[:, keep_cols]
+
+        o = df["Open"].copy()
+        h = df["High"].copy()
+        l = df["Low"].copy()
+        c = df["Close"].copy()
+        a = df["Adj Close"].copy()
+        v = df["Volume"].copy()
+
+        # standardize columns to tickers, sorted
+        for panel in (o, h, l, c, a, v):
+            panel.columns = panel.columns.astype(str)
+
+        o = o.sort_index(axis=1)
+        h = h.sort_index(axis=1)
+        l = l.sort_index(axis=1)
+        c = c.sort_index(axis=1)
+        a = a.sort_index(axis=1)
+        v = v.sort_index(axis=1)
+
+        return o, h, l, c, a, v
+
+    # ----------------------------
+    # load cache if present
+    # ----------------------------
+    if p.exists() and not force:
+        df = pd.read_parquet(p, engine="pyarrow")
+
+        # parquet may come back as:
+        # - wide MultiIndex already (best case)
+        # - flat with Date col (older cache)
+        # If flat, you *cannot* reliably split without knowing schema,
+        # but your project’s intent is wide; so we support both:
+        df = _ensure_datetime_index(df)
+
+        if isinstance(df.columns, pd.MultiIndex):
+            df = _normalize_wide_multiindex(df)
+            df = _slice_dates(df)
+            return _split_ohlcv_from_wide(df)
+
+        # If flat columns, try your existing splitter if it's designed for that.
+        # BUT: this is exactly where your old Date bug came from.
+        # Best move: treat flat-cache as legacy and force rebuild.
+        raise RuntimeError(
+            f"Cache {p} loaded with flat columns (not MultiIndex). "
+            "This looks like a legacy/bad cache. Delete it or call with force=True."
+        )
+
+    # ----------------------------
+    # fetch from yfinance (build wide MultiIndex)
+    # ----------------------------
+    tickers = get_universe_tickers(u, force_refresh=False)
+
+    frames: list[pd.DataFrame] = []
+    for chunk in _chunked(tickers, chunk_size):
+        raw = yf.download(
+            tickers=chunk,
+            start=start_dt.strftime("%Y-%m-%d"),
+            end=end_dt.strftime("%Y-%m-%d") if end_dt is not None else None,
+            group_by="column",
+            auto_adjust=False,
+            actions=False,
+            threads=True,
+            progress=False,
+        )
+
+        # raw from yf can come as:
+        # - MultiIndex columns (Field, Ticker) for multiple tickers
+        # - single-level columns for one ticker (rare depending on version/inputs)
+        # Your _stack_yf() is presumably normalizing; keep using it.
+        frames.append(_stack_yf(raw, chunk))
+
+    # Combine as wide
+    df = pd.concat(frames, axis=1)
+    df = _ensure_datetime_index(df)
+
+    # Guardrails
+    df = df.loc[~df.index.duplicated(keep="first")].sort_index()
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # Normalize columns to (Field, Ticker)
+    if isinstance(df.columns, pd.MultiIndex):
+        df = _normalize_wide_multiindex(df)
+    else:
+        # If something returned flat columns, that’s not usable for multi-ticker OHLCV.
+        raise RuntimeError(
+            "yfinance returned flat columns unexpectedly (not MultiIndex). "
+            "Check _stack_yf() output; it should produce wide MultiIndex columns."
+        )
+
+    # Slice requested range (safe even if yf returned more)
+    df = _slice_dates(df)
+
+    # Cache exactly in wide MultiIndex format (no Date column)
+    df.to_parquet(p, engine="pyarrow")
+
+    return _split_ohlcv_from_wide(df)
+
+
+# ============================================================
+# Benchmarks
+# ============================================================
+
+def _normalize_benchmark_df(df: pd.DataFrame, ticker: str) -> pd.DataFrame:
+    """
+    Force benchmark OHLCV columns to be single-level:
+    Open/High/Low/Close/Adj Close/Volume
+    Handles yfinance occasionally returning MultiIndex.
+    """
+    if df is None or df.empty:
+        return df
+
+    if isinstance(df.columns, pd.MultiIndex):
+        lv0 = df.columns.get_level_values(0).astype(str)
+        lv1 = df.columns.get_level_values(1).astype(str)
+
+        # if structure is (Ticker, Field), swap it
+        if "Close" in set(lv1) and "Close" not in set(lv0):
+            df = df.swaplevel(0, 1, axis=1)
+
+        # now expected (Field, Ticker). pick our ticker if present, else first ticker
+        if "Close" in df.columns.get_level_values(0):
+            tickers = df.columns.get_level_values(1).unique().astype(str).tolist()
+            t_use = ticker if ticker in tickers else tickers[0]
+            df = df.xs(t_use, axis=1, level=1, drop_level=True)
+
+    # Ensure column names are strings
+    df.columns = df.columns.astype(str)
     return df
 
 
-def load_sp500_tickers() -> list[str]:
-    if not SP500_CSV_PATH.exists():
-        generate_sp500_csv(force=True)
-
-    df = pd.read_csv(SP500_CSV_PATH)
-    if "ticker" not in df.columns:
-        raise RuntimeError(f"SP500 CSV missing 'ticker' column: {SP500_CSV_PATH}")
-
-    return df["ticker"].astype(str).tolist()
-
-
-def load_sp500_sector_map() -> pd.Series:
-    """
-    Returns:
-      pd.Series with index=ticker and value=sector
-    """
-    if not SP500_CSV_PATH.exists():
-        generate_sp500_csv(force=True)
-
-    df = pd.read_csv(SP500_CSV_PATH)
-    if "ticker" not in df.columns or "sector" not in df.columns:
-        raise RuntimeError(
-            f"SP500 CSV must contain columns ['ticker','sector'], got: {list(df.columns)}"
-        )
-
-    sector_map = pd.Series(df["sector"].values, index=df["ticker"].values, dtype="object")
-    sector_map = sector_map[~sector_map.index.duplicated(keep="first")]
-    return sector_map
-
-
-def download_adjclose_panel(
-    tickers: list[str],
+def get_benchmark_ohlc(
+    universe: str,
     start: str = "2000-01-01",
     end: str | None = None,
+    force: bool = False,
 ) -> pd.DataFrame:
     """
-    Download Adj Close panel only (backward-compatible with your original code).
+    Returns OHLC for the benchmark ticker mapped to the universe.
+    Cached per universe: data/<universe>_benchmark.parquet
     """
-    if end is None:
-        end = date.today().isoformat()
+    u = universe.strip().upper()
+    if u not in BENCHMARK_TICKER:
+        raise ValueError(f"No benchmark configured for universe={u}")
 
-    data = yf.download(
-        tickers=tickers,
-        start=start,
-        end=end,
+    ticker = BENCHMARK_TICKER[u]
+    start_dt = pd.to_datetime(start)
+    end_dt = pd.to_datetime(end) if end is not None else None
+
+    p = DATA_DIR / f"{u.lower()}_benchmark.parquet"
+    if p.exists() and not force:
+        df = pd.read_parquet(p, engine="pyarrow")
+        df.index = pd.to_datetime(df.index)
+        df = df.sort_index()
+        df = _normalize_benchmark_df(df, ticker)
+        return df.loc[start_dt:] if end_dt is None else df.loc[start_dt:end_dt]
+
+    df = yf.download(
+        tickers=ticker,
+        start=start_dt.strftime("%Y-%m-%d"),
+        end=end_dt.strftime("%Y-%m-%d") if end_dt is not None else None,
         auto_adjust=False,
-        group_by="column",
-        progress=True,
+        actions=False,
         threads=True,
-    )
-
-    if data is None or len(data) == 0:
-        raise RuntimeError("yfinance returned empty data. Network/rate limit?")
-
-    if isinstance(data.columns, pd.MultiIndex):
-        if "Adj Close" not in data.columns.get_level_values(0):
-            raise RuntimeError(
-                f"Expected 'Adj Close' in yfinance columns, got: {data.columns.levels[0]}"
-            )
-        adj = data["Adj Close"].copy()
-    else:
-        # single ticker case
-        adj = data[["Adj Close"]].rename(columns={"Adj Close": tickers[0]})
-
-    adj.index = pd.to_datetime(adj.index)
-    adj = adj.sort_index()
-    return adj
-
-
-def download_adjclose_and_volume_panel(
-    tickers: list[str],
-    start: str = "2000-01-01",
-    end: str | None = None,
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Download both Adj Close and Volume panels.
-    Returns:
-      (adj_close_df, volume_df)
-    """
-    if end is None:
-        end = date.today().isoformat()
-
-    data = yf.download(
-        tickers=tickers,
-        start=start,
-        end=end,
-        auto_adjust=False,
-        group_by="column",
-        progress=True,
-        threads=True,
-    )
-
-    if data is None or len(data) == 0:
-        raise RuntimeError("yfinance returned empty data. Network/rate limit?")
-
-    if isinstance(data.columns, pd.MultiIndex):
-        lvl0 = set(data.columns.get_level_values(0))
-        if "Adj Close" not in lvl0:
-            raise RuntimeError(f"Expected 'Adj Close' in yfinance columns, got: {sorted(lvl0)}")
-        if "Volume" not in lvl0:
-            raise RuntimeError(f"Expected 'Volume' in yfinance columns, got: {sorted(lvl0)}")
-
-        adj = data["Adj Close"].copy()
-        vol = data["Volume"].copy()
-    else:
-        # single ticker case
-        adj = data[["Adj Close"]].rename(columns={"Adj Close": tickers[0]})
-        vol = data[["Volume"]].rename(columns={"Volume": tickers[0]})
-
-    adj.index = pd.to_datetime(adj.index)
-    vol.index = pd.to_datetime(vol.index)
-
-    adj = adj.sort_index()
-    vol = vol.sort_index()
-
-    return adj, vol
-
-
-def _to_parquet_safe(df: pd.DataFrame, path: Path) -> None:
-    """
-    Prefer pyarrow if installed (more robust), fallback to default otherwise.
-    """
-    path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        df.to_parquet(path, engine="pyarrow")
-    except Exception:
-        df.to_parquet(path)
-
-
-def get_sp500_prices(
-    start: str = "2000-01-01",
-    end: str | None = None,
-    force: bool = False,
-) -> pd.DataFrame:
-    """
-    Returns a DataFrame of Adj Close prices with DatetimeIndex.
-    Cached to parquet at PRICES_PARQUET_PATH.
-
-    IMPORTANT:
-    - Even when using cached parquet, we still slice to the requested [start, end] range.
-    - This prevents the "changing start/end does nothing" bug when force=False.
-    """
-    start_dt = pd.to_datetime(start)
-    end_dt = pd.to_datetime(end) if end is not None else None
-
-    # ---------- Load from cache ----------
-    if PRICES_PARQUET_PATH.exists() and not force:
-        df = pd.read_parquet(PRICES_PARQUET_PATH, engine="pyarrow")
-        if "Date" not in df.columns:
-            raise RuntimeError(
-                f"Cached parquet missing 'Date' column: {PRICES_PARQUET_PATH} "
-                f"(columns={list(df.columns)})"
-            )
-        df["Date"] = pd.to_datetime(df["Date"])
-        df = df.set_index("Date").sort_index()
-
-        if end_dt is None:
-            return df.loc[start_dt:]
-        return df.loc[start_dt:end_dt]
-
-    # ---------- Download fresh ----------
-    tickers = load_sp500_tickers()
-    prices = download_adjclose_panel(tickers, start=start, end=end)
-
-    out = prices.copy()
-    out.index = pd.to_datetime(out.index)
-    out = out.reset_index().rename(columns={"index": "Date"})
-
-    PRICES_PARQUET_PATH.parent.mkdir(parents=True, exist_ok=True)
-    out.to_parquet(PRICES_PARQUET_PATH, engine="pyarrow", index=False)
-
-    out_df = out.set_index("Date").sort_index()
-    if end_dt is None:
-        return out_df.loc[start_dt:]
-    return out_df.loc[start_dt:end_dt]
-
-
-def get_sp500_prices_and_volume(
-    start: str = "2000-01-01",
-    end: str | None = None,
-    force: bool = False,
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Returns:
-      prices(pd.DataFrame)  Adj Close prices with DatetimeIndex
-      volume(pd.DataFrame)  Volumes with DatetimeIndex
-
-    Cached separately:
-      - PRICES_PARQUET_PATH
-      - VOLUME_PARQUET_PATH
-
-    IMPORTANT:
-    - Even when using cached parquet, we still slice to the requested [start, end] range.
-    """
-    start_dt = pd.to_datetime(start)
-    end_dt = pd.to_datetime(end) if end is not None else None
-
-    have_cache = PRICES_PARQUET_PATH.exists() and VOLUME_PARQUET_PATH.exists()
-
-    # ---------- Load from cache ----------
-    if have_cache and not force:
-        px = pd.read_parquet(PRICES_PARQUET_PATH, engine="pyarrow")
-        vol = pd.read_parquet(VOLUME_PARQUET_PATH, engine="pyarrow")
-
-        if "Date" not in px.columns:
-            raise RuntimeError(
-                f"Cached prices parquet missing 'Date' column: {PRICES_PARQUET_PATH} "
-                f"(columns={list(px.columns)})"
-            )
-        if "Date" not in vol.columns:
-            raise RuntimeError(
-                f"Cached volume parquet missing 'Date' column: {VOLUME_PARQUET_PATH} "
-                f"(columns={list(vol.columns)})"
-            )
-
-        px["Date"] = pd.to_datetime(px["Date"])
-        vol["Date"] = pd.to_datetime(vol["Date"])
-
-        px = px.set_index("Date").sort_index()
-        vol = vol.set_index("Date").sort_index()
-
-        if end_dt is None:
-            return px.loc[start_dt:], vol.loc[start_dt:]
-        return px.loc[start_dt:end_dt], vol.loc[start_dt:end_dt]
-
-    # ---------- Download fresh ----------
-    tickers = load_sp500_tickers()
-    prices, volume = download_adjclose_and_volume_panel(tickers, start=start, end=end)
-
-    # Save cache in the schema we load: a Date column + ticker columns
-    out_px = prices.copy()
-    out_px.index = pd.to_datetime(out_px.index)
-    out_px = out_px.reset_index().rename(columns={"index": "Date"})
-    PRICES_PARQUET_PATH.parent.mkdir(parents=True, exist_ok=True)
-    out_px.to_parquet(PRICES_PARQUET_PATH, engine="pyarrow", index=False)
-
-    out_vol = volume.copy()
-    out_vol.index = pd.to_datetime(out_vol.index)
-    out_vol = out_vol.reset_index().rename(columns={"index": "Date"})
-    VOLUME_PARQUET_PATH.parent.mkdir(parents=True, exist_ok=True)
-    out_vol.to_parquet(VOLUME_PARQUET_PATH, engine="pyarrow", index=False)
-
-    px_df = out_px.set_index("Date").sort_index()
-    vol_df = out_vol.set_index("Date").sort_index()
-
-    if end_dt is None:
-        return px_df.loc[start_dt:], vol_df.loc[start_dt:]
-    return px_df.loc[start_dt:end_dt], vol_df.loc[start_dt:end_dt]
-
-
-# ============================================================
-# NEW: OHLCV loader for overnight-gap experiments (SP500)
-# ============================================================
-
-def download_ohlcv_panel(
-    tickers: list[str],
-    start: str = "2000-01-01",
-    end: str | None = None,
-) -> pd.DataFrame:
-    """
-    Download full daily OHLCV panel from yfinance in a single call.
-
-    Returns a DataFrame with MultiIndex columns:
-      level 0: ["Open","High","Low","Close","Adj Close","Volume"]
-      level 1: ticker
-    """
-    if end is None:
-        end = date.today().isoformat()
-
-    data = yf.download(
-        tickers=tickers,
-        start=start,
-        end=end,
-        auto_adjust=False,
-        group_by="column",
-        progress=True,
-        threads=True,
-    )
-
-    if data is None or len(data) == 0:
-        raise RuntimeError("yfinance returned empty data. Network/rate limit?")
-
-    if not isinstance(data.columns, pd.MultiIndex):
-        # single ticker case -> make it MultiIndex-like
-        t = tickers[0] if tickers else "TICKER"
-        data.columns = pd.MultiIndex.from_product([data.columns, [t]])
-
-    lvl0 = set(data.columns.get_level_values(0))
-    required = {"Open", "High", "Low", "Close", "Adj Close", "Volume"}
-    missing = sorted(required - lvl0)
-    if missing:
-        raise RuntimeError(f"Missing fields from yfinance download: {missing}. Got: {sorted(lvl0)}")
-
-    data.index = pd.to_datetime(data.index)
-    data = data.sort_index()
-    return data
-
-
-def get_sp500_ohlcv(
-    start: str = "2000-01-01",
-    end: str | None = None,
-    force: bool = False,
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """
-    Returns OHLCV panels (each DataFrame indexed by date, columns=tickers):
-
-      open_df, high_df, low_df, close_df, adjclose_df, volume_df
-
-    Cached to a dedicated parquet file beside PRICES_PARQUET_PATH:
-      <...>/sp500_ohlcv.parquet
-
-    IMPORTANT:
-    - Even when loading cache, we slice to requested [start, end].
-    """
-    start_dt = pd.to_datetime(start)
-    end_dt = pd.to_datetime(end) if end is not None else None
-
-    ohlcv_parquet_path = PRICES_PARQUET_PATH.with_name("sp500_ohlcv.parquet")
-
-    # ---------- Load from cache ----------
-    if ohlcv_parquet_path.exists() and not force:
-        df = pd.read_parquet(ohlcv_parquet_path, engine="pyarrow")
-        if "Date" not in df.columns:
-            raise RuntimeError(
-                f"Cached OHLCV parquet missing 'Date' column: {ohlcv_parquet_path} "
-                f"(columns={list(df.columns)[:20]}...)"
-            )
-        df["Date"] = pd.to_datetime(df["Date"])
-        df = df.set_index("Date").sort_index()
-
-        if end_dt is None:
-            df = df.loc[start_dt:]
-        else:
-            df = df.loc[start_dt:end_dt]
-
-        # columns are flattened as "<FIELD>|<TICKER>"
-        def _unpack(field: str) -> pd.DataFrame:
-            cols = [c for c in df.columns if c.startswith(field + "|")]
-            out = df[cols].copy()
-            out.columns = [c.split("|", 1)[1] for c in cols]
-            return out
-
-        return (
-            _unpack("Open"),
-            _unpack("High"),
-            _unpack("Low"),
-            _unpack("Close"),
-            _unpack("Adj Close"),
-            _unpack("Volume"),
-        )
-
-    # ---------- Download fresh ----------
-    tickers = load_sp500_tickers()
-    panel = download_ohlcv_panel(tickers, start=start, end=end)
-
-    open_df = panel["Open"].copy()
-    high_df = panel["High"].copy()
-    low_df = panel["Low"].copy()
-    close_df = panel["Close"].copy()
-    adj_df = panel["Adj Close"].copy()
-    vol_df = panel["Volume"].copy()
-
-    # Build a flat schema for parquet: Date + "Field|Ticker" columns
-    out = pd.DataFrame(index=panel.index)
-    for field, mat in [
-        ("Open", open_df),
-        ("High", high_df),
-        ("Low", low_df),
-        ("Close", close_df),
-        ("Adj Close", adj_df),
-        ("Volume", vol_df),
-    ]:
-        mat = mat.copy()
-        mat.columns = [f"{field}|{c}" for c in mat.columns]
-        out = out.join(mat, how="outer")
-
-    out = out.reset_index().rename(columns={"index": "Date"})
-    ohlcv_parquet_path.parent.mkdir(parents=True, exist_ok=True)
-    out.to_parquet(ohlcv_parquet_path, engine="pyarrow", index=False)
-
-    out = out.set_index("Date").sort_index()
-    if end_dt is None:
-        out = out.loc[start_dt:]
-    else:
-        out = out.loc[start_dt:end_dt]
-
-    def _unpack(field: str) -> pd.DataFrame:
-        cols = [c for c in out.columns if c.startswith(field + "|")]
-        ret = out[cols].copy()
-        ret.columns = [c.split("|", 1)[1] for c in cols]
-        return ret
-
-    return (
-        _unpack("Open"),
-        _unpack("High"),
-        _unpack("Low"),
-        _unpack("Close"),
-        _unpack("Adj Close"),
-        _unpack("Volume"),
-    )
-
-
-# ============================================================
-# NEW: Benchmark loader (SPY OHLC) with caching
-# ============================================================
-
-def get_spy_ohlc(
-    start: str = "2000-01-01",
-    end: str | None = None,
-    force: bool = False,
-) -> pd.DataFrame:
-    """
-    Download (or load cached) daily SPY OHLC data.
-
-    Returns a DataFrame indexed by Date with columns:
-      ["Open", "High", "Low", "Close", "Adj Close", "Volume"]
-
-    Cached beside PRICES_PARQUET_PATH as: spy_ohlc.parquet
-    """
-    start_dt = pd.to_datetime(start)
-    end_dt = pd.to_datetime(end) if end is not None else None
-
-    spy_parquet_path = PRICES_PARQUET_PATH.with_name("spy_ohlc.parquet")
-
-    if spy_parquet_path.exists() and not force:
-        df = pd.read_parquet(spy_parquet_path, engine="pyarrow")
-        if "Date" not in df.columns:
-            raise RuntimeError(
-                f"Cached SPY parquet missing 'Date' column: {spy_parquet_path} "
-                f"(columns={list(df.columns)})"
-            )
-        df["Date"] = pd.to_datetime(df["Date"])
-        df = df.set_index("Date").sort_index()
-        if end_dt is None:
-            return df.loc[start_dt:]
-        return df.loc[start_dt:end_dt]
-
-    if end is None:
-        end = date.today().isoformat()
-
-    data = yf.download(
-        tickers="SPY",
-        start=start,
-        end=end,
-        auto_adjust=False,
         progress=False,
-        threads=True,
-        group_by="column",
     )
-    if data is None or len(data) == 0:
-        raise RuntimeError("yfinance returned empty SPY data.")
+    if df is None or df.empty:
+        raise RuntimeError(f"Benchmark download failed for {ticker}")
 
-    # Handle rare MultiIndex case
-    if isinstance(data.columns, pd.MultiIndex):
-        cols = {}
-        for f in ["Open", "High", "Low", "Close", "Adj Close", "Volume"]:
-            try:
-                cols[f] = data[(f, "SPY")]
-            except KeyError:
-                t0 = data.columns.get_level_values(1)[0]
-                cols[f] = data[(f, t0)]
-        df = pd.DataFrame(cols)
-    else:
-        df = data[["Open", "High", "Low", "Close", "Adj Close", "Volume"]].copy()
+    df = _normalize_benchmark_df(df, ticker)
+    df.to_parquet(p, engine="pyarrow")
+    return df
 
-    df.index = pd.to_datetime(df.index)
-    df = df.sort_index()
 
-    out = df.reset_index().rename(columns={"index": "Date"})
-    spy_parquet_path.parent.mkdir(parents=True, exist_ok=True)
-    out.to_parquet(spy_parquet_path, engine="pyarrow", index=False)
+# ============================================================
+# Backward-compatible wrappers
+# ============================================================
 
-    df = out.set_index("Date").sort_index()
-    if end_dt is None:
-        return df.loc[start_dt:]
-    return df.loc[start_dt:end_dt]
+def get_sp500_ohlcv(start: str = "2000-01-01", end: str | None = None, force: bool = False):
+    return get_universe_ohlcv("SPX", start=start, end=end, force=force)
+
+def get_spy_ohlc(start: str = "2000-01-01", end: str | None = None, force: bool = False) -> pd.DataFrame:
+    return get_benchmark_ohlc("SPX", start=start, end=end, force=force)
 
