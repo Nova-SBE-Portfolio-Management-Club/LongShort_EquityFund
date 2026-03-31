@@ -840,14 +840,15 @@ def run_cross_market_combined(
 def main() -> None:
     ALL_MARKETS = ["FTSE250"]
 
-    N_RANDOM_TILTS = 2000
-    RNG_SEED = 42
-
-    TILTS = generate_random_tilts(
-        n_random=N_RANDOM_TILTS,
-        seed=RNG_SEED,
-        include_base=True,
-    )
+    TILTS = [
+        TiltConfig(
+            name="LOCKED_FTSE250",
+            long_entry=0.120,
+            long_exit=0.250,
+            short_entry=0.920,
+            short_exit=0.700,
+        )
+    ]
 
     MIN_NAMES = {
         "FTSE250": 200,
@@ -869,14 +870,14 @@ def main() -> None:
         lambda_earn_months=1.5,
         lambda_other_months=0.2,
         min_names_by_universe=MIN_NAMES,
-        top_k_print=10,
+        top_k_print=1,
     )
 
     out_csv = "src/playground/momo_rvrs/cross_market_combined_random_search.csv"
     df.to_csv(out_csv, index=False)
 
     print("\n" + "=" * 80)
-    print(f"Random tilts tested: {len(TILTS)}")
+    print(f"Strategies tested: {len(TILTS)}")
     print(f"Saved: {out_csv}")
     print("=" * 80)
 
