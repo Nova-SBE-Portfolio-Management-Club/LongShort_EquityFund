@@ -6,6 +6,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib import font_manager
 from tqdm import tqdm
 
 from src.playground.momo_rvrs.data_loader import (
@@ -30,6 +31,52 @@ from src.playground.momo_rvrs.signals import (
 
 OUT_DIR = Path("src/playground/momo_rvrs/locked_strategy_outputs")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# ============================================================
+# PMC plot style
+# ============================================================
+
+PMC_COLORS = {
+    "strategy": "#1F3044",   # dark blue (Primary)
+    "benchmark": "#97C5EB",  # light blue (Accent)
+}
+
+
+def apply_pmc_plot_style() -> None:
+    font_candidates = [
+        "/mnt/c/Windows/Fonts/SourceSansPro-Regular.ttf",
+        "/mnt/c/Windows/Fonts/SourceSans3-Regular.ttf",
+        "/mnt/c/Windows/Fonts/SourceSans3VF-Roman.ttf",
+    ]
+
+    chosen_font = "DejaVu Sans"
+
+    for font_path in font_candidates:
+        p = Path(font_path)
+        if p.exists():
+            font_manager.fontManager.addfont(str(p))
+            chosen_font = font_manager.FontProperties(fname=str(p)).get_name()
+            print(f"Loaded font from: {p}")
+            break
+
+    print("Using font:", chosen_font)
+
+    plt.rcParams.update(
+        {
+            "font.family": chosen_font,
+            "font.sans-serif": [chosen_font],
+            "axes.titlesize": 14,
+            "xtick.labelsize": 10,
+            "ytick.labelsize": 10,
+            "legend.fontsize": 10,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "figure.facecolor": "white",
+            "axes.facecolor": "white",
+            "savefig.facecolor": "white",
+            "savefig.bbox": "tight",
+        }
+    )
 
 
 # ============================================================
@@ -1184,67 +1231,134 @@ def make_comparison_plots(strategy_log: pd.Series, bench_log: pd.Series) -> None
     )
     monthly_df.to_csv(OUT_DIR / "monthly_returns_strategy_vs_ftse250.csv")
 
+    strategy_color = PMC_COLORS["strategy"]
+    benchmark_color = PMC_COLORS["benchmark"]
+
+    # Equity curve
     plt.figure(figsize=(11, 6))
-    plt.plot(eq_strat.index, eq_strat.values, label="Strategy")
-    plt.plot(eq_bench.index, eq_bench.values, label="FTSE250")
+    plt.plot(
+        eq_strat.index,
+        eq_strat.values,
+        label="Strategy",
+        color=strategy_color,
+        linewidth=2.2,
+    )
+    plt.plot(
+        eq_bench.index,
+        eq_bench.values,
+        label="FTSE250",
+        color=benchmark_color,
+        linewidth=2.0,
+    )
     plt.title("Equity Curve: Strategy vs FTSE250")
-    plt.xlabel("Date")
-    plt.ylabel("Cumulative Equity")
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+    plt.xlabel("")
+    plt.ylabel("")
+    plt.legend(frameon=False)
+    plt.margins(x=0)
     plt.tight_layout()
     plt.savefig(OUT_DIR / "equity_curve_strategy_vs_ftse250.png", dpi=150)
     plt.close()
 
+    # Drawdown
     plt.figure(figsize=(11, 6))
-    plt.plot(dd_strat.index, dd_strat.values, label="Strategy")
-    plt.plot(dd_bench.index, dd_bench.values, label="FTSE250")
+    plt.plot(
+        dd_strat.index,
+        dd_strat.values,
+        label="Strategy",
+        color=strategy_color,
+        linewidth=2.2,
+    )
+    plt.plot(
+        dd_bench.index,
+        dd_bench.values,
+        label="FTSE250",
+        color=benchmark_color,
+        linewidth=2.0,
+    )
     plt.title("Drawdown: Strategy vs FTSE250")
-    plt.xlabel("Date")
-    plt.ylabel("Drawdown")
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+    plt.xlabel("")
+    plt.ylabel("")
+    plt.legend(frameon=False)
+    plt.margins(x=0)
     plt.tight_layout()
     plt.savefig(OUT_DIR / "drawdown_strategy_vs_ftse250.png", dpi=150)
     plt.close()
 
+    # Rolling volatility
     plt.figure(figsize=(11, 6))
-    plt.plot(roll_vol_strat.index, roll_vol_strat.values, label="Strategy")
-    plt.plot(roll_vol_bench.index, roll_vol_bench.values, label="FTSE250")
+    plt.plot(
+        roll_vol_strat.index,
+        roll_vol_strat.values,
+        label="Strategy",
+        color=strategy_color,
+        linewidth=2.2,
+    )
+    plt.plot(
+        roll_vol_bench.index,
+        roll_vol_bench.values,
+        label="FTSE250",
+        color=benchmark_color,
+        linewidth=2.0,
+    )
     plt.title("Rolling Volatility (63d): Strategy vs FTSE250")
-    plt.xlabel("Date")
-    plt.ylabel("Annualized Volatility")
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+    plt.xlabel("")
+    plt.ylabel("")
+    plt.legend(frameon=False)
+    plt.margins(x=0)
     plt.tight_layout()
     plt.savefig(OUT_DIR / "rolling_vol_strategy_vs_ftse250.png", dpi=150)
     plt.close()
 
+    # Rolling Sharpe
     plt.figure(figsize=(11, 6))
-    plt.plot(roll_sharpe_strat.index, roll_sharpe_strat.values, label="Strategy")
-    plt.plot(roll_sharpe_bench.index, roll_sharpe_bench.values, label="FTSE250")
+    plt.plot(
+        roll_sharpe_strat.index,
+        roll_sharpe_strat.values,
+        label="Strategy",
+        color=strategy_color,
+        linewidth=2.2,
+    )
+    plt.plot(
+        roll_sharpe_bench.index,
+        roll_sharpe_bench.values,
+        label="FTSE250",
+        color=benchmark_color,
+        linewidth=2.0,
+    )
     plt.title("Rolling Sharpe (126d): Strategy vs FTSE250")
-    plt.xlabel("Date")
-    plt.ylabel("Rolling Sharpe")
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+    plt.xlabel("")
+    plt.ylabel("")
+    plt.legend(frameon=False)
+    plt.margins(x=0)
     plt.tight_layout()
     plt.savefig(OUT_DIR / "rolling_sharpe_strategy_vs_ftse250.png", dpi=150)
     plt.close()
 
+    # Monthly returns
     monthly_df_plot = monthly_df.dropna().copy()
     if not monthly_df_plot.empty:
         x = np.arange(len(monthly_df_plot))
         width = 0.4
 
         plt.figure(figsize=(14, 6))
-        plt.bar(x - width / 2, monthly_df_plot["Strategy"].values, width=width, label="Strategy")
-        plt.bar(x + width / 2, monthly_df_plot["FTSE250"].values, width=width, label="FTSE250")
+        plt.bar(
+            x - width / 2,
+            monthly_df_plot["Strategy"].values,
+            width=width,
+            label="Strategy",
+            color=strategy_color,
+        )
+        plt.bar(
+            x + width / 2,
+            monthly_df_plot["FTSE250"].values,
+            width=width,
+            label="FTSE250",
+            color=benchmark_color,
+        )
         plt.title("Monthly Returns: Strategy vs FTSE250")
-        plt.xlabel("Month")
-        plt.ylabel("Monthly Return")
-        plt.legend()
-        plt.grid(True, axis="y", alpha=0.3)
+        plt.xlabel("")
+        plt.ylabel("")
+        plt.legend(frameon=False)
 
         tick_idx = np.arange(0, len(monthly_df_plot), max(1, len(monthly_df_plot) // 12))
         tick_labels = [monthly_df_plot.index[i].strftime("%Y-%m") for i in tick_idx]
@@ -1599,6 +1713,8 @@ def main() -> None:
     Outputs:
         None
     """
+    apply_pmc_plot_style()
+
     ALL_MARKETS = ["FTSE250"]
 
     TILTS = [
@@ -1615,7 +1731,6 @@ def main() -> None:
         "FTSE250": 200,
     }
 
-    # Earliest available date from local parquet panels
     open_px, close_px = load_ftse250_open_close_from_parquet(start="1900-01-01", end=None)
     requested_start = first_valid_date_from_panels(open_px, close_px).date().isoformat()
 

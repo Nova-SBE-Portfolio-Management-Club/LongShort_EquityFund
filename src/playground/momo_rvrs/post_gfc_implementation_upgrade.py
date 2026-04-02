@@ -72,6 +72,12 @@ USE_SIGNAL_STRENGTH_GATE = True
 SIGNAL_GATE_LONG = 0.12
 SIGNAL_GATE_SHORT = 0.88
 
+# Exposure scaling
+USE_EXPOSURE_SCALING = True
+LAMBDA_EARN_MONTHS = 1.5
+LAMBDA_OTHER_MONTHS = 0.2
+EARN_MONTHS = {1, 2, 4, 5, 7, 8, 10, 11}
+
 
 # ============================================================
 # Data classes
@@ -458,6 +464,27 @@ def save_run_outputs(run: StrategyRun) -> None:
     turn.to_csv(OUT_DIR / f"{run.name}_rebalance_turnover.csv", index=False)
 
 
+def apply_exposure_scaling_on_rebalance(
+    weights_on_reb: pd.DataFrame,
+    earn_months: set[int],
+    lambda_earn_months: float,
+    lambda_other_months: float,
+) -> pd.DataFrame:
+    """
+    Scale rebalance weights by month-level leverage regime.
+
+    Busy/earnings-heavy months get higher exposure.
+    Other months get lower exposure.
+    """
+    w = weights_on_reb.copy()
+
+    for dt in w.index:
+        lam = lambda_earn_months if dt.month in earn_months else lambda_other_months
+        w.loc[dt] = w.loc[dt] * lam
+
+    return w
+
+
 # ============================================================
 # Main
 # ============================================================
@@ -476,6 +503,11 @@ def main() -> None:
     print(f"Min names upgraded:     {MIN_NAMES_UPG}")
     print(f"Signal gate enabled:    {USE_SIGNAL_STRENGTH_GATE}")
     print(f"Cost model:             {BASE_TC_BPS:.1f} tc + {BASE_SLIPPAGE_BPS:.1f} slip + liquidity penalty")
+    print(f"Exposure scaling:       {USE_EXPOSURE_SCALING}")
+    if USE_EXPOSURE_SCALING:
+        print(f"Lambda earn months:     {LAMBDA_EARN_MONTHS}")
+        print(f"Lambda other months:    {LAMBDA_OTHER_MONTHS}")
+        print(f"Earnings months proxy:  {sorted(EARN_MONTHS)}")
 
     open_px, close_px, close_log, gap_log, bench_log = prepare_data()
 
@@ -521,6 +553,14 @@ def main() -> None:
     )
     weights_base = enforce_dollar_neutral_on_rebalance(weights_base, target_gross=TARGET_GROSS)
 
+    if USE_EXPOSURE_SCALING:
+        weights_base = apply_exposure_scaling_on_rebalance(
+            weights_on_reb=weights_base,
+            earn_months=EARN_MONTHS,
+            lambda_earn_months=LAMBDA_EARN_MONTHS,
+            lambda_other_months=LAMBDA_OTHER_MONTHS,
+        )
+
     # Upgraded: liquidity filter + wider exits + optional score gate
     weights_upg = build_buffered_weights_with_filters(
         signal=signal,
@@ -536,6 +576,14 @@ def main() -> None:
         signal_gate_short=SIGNAL_GATE_SHORT,
     )
     weights_upg = enforce_dollar_neutral_on_rebalance(weights_upg, target_gross=TARGET_GROSS)
+
+    if USE_EXPOSURE_SCALING:
+        weights_upg = apply_exposure_scaling_on_rebalance(
+            weights_on_reb=weights_upg,
+            earn_months=EARN_MONTHS,
+            lambda_earn_months=LAMBDA_EARN_MONTHS,
+            lambda_other_months=LAMBDA_OTHER_MONTHS,
+        )
 
     run_base = evaluate_run(
         name="baseline_locked_post_gfc",

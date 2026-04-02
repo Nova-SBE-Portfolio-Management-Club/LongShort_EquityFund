@@ -4,8 +4,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import numpy as np
 import pandas as pd
+
+from openpyxl.styles import Font, PatternFill, Alignment
+from openpyxl.utils import get_column_letter
 
 from src.playground.momo_rvrs.data_loader import (
     get_benchmark_ohlc,
@@ -53,6 +57,9 @@ SHORT_EXIT = 0.75
 
 TARGET_GROSS = 2.0
 USE_EXPOSURE_SCALING = False
+LAMBDA_EARN_MONTHS = 1.25
+LAMBDA_OTHER_MONTHS = 1.0
+EARN_MONTHS = {1, 2, 4, 5, 7, 8, 10, 11}
 
 BASE_TC_BPS = 25.0
 BASE_SLIPPAGE_BPS = 10.0
@@ -114,7 +121,6 @@ def build_locked_weights(gap_log: pd.DataFrame, cc_log: pd.DataFrame) -> pd.Data
     )
 
     valid_dates = gap_log.index[gap_log.notna().any(axis=1)]
-    gap_log2 = gap_log.loc[valid_dates]
     signal = signal.loc[valid_dates]
 
     tradable_counts = signal.notna().sum(axis=1)
@@ -135,6 +141,15 @@ def build_locked_weights(gap_log: pd.DataFrame, cc_log: pd.DataFrame) -> pd.Data
     )
 
     w_on_reb = enforce_dollar_neutral_on_rebalance(w_on_reb, target_gross=TARGET_GROSS)
+
+    if USE_EXPOSURE_SCALING:
+        w_on_reb = apply_exposure_scaling_on_rebalance(
+            weights_on_reb=w_on_reb,
+            earn_months=EARN_MONTHS,
+            lambda_earn_months=LAMBDA_EARN_MONTHS,
+            lambda_other_months=LAMBDA_OTHER_MONTHS,
+        )
+
     return w_on_reb
 
 
@@ -319,6 +334,146 @@ def save_turnover_diagnostics(run: RunResult) -> pd.DataFrame:
     summary.to_csv(OUT_DIR / "locked_post_gfc_turnover_summary.csv", index=False)
     return summary
 
+PMC_COLORS = {
+    "primary": "#1F3044",
+    "secondary": "#555555",
+    "accent": "#97C5EB",
+    "dark_neutral": "#222A35",
+    "light_neutral": "#F0F3F5",
+    "accent_2": "#3B6189",
+}
+
+
+def apply_pmc_plot_style() -> None:
+    """
+    Apply PMC plot styling to matplotlib.
+    """
+    available_fonts = {f.name for f in font_manager.fontManager.ttflist}
+    chosen_font = "Source Sans Pro" if "Source Sans Pro" in available_fonts else "DejaVu Sans"
+
+    plt.rcParams.update(
+        {
+            "font.family": chosen_font,
+            "axes.titlesize": 14,
+            "axes.labelsize": 11,
+            "xtick.labelsize": 10,
+            "ytick.labelsize": 10,
+            "legend.fontsize": 10,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.grid": True,
+            "grid.alpha": 0.25,
+            "grid.linestyle": "--",
+            "figure.facecolor": "white",
+            "axes.facecolor": "white",
+            "savefig.facecolor": "white",
+            "savefig.bbox": "tight",
+        }
+    )
+
+
+def apply_exposure_scaling_on_rebalance(
+    weights_on_reb: pd.DataFrame,
+    earn_months: set[int],
+    lambda_earn_months: float,
+    lambda_other_months: float,
+) -> pd.DataFrame:
+    """
+    Scale rebalance weights by month-level leverage regime.
+
+    Earnings-heavy months get higher exposure.
+    Other months get lower exposure.
+    """
+    w = weights_on_reb.copy()
+
+    for dt in w.index:
+        lam = lambda_earn_months if dt.month in earn_months else lambda_other_months
+        w.loc[dt] = w.loc[dt] * lam
+
+    return w
+
+
+def save_results_to_excel(
+    out_path: Path,
+    base_run: RunResult,
+    cost_df: pd.DataFrame,
+    period_df: pd.DataFrame,
+    turnover_summary: pd.DataFrame,
+) -> None:
+    """
+    Save strategy outputs to a formatted Excel workbook with multiple sheets.
+    """
+    base_summary = pd.DataFrame(
+        [
+            {
+                "strategy": base_run.name,
+                "gross_sharpe": float(base_run.gross_metrics.get("sharpe", np.nan)),
+                "gross_annret": float(base_run.gross_metrics.get("ann_return", np.nan)),
+                "gross_annvol": float(base_run.gross_metrics.get("ann_vol", np.nan)),
+                "gross_maxdd": float(base_run.gross_metrics.get("max_drawdown", np.nan)),
+                "net_sharpe": float(base_run.net_metrics.get("sharpe", np.nan)),
+                "net_annret": float(base_run.net_metrics.get("ann_return", np.nan)),
+                "net_annvol": float(base_run.net_metrics.get("ann_vol", np.nan)),
+                "net_maxdd": float(base_run.net_metrics.get("max_drawdown", np.nan)),
+                "beta_to_bench": float(base_run.beta_to_bench),
+                "corr_to_bench": float(base_run.corr_to_bench),
+                "avg_reb_turnover": float(base_run.avg_reb_turnover),
+                "avg_gross_long": float(base_run.avg_gross_long),
+                "avg_gross_short": float(base_run.avg_gross_short),
+                "avg_net": float(base_run.avg_net),
+                "final_equity_net": float(base_run.final_equity_net),
+            }
+        ]
+    )
+
+    timeseries_df = pd.DataFrame(
+        {
+            "strategy_log": base_run.net_log,
+            "benchmark_log": base_run.bench_log,
+            "strategy_eq": equity_curve_from_log_returns(base_run.net_log),
+            "benchmark_eq": equity_curve_from_log_returns(base_run.bench_log),
+            "strategy_dd": drawdown_curve(equity_curve_from_log_returns(base_run.net_log)),
+            "benchmark_dd": drawdown_curve(equity_curve_from_log_returns(base_run.bench_log)),
+        }
+    )
+
+    turnover_detail = pd.DataFrame(
+        {
+            "rebalance_date": base_run.reb_turn.index,
+            "turnover": base_run.reb_turn.values,
+        }
+    )
+
+    with pd.ExcelWriter(out_path, engine="openpyxl") as writer:
+        base_summary.to_excel(writer, sheet_name="summary", index=False)
+        cost_df.to_excel(writer, sheet_name="cost_stress", index=False)
+        period_df.to_excel(writer, sheet_name="subperiods", index=False)
+        turnover_summary.to_excel(writer, sheet_name="turnover_summary", index=False)
+        turnover_detail.to_excel(writer, sheet_name="turnover_detail", index=False)
+        timeseries_df.to_excel(writer, sheet_name="timeseries")
+
+        wb = writer.book
+        header_fill = PatternFill(fill_type="solid", fgColor="1F3044")
+        header_font = Font(color="FFFFFF", bold=True)
+        center_align = Alignment(horizontal="center", vertical="center")
+
+        for ws in wb.worksheets:
+            for cell in ws[1]:
+                cell.fill = header_fill
+                cell.font = header_font
+                cell.alignment = center_align
+
+            for col_cells in ws.columns:
+                max_len = 0
+                col_idx = col_cells[0].column
+                col_letter = get_column_letter(col_idx)
+
+                for cell in col_cells:
+                    val = "" if cell.value is None else str(cell.value)
+                    max_len = max(max_len, len(val))
+
+                ws.column_dimensions[col_letter].width = min(max_len + 2, 24)
+
 
 # ============================================================
 # Main
@@ -333,6 +488,10 @@ def main() -> None:
     print(f"Formation window:   {FORMATION_WINDOW}")
     print(f"Thresholds:         LE={LONG_ENTRY:.2f} LX={LONG_EXIT:.2f} SE={SHORT_ENTRY:.2f} SX={SHORT_EXIT:.2f}")
     print(f"Exposure scaling:   {USE_EXPOSURE_SCALING}")
+    if USE_EXPOSURE_SCALING:
+        print(f"Lambda earn months: {LAMBDA_EARN_MONTHS}")
+        print(f"Lambda other months:{LAMBDA_OTHER_MONTHS}")
+        print(f"Earnings months:    {sorted(EARN_MONTHS)}")
     print(f"Min names:          {MIN_NAMES}")
     print(f"Target gross:       {TARGET_GROSS}")
 
@@ -349,7 +508,7 @@ def main() -> None:
     )
     print_run_summary(base_run)
 
-    save_turnover_diagnostics(base_run)
+    turnover_summary = save_turnover_diagnostics(base_run)
 
     make_comparison_plots(base_run.net_log, base_run.bench_log)
 
@@ -409,6 +568,15 @@ def main() -> None:
     period_df.to_csv(OUT_DIR / "locked_post_gfc_subperiods.csv", index=False)
     print_period_summary(period_df)
 
+    excel_path = OUT_DIR / "locked_post_gfc_results.xlsx"
+    save_results_to_excel(
+        out_path=excel_path,
+        base_run=base_run,
+        cost_df=cost_df,
+        period_df=period_df,
+        turnover_summary=turnover_summary,
+    )
+
     print("\n" + "=" * 90)
     print("SAVED OUTPUTS")
     print("=" * 90)
@@ -421,8 +589,10 @@ def main() -> None:
     print(f"  {OUT_DIR / 'drawdown_strategy_vs_ftse250.png'}")
     print(f"  {OUT_DIR / 'rolling_vol_strategy_vs_ftse250.png'}")
     print(f"  {OUT_DIR / 'rolling_sharpe_strategy_vs_ftse250.png'}")
+    print(f"  {OUT_DIR / 'locked_post_gfc_results.xlsx'}")
     print("=" * 90)
 
 
 if __name__ == "__main__":
     main()
+
