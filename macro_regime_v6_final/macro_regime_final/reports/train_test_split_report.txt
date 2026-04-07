@@ -1,0 +1,5 @@
+Train/Test Split Summary
+Split date: 2015-12-31 (Train <= split, Test > split)
+Train quarters: 42
+Test quarters: 40
+Sharpe decay (Test/Train): 1.025

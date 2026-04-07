@@ -1,0 +1,7 @@
+Turnover / Execution Cost Summary
+Average holdings per quarter: 28.90
+Average turnover (one-way): 69.57%
+Median turnover (one-way): 73.33%
+Average applied execution cost: 23.38 bps per quarter
+IBKR-style one-way cost assumption (bps): commission=0.40 + exchange=0.20 + spread=8.00 + slippage=10.00 + impact=15.00 = 33.60
+Note: fixed per-order minimum ticket costs are approximated in commission bps.

@@ -1,0 +1,4 @@
+Parameter Freeze Summary
+Snapshot: /mnt/c/Users/Lucas Albanese/OneDrive/Documentos/GitHub/LongShort_EquityFund/macro_regime_v6_final/macro_regime_final/data/frozen_config.json
+Differences vs frozen config: 28
+Lock status: CHANGED (potential re-tuning risk).

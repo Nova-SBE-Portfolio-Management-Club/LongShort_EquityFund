@@ -1,0 +1,1142 @@
+
+=== 2005-09-30 ===
+Predicted sectors (ETFs): []
+Predicted sector names   : []
+Real top sectors         : ['Energy', 'Information Technology', 'Utilities']
+Portfolio return         : 0.00% | SPY 3.68%
+Gross return / execution / financing: 0.00% / 0.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 0 / 0.00%
+Top20 stocks in pred sectors: 0/20
+Stock picks:
+
+=== 2005-12-31 ===
+Predicted sectors (ETFs): []
+Predicted sector names   : []
+Real top sectors         : ['Financials', 'Materials', 'Industrials']
+Portfolio return         : 0.00% | SPY 1.73%
+Gross return / execution / financing: 0.00% / 0.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 0 / 0.00%
+Top20 stocks in pred sectors: 0/20
+Stock picks:
+
+=== 2006-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Materials', 'Consumer Discretionary']
+Real top sectors         : ['Real Estate', 'Materials', 'Industrials']
+Portfolio return         : 8.38% | SPY 4.69%
+Gross return / execution / financing: 8.72% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 5/20
+Stock picks:
+  - Energy: ['EOG', 'HAL', 'DVN', 'SLB', 'COP', 'OXY', 'WMB', 'APA', 'XOM', 'CVX']
+  - Materials: ['FCX', 'NUE', 'VMC', 'NEM', 'APD', 'SHW', 'AVY', 'EMN', 'ECL', 'BALL']
+  - Consumer Discretionary: ['PHM', 'DRI', 'BBY', 'LOW', 'MCD', 'HAS', 'YUM', 'MAR', 'GPC', 'HD']
+
+=== 2006-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Financials']
+Predicted sector names   : ['Energy', 'Materials', 'Financials']
+Real top sectors         : ['Energy', 'Consumer Staples', 'Communication Services']
+Portfolio return         : -1.58% | SPY -1.53%
+Gross return / execution / financing: -2.89% / 13.44 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 40.00%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Energy: ['SLB', 'HAL', 'VLO', 'EOG', 'OXY', 'DVN', 'WMB', 'COP', 'APA', 'XOM']
+  - Materials: ['NUE', 'VMC', 'FCX', 'NEM', 'ECL', 'SHW', 'BALL', 'APD', 'AVY', 'IP']
+  - Financials: ['AMD', 'CIEN', 'BRCM', 'ATI', 'TLAB', 'AON', 'AYE', 'MCO', 'EP', 'FLR']
+
+=== 2006-09-30 ===
+Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Health Care']
+Predicted sector names   : ['Information Technology', 'Utilities', 'Health Care']
+Real top sectors         : ['Real Estate', 'Information Technology', 'Communication Services']
+Portfolio return         : 9.29% | SPY 5.41%
+Gross return / execution / financing: 9.63% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Information Technology: ['NVDA', 'AAPL', 'MU', 'GLW', 'HPQ', 'QCOM', 'INTU', 'MSI', 'NTAP', 'TXN']
+  - Utilities: ['EXC', 'FE', 'AES', 'SRE', 'PEG', 'PPL', 'D', 'DUK', 'XEL', 'ED']
+  - Health Care: ['A', 'TMO', 'BIIB', 'GILD', 'HUM', 'DHR', 'CAH', 'BDX', 'MRK', 'WAT']
+
+=== 2006-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Industrials', 'Utilities']
+Predicted sector names   : ['Energy', 'Industrials', 'Utilities']
+Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Discretionary']
+Portfolio return         : 8.26% | SPY 6.61%
+Gross return / execution / financing: 8.51% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['SLB', 'OXY', 'XOM', 'CVX', 'VLO', 'WMB', 'HAL', 'COP', 'DVN', 'APA']
+  - Industrials: ['LMT', 'CMI', 'CSX', 'DE', 'PCAR', 'NOC', 'SNA', 'WM', 'DOV', 'TXT']
+  - Utilities: ['AES', 'EXC', 'FE', 'PEG', 'PPL', 'XEL', 'PNW', 'SRE', 'ETR', 'DUK']
+
+=== 2007-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Health Care', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Health Care', 'Consumer Discretionary']
+Real top sectors         : ['Materials', 'Utilities', 'Energy']
+Portfolio return         : 5.03% | SPY 0.67%
+Gross return / execution / financing: 5.26% / 22.40 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 66.67%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['SLB', 'XOM', 'CVX', 'OXY', 'WMB', 'COP', 'DVN', 'HAL', 'VLO', 'APA']
+  - Health Care: ['TMO', 'MRK', 'WAT', 'LH', 'DHR', 'GILD', 'PFE', 'ABT', 'BDX', 'BAX']
+  - Consumer Discretionary: ['MAR', 'HAS', 'YUM', 'TPR', 'MCD', 'BBY', 'AZO', 'TJX', 'SBUX', 'NKE']
+
+=== 2007-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Financials']
+Predicted sector names   : ['Energy', 'Information Technology', 'Financials']
+Real top sectors         : ['Energy', 'Industrials', 'Information Technology']
+Portfolio return         : 7.56% | SPY 6.39%
+Gross return / execution / financing: 7.79% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 16/20
+Stock picks:
+  - Energy: ['WMB', 'CVX', 'XOM', 'DVN', 'COP', 'APA', 'OXY', 'SLB', 'VLO', 'EOG']
+  - Information Technology: ['AAPL', 'HPQ', 'ORCL', 'CSCO', 'IBM', 'ADBE', 'INTU', 'NVDA', 'KLAC', 'NTAP']
+  - Financials: ['GT', 'ATI', 'GR', 'MAT', 'VFC', 'BMC', 'AYE', 'MET', 'AIV', 'KSS']
+
+=== 2007-09-30 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Financials']
+Predicted sector names   : ['Energy', 'Materials', 'Financials']
+Real top sectors         : ['Energy', 'Health Care', 'Information Technology']
+Portfolio return         : 1.97% | SPY 1.91%
+Gross return / execution / financing: 4.30% / 17.92 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 53.33%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Energy: ['XOM', 'WMB', 'CVX', 'DVN', 'COP', 'SLB', 'APA', 'VLO', 'EOG', 'OXY']
+  - Materials: ['VMC', 'BALL', 'FCX', 'IFF', 'SHW', 'NUE', 'EMN', 'IP', 'APD', 'PPG']
+  - Financials: ['GT', 'MAT', 'ATI', 'CCU', 'BEN', 'GS', 'NOV', 'UNM', 'L', 'AYE']
+
+=== 2007-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Financials', 'Materials']
+Predicted sector names   : ['Energy', 'Financials', 'Materials']
+Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
+Portfolio return         : -1.46% | SPY -3.67%
+Gross return / execution / financing: -2.77% / 7.84 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 23.33%
+Top20 stocks in pred sectors: 11/20
+Stock picks:
+  - Energy: ['SLB', 'COP', 'CVX', 'VLO', 'WMB', 'XOM', 'HAL', 'APA', 'DVN', 'OXY']
+  - Financials: ['NOV', 'GT', 'FLR', 'ATI', 'CCU', 'TT', 'CIEN', 'ITT', 'AMP', 'AON']
+  - Materials: ['FCX', 'APD', 'BALL', 'IFF', 'EMN', 'SHW', 'VMC', 'PPG', 'NUE', 'IP']
+
+=== 2008-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Materials']
+Predicted sector names   : ['Energy', 'Information Technology', 'Materials']
+Real top sectors         : ['Real Estate', 'Consumer Discretionary', 'Energy']
+Portfolio return         : -3.95% | SPY -9.29%
+Gross return / execution / financing: -7.62% / 14.56 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 43.33%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Energy: ['SLB', 'APA', 'OXY', 'WMB', 'EOG', 'VLO', 'DVN', 'CVX', 'HAL', 'XOM']
+  - Information Technology: ['AAPL', 'INTC', 'GLW', 'NVDA', 'HPQ', 'ORCL', 'ADSK', 'MSFT', 'TXN', 'IBM']
+  - Materials: ['FCX', 'APD', 'NUE', 'NEM', 'EMN', 'PPG', 'BALL', 'ECL', 'IFF', 'IP']
+
+=== 2008-06-30 ===
+Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Energy']
+Predicted sector names   : ['Information Technology', 'Utilities', 'Energy']
+Real top sectors         : ['Energy', 'Utilities', 'Information Technology']
+Portfolio return         : 5.29% | SPY -2.54%
+Gross return / execution / financing: 10.89% / 15.68 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 46.67%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Information Technology: ['VRSN', 'AAPL', 'IBM', 'HPQ', 'NVDA', 'INTC', 'AMAT', 'ORCL', 'GLW', 'QCOM']
+  - Utilities: ['PPL', 'EXC', 'PEG', 'FE', 'EIX', 'NEE', 'ETR', 'SO', 'D', 'DUK']
+  - Energy: ['EOG', 'APA', 'OXY', 'DVN', 'WMB', 'SLB', 'COP', 'HAL', 'CVX', 'XOM']
+
+=== 2008-09-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Real Estate']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Real Estate']
+Real top sectors         : ['Consumer Discretionary', 'Consumer Staples', 'Real Estate']
+Portfolio return         : -1.31% | SPY -8.84%
+Gross return / execution / financing: -1.95% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 27 / 100.00%
+Top20 stocks in pred sectors: 1/20
+Stock picks:
+  - Consumer Discretionary: ['YUM', 'MCD', 'AMZN', 'NKE', 'HAS', 'TJX', 'BBY', 'EBAY', 'AZO', 'GPC']
+  - Industrials: ['CSX', 'UNP', 'CMI', 'DE', 'PH', 'NSC', 'EMR', 'SNA', 'GD', 'LMT']
+  - Real Estate: ['PSA', 'PLD', 'SPG', 'KIM', 'BXP', 'EQR', 'WY']
+
+=== 2008-12-31 ===
+Predicted sectors (ETFs): ['Utilities', 'Information Technology', 'Consumer Discretionary']
+Predicted sector names   : ['Utilities', 'Information Technology', 'Consumer Discretionary']
+Real top sectors         : ['Utilities', 'Consumer Staples', 'Health Care']
+Portfolio return         : -8.81% | SPY -21.57%
+Gross return / execution / financing: -17.10% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 1/20
+Stock picks:
+  - Utilities: ['FE', 'SO', 'D', 'CNP', 'EXC', 'SRE', 'NEE', 'XEL', 'ETR', 'DUK']
+  - Information Technology: ['QCOM', 'AAPL', 'IBM', 'ORCL', 'INTU', 'ADBE', 'VRSN', 'HPQ', 'NTAP', 'MSFT']
+  - Consumer Discretionary: ['HAS', 'TJX', 'MCD', 'AZO', 'PHM', 'YUM', 'NKE', 'DHI', 'BBY', 'LOW']
+
+=== 2009-03-31 ===
+Predicted sectors (ETFs): ['Information Technology', 'Consumer Discretionary', 'Utilities']
+Predicted sector names   : ['Information Technology', 'Consumer Discretionary', 'Utilities']
+Real top sectors         : ['Information Technology', 'Consumer Discretionary', 'Materials']
+Portfolio return         : -1.43% | SPY -11.25%
+Gross return / execution / financing: -2.68% / 8.96 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 26.67%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Information Technology: ['QCOM', 'IBM', 'ORCL', 'HPQ', 'INTU', 'CSCO', 'MSFT', 'VRSN', 'CTSH', 'ADI']
+  - Consumer Discretionary: ['HAS', 'MCD', 'PHM', 'LOW', 'AZO', 'HD', 'GPC', 'NKE', 'TJX', 'YUM']
+  - Utilities: ['SO', 'DTE', 'ED', 'XEL', 'FE', 'DUK', 'D', 'CNP', 'SRE', 'PNW']
+
+=== 2009-06-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Financials', 'Materials']
+Predicted sector names   : ['Consumer Discretionary', 'Financials', 'Materials']
+Real top sectors         : ['Real Estate', 'Financials', 'Materials']
+Portfolio return         : 1.74% | SPY 16.28%
+Gross return / execution / financing: 4.00% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 16/20
+Stock picks:
+  - Consumer Discretionary: ['AZO', 'MCD', 'AMZN', 'DRI', 'HAS', 'HD', 'YUM', 'GPC', 'BBY', 'LOW']
+  - Financials: ['APOL', 'PCG', 'AON', 'AGN', 'HRB', 'BMC', 'BBT', 'BRCM', 'NTRS', 'BCR']
+  - Materials: ['NEM', 'SHW', 'BALL', 'ECL', 'VMC', 'IFF', 'PPG', 'APD', 'NUE', 'AVY']
+
+=== 2009-09-30 ===
+Predicted sectors (ETFs): ['Materials', 'Financials', 'Real Estate']
+Predicted sector names   : ['Materials', 'Financials', 'Real Estate']
+Real top sectors         : ['Financials', 'Materials', 'Real Estate']
+Portfolio return         : 27.53% | SPY 15.38%
+Gross return / execution / financing: 23.32% / 21.28 bps / 0.25%
+Borrowed notional / annual rate: $261,535 / 4.83%
+Holdings / turnover      : 30 / 63.33%
+Top20 stocks in pred sectors: 15/20
+Stock picks:
+  - Materials: ['SHW', 'NEM', 'ECL', 'BALL', 'IFF', 'PPG', 'VMC', 'APD', 'IP', 'AVY']
+  - Financials: ['CPWR', 'FHN', 'AN', 'MBI', 'APOL', 'TLAB', 'BMS', 'WFC', 'AGN', 'JPM']
+  - Real Estate: ['PSA', 'AVB', 'HST', 'WY', 'EQR', 'SPG', 'BXP', 'CBRE', 'KIM', 'PLD']
+
+=== 2009-12-31 ===
+Predicted sectors (ETFs): ['Materials', 'Consumer Discretionary', 'Real Estate']
+Predicted sector names   : ['Materials', 'Consumer Discretionary', 'Real Estate']
+Real top sectors         : ['Information Technology', 'Health Care', 'Real Estate']
+Portfolio return         : 12.71% | SPY 6.11%
+Gross return / execution / financing: 10.91% / 14.56 bps / 0.24%
+Borrowed notional / annual rate: $333,526 / 4.79%
+Holdings / turnover      : 30 / 43.33%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Materials: ['BALL', 'NUE', 'FCX', 'APD', 'SHW', 'NEM', 'PPG', 'EMN', 'IP', 'IFF']
+  - Consumer Discretionary: ['EXPE', 'F', 'SBUX', 'TJX', 'AZO', 'DRI', 'TPR', 'AMZN', 'HD', 'YUM']
+  - Real Estate: ['CBRE', 'HST', 'PSA', 'AVB', 'SPG', 'BXP', 'EQR', 'WY', 'PLD', 'KIM']
+
+=== 2010-03-31 ===
+Predicted sectors (ETFs): ['Financials', 'Energy', 'Consumer Discretionary']
+Predicted sector names   : ['Financials', 'Energy', 'Consumer Discretionary']
+Real top sectors         : ['Consumer Discretionary', 'Financials', 'Industrials']
+Portfolio return         : 6.31% | SPY 5.42%
+Gross return / execution / financing: 5.68% / 26.88 bps / 0.24%
+Borrowed notional / annual rate: $375,905 / 4.77%
+Holdings / turnover      : 30 / 80.00%
+Top20 stocks in pred sectors: 15/20
+Stock picks:
+  - Financials: ['EP', 'THC', 'GNW', 'AMD', 'GR', 'AXP', 'GT', 'RX', 'TER', 'JBL']
+  - Energy: ['HAL', 'SLB', 'WMB', 'OXY', 'EOG', 'APA', 'CVX', 'COP', 'DVN', 'XOM']
+  - Consumer Discretionary: ['F', 'EXPE', 'AMZN', 'SBUX', 'TJX', 'EBAY', 'RL', 'TPR', 'BBY', 'LEN']
+
+=== 2010-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Utilities', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Utilities', 'Consumer Discretionary']
+Real top sectors         : ['Utilities', 'Consumer Staples', 'Real Estate']
+Portfolio return         : -4.90% | SPY -11.36%
+Gross return / execution / financing: -9.50% / 14.56 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 43.33%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Energy: ['HAL', 'WMB', 'EOG', 'APA', 'DVN', 'SLB', 'OXY', 'COP', 'CVX', 'VLO']
+  - Utilities: ['AES', 'NI', 'DTE', 'PNW', 'AEP', 'CNP', 'CMS', 'D', 'DUK', 'EIX']
+  - Consumer Discretionary: ['F', 'EXPE', 'LEN', 'TPR', 'SBUX', 'RL', 'EBAY', 'MAR', 'CCL', 'TJX']
+
+=== 2010-09-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Information Technology']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Information Technology']
+Real top sectors         : ['Consumer Discretionary', 'Materials', 'Industrials']
+Portfolio return         : 9.19% | SPY 11.16%
+Gross return / execution / financing: 18.90% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Consumer Discretionary: ['F', 'SBUX', 'LEN', 'HAS', 'RL', 'TPR', 'MAR', 'AMZN', 'HD', 'TJX']
+  - Industrials: ['TXT', 'CMI', 'CAT', 'LUV', 'ROK', 'SWK', 'ETN', 'SNA', 'BA', 'NSC']
+  - Information Technology: ['AKAM', 'NTAP', 'CTSH', 'AAPL', 'MU', 'ADSK', 'VRSN', 'INTC', 'MCHP', 'INTU']
+
+=== 2010-12-31 ===
+Predicted sectors (ETFs): ['Materials', 'Consumer Discretionary', 'Financials']
+Predicted sector names   : ['Materials', 'Consumer Discretionary', 'Financials']
+Real top sectors         : ['Energy', 'Materials', 'Financials']
+Portfolio return         : 11.90% | SPY 10.76%
+Gross return / execution / financing: 10.35% / 28.00 bps / 0.24%
+Borrowed notional / annual rate: $415,011 / 4.76%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 15/20
+Stock picks:
+  - Materials: ['NEM', 'IFF', 'SHW', 'EMN', 'PPG', 'BALL', 'FCX', 'ECL', 'APD', 'IP']
+  - Consumer Discretionary: ['F', 'HAS', 'AZO', 'AMZN', 'MCD', 'YUM', 'DRI', 'MAR', 'GPC', 'SBUX']
+  - Financials: ['TIE', 'EP', 'GR', 'MTB', 'AIV', 'VNO', 'BF/B', 'SLM', 'AN', 'AMP']
+
+=== 2011-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Industrials', 'Materials']
+Predicted sector names   : ['Energy', 'Industrials', 'Materials']
+Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
+Portfolio return         : 11.66% | SPY 5.90%
+Gross return / execution / financing: 10.11% / 23.52 bps / 0.24%
+Borrowed notional / annual rate: $464,395 / 4.75%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['HAL', 'COP', 'SLB', 'VLO', 'WMB', 'OXY', 'CVX', 'XOM', 'APA', 'DVN']
+  - Industrials: ['CMI', 'ETN', 'EXPD', 'CAT', 'PH', 'PCAR', 'ROK', 'UNP', 'DE', 'DOV']
+  - Materials: ['PPG', 'EMN', 'IFF', 'BALL', 'FCX', 'NEM', 'SHW', 'APD', 'ECL', 'AVY']
+
+=== 2011-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Communication Services', 'Utilities']
+Predicted sector names   : ['Energy', 'Communication Services', 'Utilities']
+Real top sectors         : ['Health Care', 'Consumer Discretionary', 'Utilities']
+Portfolio return         : -0.85% | SPY 0.03%
+Gross return / execution / financing: -0.32% / 22.40 bps / 0.24%
+Borrowed notional / annual rate: $518,529 / 4.74%
+Holdings / turnover      : 26 / 66.67%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['COP', 'HAL', 'SLB', 'VLO', 'DVN', 'CVX', 'WMB', 'XOM', 'APA', 'OXY']
+  - Communication Services: ['CMCSA', 'VZ', 'OMC', 'DIS', 'GOOGL', 'EA']
+  - Utilities: ['CMS', 'NI', 'ES', 'WEC', 'SO', 'NEE', 'ED', 'PNW', 'XEL', 'DUK']
+
+=== 2011-09-30 ===
+Predicted sectors (ETFs): ['Utilities', 'Information Technology', 'Industrials']
+Predicted sector names   : ['Utilities', 'Information Technology', 'Industrials']
+Real top sectors         : ['Utilities', 'Consumer Staples', 'Consumer Discretionary']
+Portfolio return         : -7.02% | SPY -13.82%
+Gross return / execution / financing: -13.49% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Utilities: ['CNP', 'NI', 'ES', 'CMS', 'AES', 'FE', 'PNW', 'AEE', 'ED', 'D']
+  - Information Technology: ['NVDA', 'MSI', 'QCOM', 'CRM', 'ADSK', 'ORCL', 'KLAC', 'VRSN', 'INTU', 'TXN']
+  - Industrials: ['CAT', 'ROK', 'DOV', 'CMI', 'PH', 'CSX', 'ETN', 'DE', 'HON', 'GWW']
+
+=== 2011-12-31 ===
+Predicted sectors (ETFs): ['Industrials', 'Information Technology', 'Utilities']
+Predicted sector names   : ['Industrials', 'Information Technology', 'Utilities']
+Real top sectors         : ['Energy', 'Industrials', 'Materials']
+Portfolio return         : 6.33% | SPY 11.62%
+Gross return / execution / financing: 12.96% / 14.56 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 43.33%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Industrials: ['GWW', 'FAST', 'ADP', 'CSX', 'CTAS', 'CAT', 'DE', 'SNA', 'NSC', 'JCI']
+  - Information Technology: ['AAPL', 'IBM', 'MSI', 'QCOM', 'VRSN', 'CRM', 'NVDA', 'INTU', 'MSFT', 'MCHP']
+  - Utilities: ['CNP', 'NI', 'FE', 'ED', 'ES', 'SO', 'D', 'CMS', 'DTE', 'WEC']
+
+=== 2012-03-31 ===
+Predicted sectors (ETFs): ['Materials', 'Real Estate', 'Energy']
+Predicted sector names   : ['Materials', 'Real Estate', 'Energy']
+Real top sectors         : ['Financials', 'Information Technology', 'Consumer Discretionary']
+Portfolio return         : 10.58% | SPY 12.69%
+Gross return / execution / financing: 9.30% / 33.60 bps / 0.24%
+Borrowed notional / annual rate: $508,286 / 4.74%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 0/20
+Stock picks:
+  - Materials: ['ECL', 'NEM', 'IP', 'PPG', 'SHW', 'BALL', 'IFF', 'EMN', 'APD', 'NUE']
+  - Real Estate: ['PSA', 'SPG', 'IRM', 'AMT', 'AVB', 'BXP', 'WELL', 'EQR', 'VTR', 'WY']
+  - Energy: ['WMB', 'CVX', 'EOG', 'XOM', 'COP', 'OXY', 'VLO', 'SLB', 'HAL', 'DVN']
+
+=== 2012-06-30 ===
+Predicted sectors (ETFs): ['Industrials', 'Real Estate', 'Materials']
+Predicted sector names   : ['Industrials', 'Real Estate', 'Materials']
+Real top sectors         : ['Utilities', 'Consumer Staples', 'Real Estate']
+Portfolio return         : -0.04% | SPY -2.84%
+Gross return / execution / financing: 0.18% / 13.44 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 40.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Industrials: ['FAST', 'GWW', 'CTAS', 'JCI', 'LMT', 'UNP', 'CMI', 'EFX', 'ADP', 'UPS']
+  - Real Estate: ['SPG', 'PSA', 'AMT', 'AVB', 'WELL', 'BXP', 'VTR', 'KIM', 'EQR', 'IRM']
+  - Materials: ['SHW', 'IP', 'ECL', 'BALL', 'EMN', 'NEM', 'APD', 'VMC', 'PPG', 'NUE']
+
+=== 2012-09-30 ===
+Predicted sectors (ETFs): ['Industrials', 'Financials', 'Consumer Discretionary']
+Predicted sector names   : ['Industrials', 'Financials', 'Consumer Discretionary']
+Real top sectors         : ['Energy', 'Materials', 'Financials']
+Portfolio return         : 6.07% | SPY 6.35%
+Gross return / execution / financing: 5.47% / 24.64 bps / 0.24%
+Borrowed notional / annual rate: $561,819 / 4.73%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 9/20
+Stock picks:
+  - Industrials: ['EFX', 'GWW', 'FAST', 'CTAS', 'PWR', 'JCI', 'UNP', 'MAS', 'LMT', 'UPS']
+  - Financials: ['V', 'MA', 'TIE', 'VFC', 'M', 'CINF', 'CERN', 'ARG', 'USB', 'CF']
+  - Consumer Discretionary: ['TJX', 'ROST', 'LEN', 'ORLY', 'DHI', 'SBUX', 'HD', 'YUM', 'AZO', 'PHM']
+
+=== 2012-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Real Estate']
+Predicted sector names   : ['Energy', 'Materials', 'Real Estate']
+Real top sectors         : ['Communication Services', 'Materials', 'Industrials']
+Portfolio return         : 4.23% | SPY -0.38%
+Gross return / execution / financing: 4.01% / 33.60 bps / 0.24%
+Borrowed notional / annual rate: $595,923 / 4.72%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Energy: ['VLO', 'WMB', 'EOG', 'CVX', 'XOM', 'SLB', 'COP', 'OXY', 'HAL', 'APA']
+  - Materials: ['SHW', 'EMN', 'PPG', 'IP', 'VMC', 'BALL', 'ECL', 'AVY', 'FCX', 'NUE']
+  - Real Estate: ['WY', 'SPG', 'PLD', 'HST', 'KIM', 'VTR', 'PSA', 'AMT', 'WELL', 'CBRE']
+
+=== 2013-03-31 ===
+Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Utilities']
+Predicted sector names   : ['Communication Services', 'Energy', 'Utilities']
+Real top sectors         : ['Communication Services', 'Consumer Staples', 'Financials']
+Portfolio return         : 18.51% | SPY 10.50%
+Gross return / execution / financing: 15.82% / 23.52 bps / 0.24%
+Borrowed notional / annual rate: $621,125 / 4.72%
+Holdings / turnover      : 27 / 70.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Communication Services: ['CMCSA', 'DIS', 'NFLX', 'VZ', 'OMC', 'GOOGL', 'EA']
+  - Energy: ['VLO', 'WMB', 'EOG', 'COP', 'XOM', 'SLB', 'CVX', 'HAL', 'APA', 'DVN']
+  - Utilities: ['SRE', 'NRG', 'NEE', 'CMS', 'DTE', 'EIX', 'PNW', 'ES', 'WEC', 'AEP']
+
+=== 2013-06-30 ===
+Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Real Estate']
+Predicted sector names   : ['Communication Services', 'Energy', 'Real Estate']
+Real top sectors         : ['Communication Services', 'Financials', 'Information Technology']
+Portfolio return         : -0.33% | SPY 2.94%
+Gross return / execution / financing: 0.04% / 13.69 bps / 0.24%
+Borrowed notional / annual rate: $736,091 / 4.71%
+Holdings / turnover      : 27 / 40.74%
+Top20 stocks in pred sectors: 1/20
+Stock picks:
+  - Communication Services: ['NFLX', 'CMCSA', 'VZ', 'DIS', 'GOOGL', 'OMC', 'EA']
+  - Energy: ['VLO', 'HAL', 'WMB', 'EOG', 'SLB', 'CVX', 'XOM', 'COP', 'OXY', 'DVN']
+  - Real Estate: ['IRM', 'WY', 'VTR', 'AMT', 'WELL', 'CBRE', 'KIM', 'SPG', 'PSA', 'PLD']
+
+=== 2013-09-30 ===
+Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Industrials']
+Predicted sector names   : ['Communication Services', 'Energy', 'Industrials']
+Real top sectors         : ['Industrials', 'Materials', 'Energy']
+Portfolio return         : 10.56% | SPY 5.24%
+Gross return / execution / financing: 9.11% / 13.69 bps / 0.24%
+Borrowed notional / annual rate: $733,683 / 4.71%
+Holdings / turnover      : 27 / 40.74%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Communication Services: ['NFLX', 'EA', 'GOOGL', 'DIS', 'OMC', 'CMCSA', 'VZ']
+  - Energy: ['VLO', 'MPC', 'HAL', 'EOG', 'WMB', 'CVX', 'COP', 'SLB', 'OXY', 'XOM']
+  - Industrials: ['ETN', 'MAS', 'LUV', 'J', 'SNA', 'DOV', 'HON', 'PCAR', 'GWW', 'BA']
+
+=== 2013-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Real Estate']
+Predicted sector names   : ['Energy', 'Materials', 'Real Estate']
+Real top sectors         : ['Financials', 'Communication Services', 'Industrials']
+Portfolio return         : 8.51% | SPY 10.52%
+Gross return / execution / financing: 7.49% / 23.52 bps / 0.24%
+Borrowed notional / annual rate: $811,137 / 4.70%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['HAL', 'EOG', 'MPC', 'VLO', 'COP', 'SLB', 'WMB', 'CVX', 'OXY', 'APA']
+  - Materials: ['ECL', 'PPG', 'AVY', 'EMN', 'IFF', 'IP', 'APD', 'NUE', 'SHW', 'BALL']
+  - Real Estate: ['CBRE', 'PSA', 'WELL', 'HST', 'WY', 'VTR', 'PLD', 'KIM', 'SPG', 'AMT']
+
+=== 2014-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Real Estate', 'Communication Services']
+Predicted sector names   : ['Energy', 'Real Estate', 'Communication Services']
+Real top sectors         : ['Utilities', 'Real Estate', 'Information Technology']
+Portfolio return         : 5.93% | SPY 1.70%
+Gross return / execution / financing: 5.25% / 13.44 bps / 0.23%
+Borrowed notional / annual rate: $880,145 / 4.70%
+Holdings / turnover      : 27 / 40.00%
+Top20 stocks in pred sectors: 1/20
+Stock picks:
+  - Energy: ['HAL', 'VLO', 'EOG', 'MPC', 'COP', 'SLB', 'OXY', 'DVN', 'CVX', 'APA']
+  - Real Estate: ['CBRE', 'HST', 'WY', 'KIM', 'PSA', 'PLD', 'AMT', 'SPG', 'BXP', 'WELL']
+  - Communication Services: ['NFLX', 'EA', 'GOOGL', 'OMC', 'DIS', 'CMCSA', 'VZ']
+
+=== 2014-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Utilities']
+Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Utilities']
+Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
+Portfolio return         : 9.76% | SPY 5.16%
+Gross return / execution / financing: 8.54% / 24.64 bps / 0.24%
+Borrowed notional / annual rate: $932,342 / 4.69%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Energy: ['EOG', 'HAL', 'SLB', 'OXY', 'VLO', 'DVN', 'COP', 'WMB', 'XOM', 'APA']
+  - Consumer Discretionary: ['WYNN', 'BKNG', 'CMG', 'ORLY', 'AMZN', 'AZO', 'NKE', 'LOW', 'TJX', 'EXPE']
+  - Utilities: ['D', 'NI', 'NEE', 'SRE', 'AEE', 'NRG', 'PEG', 'AES', 'DTE', 'AEP']
+
+=== 2014-09-30 ===
+Predicted sectors (ETFs): ['Energy', 'Communication Services', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Communication Services', 'Consumer Discretionary']
+Real top sectors         : ['Health Care', 'Consumer Staples', 'Information Technology']
+Portfolio return         : -0.49% | SPY 1.13%
+Gross return / execution / financing: -0.66% / 16.80 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 27 / 50.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['VLO', 'EOG', 'HAL', 'WMB', 'PSX', 'SLB', 'DVN', 'COP', 'MPC', 'XOM']
+  - Communication Services: ['NFLX', 'EA', 'DIS', 'GOOGL', 'CMCSA', 'OMC', 'VZ']
+  - Consumer Discretionary: ['WYNN', 'MAR', 'BKNG', 'CMG', 'ORLY', 'AZO', 'HAS', 'EXPE', 'NKE', 'CCL']
+
+=== 2014-12-31 ===
+Predicted sectors (ETFs): ['Information Technology', 'Industrials', 'Utilities']
+Predicted sector names   : ['Information Technology', 'Industrials', 'Utilities']
+Real top sectors         : ['Real Estate', 'Utilities', 'Consumer Discretionary']
+Portfolio return         : 12.80% | SPY 4.90%
+Gross return / execution / financing: 11.15% / 33.60 bps / 0.24%
+Borrowed notional / annual rate: $1,018,315 / 4.68%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Information Technology: ['MU', 'HPQ', 'WDC', 'INTC', 'AAPL', 'STX', 'GLW', 'FFIV', 'LRCX', 'MSFT']
+  - Industrials: ['LUV', 'GD', 'NSC', 'LMT', 'UNP', 'TXT', 'NOC', 'XYL', 'CAT', 'EFX']
+  - Utilities: ['NI', 'EIX', 'AEP', 'ETR', 'NEE', 'SRE', 'DTE', 'CMS', 'XEL', 'AEE']
+
+=== 2015-03-31 ===
+Predicted sectors (ETFs): ['Real Estate', 'Information Technology', 'Energy']
+Predicted sector names   : ['Real Estate', 'Information Technology', 'Energy']
+Real top sectors         : ['Communication Services', 'Health Care', 'Materials']
+Portfolio return         : 0.25% | SPY 0.88%
+Gross return / execution / financing: 0.62% / 26.88 bps / 0.23%
+Borrowed notional / annual rate: $1,148,659 / 4.65%
+Holdings / turnover      : 30 / 80.00%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Real Estate: ['WELL', 'IRM', 'EQR', 'AVB', 'AMT', 'KIM', 'BXP', 'SPG', 'VTR', 'CBRE']
+  - Information Technology: ['MU', 'LRCX', 'AAPL', 'INTC', 'FFIV', 'HPQ', 'AMAT', 'KLAC', 'AKAM', 'NVDA']
+  - Energy: ['WMB', 'EOG', 'MPC', 'VLO', 'COP', 'PSX', 'SLB', 'DVN', 'XOM', 'CVX']
+
+=== 2015-06-30 ===
+Predicted sectors (ETFs): ['Materials', 'Communication Services', 'Energy']
+Predicted sector names   : ['Materials', 'Communication Services', 'Energy']
+Real top sectors         : ['Communication Services', 'Health Care', 'Materials']
+Portfolio return         : 2.87% | SPY 0.20%
+Gross return / execution / financing: 2.78% / 22.40 bps / 0.24%
+Borrowed notional / annual rate: $1,151,492 / 4.65%
+Holdings / turnover      : 27 / 66.67%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Materials: ['SHW', 'APD', 'BALL', 'IFF', 'IP', 'VMC', 'PPG', 'NEM', 'MOS', 'AVY']
+  - Communication Services: ['EA', 'NFLX', 'DIS', 'CMCSA', 'OMC', 'VZ', 'GOOGL']
+  - Energy: ['WMB', 'MPC', 'VLO', 'PSX', 'COP', 'XOM', 'DVN', 'CVX', 'EOG', 'SLB']
+
+=== 2015-09-30 ===
+Predicted sectors (ETFs): ['Utilities', 'Communication Services', 'Energy']
+Predicted sector names   : ['Utilities', 'Communication Services', 'Energy']
+Real top sectors         : ['Utilities', 'Communication Services', 'Consumer Staples']
+Portfolio return         : -1.45% | SPY -6.42%
+Gross return / execution / financing: -2.60% / 14.40 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 28 / 42.86%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Utilities: ['NI', 'CMS', 'ED', 'PNW', 'XEL', 'ES', 'PEG', 'FE', 'EIX', 'WEC']
+  - Communication Services: ['EA', 'NFLX', 'DIS', 'CMCSA', 'OMC', 'VZ', 'GOOGL', 'NWSA']
+  - Energy: ['MPC', 'VLO', 'PSX', 'WMB', 'XOM', 'DVN', 'CVX', 'OXY', 'SLB', 'COP']
+
+=== 2015-12-31 ===
+Predicted sectors (ETFs): ['Communication Services', 'Information Technology', 'Health Care']
+Predicted sector names   : ['Communication Services', 'Information Technology', 'Health Care']
+Real top sectors         : ['Communication Services', 'Health Care', 'Consumer Staples']
+Portfolio return         : 8.78% | SPY 7.02%
+Gross return / execution / financing: 7.71% / 24.00 bps / 0.24%
+Borrowed notional / annual rate: $1,167,438 / 4.65%
+Holdings / turnover      : 28 / 71.43%
+Top20 stocks in pred sectors: 7/20
+Stock picks:
+  - Communication Services: ['EA', 'NFLX', 'DIS', 'GOOGL', 'CMCSA', 'OMC', 'VZ', 'NWSA']
+  - Information Technology: ['CTSH', 'VRSN', 'NVDA', 'CRM', 'AKAM', 'ACN', 'ADI', 'AAPL', 'ADBE', 'ROP']
+  - Health Care: ['CI', 'REGN', 'BSX', 'HUM', 'EW', 'UNH', 'LLY', 'CVS', 'BDX', 'SYK']
+
+=== 2016-03-31 ===
+Predicted sectors (ETFs): ['Materials', 'Utilities', 'Communication Services']
+Predicted sector names   : ['Materials', 'Utilities', 'Communication Services']
+Real top sectors         : ['Utilities', 'Materials', 'Consumer Staples']
+Portfolio return         : 11.74% | SPY 1.33%
+Gross return / execution / financing: 10.18% / 24.33 bps / 0.23%
+Borrowed notional / annual rate: $1,269,927 / 4.63%
+Holdings / turnover      : 29 / 72.41%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Materials: ['VMC', 'AVY', 'LYB', 'IFF', 'ECL', 'SHW', 'BALL', 'NEM', 'EMN', 'APD']
+  - Utilities: ['NI', 'PPL', 'CMS', 'XEL', 'ED', 'AEE', 'ES', 'PEG', 'WEC', 'NEE']
+  - Communication Services: ['NFLX', 'EA', 'GOOGL', 'META', 'DIS', 'CMCSA', 'VZ', 'OMC', 'NWSA']
+
+=== 2016-06-30 ===
+Predicted sectors (ETFs): ['Materials', 'Energy', 'Health Care']
+Predicted sector names   : ['Materials', 'Energy', 'Health Care']
+Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
+Portfolio return         : 9.02% | SPY 2.46%
+Gross return / execution / financing: 7.90% / 22.40 bps / 0.23%
+Borrowed notional / annual rate: $1,419,051 / 4.60%
+Holdings / turnover      : 30 / 66.67%
+Top20 stocks in pred sectors: 7/20
+Stock picks:
+  - Materials: ['AVY', 'NEM', 'VMC', 'SHW', 'BALL', 'EMN', 'LYB', 'ECL', 'IFF', 'APD']
+  - Energy: ['PSX', 'XOM', 'OXY', 'VLO', 'SLB', 'CVX', 'HAL', 'EOG', 'MPC', 'APA']
+  - Health Care: ['EW', 'ISRG', 'SYK', 'CI', 'JNJ', 'BAX', 'DHR', 'BDX', 'UNH', 'LLY']
+
+=== 2016-09-30 ===
+Predicted sectors (ETFs): ['Energy', 'Materials', 'Industrials']
+Predicted sector names   : ['Energy', 'Materials', 'Industrials']
+Real top sectors         : ['Information Technology', 'Communication Services', 'Financials']
+Portfolio return         : 2.67% | SPY 3.78%
+Gross return / execution / financing: 2.54% / 14.56 bps / 0.23%
+Borrowed notional / annual rate: $1,547,097 / 4.58%
+Holdings / turnover      : 30 / 43.33%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Energy: ['XOM', 'CVX', 'PSX', 'OXY', 'HAL', 'APA', 'EOG', 'SLB', 'VLO', 'COP']
+  - Materials: ['VMC', 'NEM', 'MLM', 'AVY', 'IFF', 'NUE', 'SHW', 'APD', 'ECL', 'BALL']
+  - Industrials: ['MAS', 'NOC', 'WM', 'EFX', 'LMT', 'LUV', 'RSG', 'J', 'CHRW', 'XYL']
+
+=== 2016-12-31 ===
+Predicted sectors (ETFs): ['Communication Services', 'Consumer Staples', 'Energy']
+Predicted sector names   : ['Communication Services', 'Consumer Staples', 'Energy']
+Real top sectors         : ['Financials', 'Industrials', 'Energy']
+Portfolio return         : 2.13% | SPY 3.95%
+Gross return / execution / financing: 2.17% / 23.52 bps / 0.23%
+Borrowed notional / annual rate: $1,588,396 / 4.58%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 0/20
+Stock picks:
+  - Communication Services: ['META', 'OMC', 'GOOG', 'VZ', 'GOOGL', 'EA', 'CMCSA', 'NWSA', 'NFLX', 'DIS']
+  - Consumer Staples: ['TSN', 'SYY', 'STZ', 'PM', 'GIS', 'SJM', 'MKC', 'PG', 'TAP', 'MO']
+  - Energy: ['CVX', 'APA', 'HAL', 'EOG', 'XOM', 'OXY', 'DVN', 'SLB', 'PSX', 'VLO']
+
+=== 2017-03-31 ===
+Predicted sectors (ETFs): ['Health Care', 'Consumer Staples', 'Consumer Discretionary']
+Predicted sector names   : ['Health Care', 'Consumer Staples', 'Consumer Discretionary']
+Real top sectors         : ['Information Technology', 'Health Care', 'Communication Services']
+Portfolio return         : 8.31% | SPY 5.92%
+Gross return / execution / financing: 7.37% / 30.24 bps / 0.23%
+Borrowed notional / annual rate: $1,622,297 / 4.57%
+Holdings / turnover      : 30 / 90.00%
+Top20 stocks in pred sectors: 5/20
+Stock picks:
+  - Health Care: ['DHR', 'UNH', 'DGX', 'SYK', 'HUM', 'MRK', 'ISRG', 'BAX', 'JNJ', 'BDX']
+  - Consumer Staples: ['SYY', 'ADM', 'WMT', 'CAG', 'DLTR', 'MO', 'HSY', 'CPB', 'TGT', 'GIS']
+  - Consumer Discretionary: ['BBY', 'WYNN', 'GRMN', 'HAS', 'ROST', 'YUM', 'MAR', 'DRI', 'BKNG', 'GPC']
+
+=== 2017-06-30 ===
+Predicted sectors (ETFs): ['Industrials', 'Consumer Staples', 'Communication Services']
+Predicted sector names   : ['Industrials', 'Consumer Staples', 'Communication Services']
+Real top sectors         : ['Health Care', 'Financials', 'Communication Services']
+Portfolio return         : 1.95% | SPY 3.07%
+Gross return / execution / financing: 2.05% / 28.00 bps / 0.23%
+Borrowed notional / annual rate: $1,757,167 / 4.56%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Industrials: ['URI', 'CSX', 'PWR', 'NSC', 'GD', 'BA', 'DE', 'PH', 'CMI', 'UNP']
+  - Consumer Staples: ['ADM', 'MO', 'CAG', 'HSY', 'PM', 'SYY', 'PG', 'COST', 'SJM', 'CLX']
+  - Communication Services: ['NFLX', 'EA', 'CMCSA', 'META', 'DIS', 'GOOGL', 'GOOG', 'OMC', 'NWSA', 'VZ']
+
+=== 2017-09-30 ===
+Predicted sectors (ETFs): ['Utilities', 'Consumer Staples', 'Information Technology']
+Predicted sector names   : ['Utilities', 'Consumer Staples', 'Information Technology']
+Real top sectors         : ['Information Technology', 'Energy', 'Materials']
+Portfolio return         : 6.66% | SPY 4.42%
+Gross return / execution / financing: 6.94% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Utilities: ['CNP', 'DTE', 'PNW', 'NEE', 'XEL', 'PPL', 'AEE', 'NRG', 'EIX', 'ES']
+  - Consumer Staples: ['PM', 'COST', 'PEP', 'MO', 'STZ', 'WMT', 'SYY', 'PG', 'KHC', 'CL']
+  - Information Technology: ['NVDA', 'MU', 'ADSK', 'WDC', 'AMAT', 'STX', 'LRCX', 'SWKS', 'NTAP', 'MCHP']
+
+=== 2017-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Consumer Staples', 'Health Care']
+Predicted sector names   : ['Energy', 'Consumer Staples', 'Health Care']
+Real top sectors         : ['Consumer Staples', 'Industrials', 'Consumer Discretionary']
+Portfolio return         : 8.24% | SPY 6.76%
+Gross return / execution / financing: 8.52% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Energy: ['VLO', 'MPC', 'CVX', 'PSX', 'COP', 'WMB', 'XOM', 'EOG', 'HAL', 'OXY']
+  - Consumer Staples: ['PM', 'EL', 'STZ', 'MNST', 'CLX', 'HSY', 'WMT', 'KO', 'SYY', 'PEP']
+  - Health Care: ['VRTX', 'HUM', 'UNH', 'CI', 'ISRG', 'A', 'BAX', 'DGX', 'ABBV', 'REGN']
+
+=== 2018-03-31 ===
+Predicted sectors (ETFs): ['Health Care', 'Energy', 'Information Technology']
+Predicted sector names   : ['Health Care', 'Energy', 'Information Technology']
+Real top sectors         : ['Information Technology', 'Health Care', 'Communication Services']
+Portfolio return         : 2.11% | SPY -1.00%
+Gross return / execution / financing: 2.26% / 15.68 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 46.67%
+Top20 stocks in pred sectors: 9/20
+Stock picks:
+  - Health Care: ['VRTX', 'ISRG', 'ABBV', 'CI', 'A', 'ABT', 'BAX', 'WAT', 'UNH', 'BDX']
+  - Energy: ['VLO', 'MPC', 'PSX', 'CVX', 'COP', 'OXY', 'EOG', 'WMB', 'XOM', 'DVN']
+  - Information Technology: ['MU', 'NVDA', 'LRCX', 'ADBE', 'AMAT', 'NTAP', 'AVGO', 'CRM', 'VRSN', 'AAPL']
+
+=== 2018-06-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Information Technology', 'Communication Services']
+Predicted sector names   : ['Consumer Discretionary', 'Information Technology', 'Communication Services']
+Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
+Portfolio return         : 4.40% | SPY 3.55%
+Gross return / execution / financing: 4.66% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 7/20
+Stock picks:
+  - Consumer Discretionary: ['AMZN', 'MAR', 'BBY', 'WYNN', 'APTV', 'RL', 'RCL', 'YUM', 'EBAY', 'DHI']
+  - Information Technology: ['NVDA', 'MU', 'ADBE', 'LRCX', 'AMAT', 'NTAP', 'INTU', 'MSFT', 'CRM', 'INTC']
+  - Communication Services: ['NFLX', 'EA', 'GOOG', 'GOOGL', 'META', 'NWSA', 'NWS', 'VZ', 'CMCSA', 'DIS']
+
+=== 2018-09-30 ===
+Predicted sectors (ETFs): ['Industrials', 'Energy', 'Communication Services']
+Predicted sector names   : ['Industrials', 'Energy', 'Communication Services']
+Real top sectors         : ['Health Care', 'Industrials', 'Information Technology']
+Portfolio return         : 1.56% | SPY 7.65%
+Gross return / execution / financing: 1.79% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Industrials: ['BA', 'GWW', 'CTAS', 'CAT', 'URI', 'TXT', 'JBHT', 'TDG', 'UNP', 'EXPD']
+  - Energy: ['VLO', 'COP', 'MPC', 'OXY', 'PSX', 'EOG', 'DVN', 'CVX', 'HAL', 'SLB']
+  - Communication Services: ['NFLX', 'META', 'EA', 'GOOG', 'GOOGL', 'VZ', 'NWSA', 'NWS', 'DIS', 'OMC']
+
+=== 2018-12-31 ===
+Predicted sectors (ETFs): ['Utilities', 'Consumer Staples', 'Information Technology']
+Predicted sector names   : ['Utilities', 'Consumer Staples', 'Information Technology']
+Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Staples']
+Portfolio return         : -3.99% | SPY -13.53%
+Gross return / execution / financing: -7.32% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 7/20
+Stock picks:
+  - Utilities: ['NRG', 'AES', 'FE', 'EXC', 'NEE', 'PEG', 'ETR', 'AEE', 'WEC', 'AWK']
+  - Consumer Staples: ['KR', 'TGT', 'COST', 'SYY', 'EL', 'WMT', 'HRL', 'MKC', 'ADM', 'CHD']
+  - Information Technology: ['NTAP', 'ADBE', 'STX', 'CRM', 'NVDA', 'FFIV', 'INTU', 'AKAM', 'MSFT', 'MSI']
+
+=== 2019-03-31 ===
+Predicted sectors (ETFs): ['Industrials', 'Consumer Discretionary', 'Information Technology']
+Predicted sector names   : ['Industrials', 'Consumer Discretionary', 'Information Technology']
+Real top sectors         : ['Information Technology', 'Energy', 'Consumer Discretionary']
+Portfolio return         : 23.63% | SPY 13.53%
+Gross return / execution / financing: 20.10% / 25.76 bps / 0.23%
+Borrowed notional / annual rate: $2,149,634 / 4.53%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Industrials: ['UAL', 'GWW', 'CSX', 'TDG', 'VRSK', 'ADP', 'CTAS', 'NSC', 'BA', 'EXPD']
+  - Consumer Discretionary: ['CMG', 'AMZN', 'ORLY', 'ULTA', 'TJX', 'TSCO', 'NKE', 'SBUX', 'DRI', 'YUM']
+  - Information Technology: ['MSI', 'ADBE', 'CRM', 'ADSK', 'INTU', 'VRSN', 'MSFT', 'FFIV', 'CSCO', 'NTAP']
+
+=== 2019-06-30 ===
+Predicted sectors (ETFs): ['Materials', 'Real Estate', 'Financials']
+Predicted sector names   : ['Materials', 'Real Estate', 'Financials']
+Real top sectors         : ['Financials', 'Communication Services', 'Consumer Discretionary']
+Portfolio return         : 4.74% | SPY 4.23%
+Gross return / execution / financing: 5.07% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 9/20
+Stock picks:
+  - Materials: ['BALL', 'MOS', 'ECL', 'APD', 'SHW', 'AVY', 'PPG', 'NUE', 'ALB', 'VMC']
+  - Real Estate: ['WELL', 'O', 'VTR', 'KIM', 'UDR', 'AMT', 'SPG', 'EQR', 'AVB', 'ESS']
+  - Financials: ['AMD', 'HCA', 'UA', 'UAA', 'AAP', 'KMI', 'ILMN', 'TRIP', 'PYPL', 'MA']
+
+=== 2019-09-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Materials']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Materials']
+Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Staples']
+Portfolio return         : 0.82% | SPY 1.75%
+Gross return / execution / financing: 1.06% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Consumer Discretionary: ['SBUX', 'AZO', 'CMG', 'ULTA', 'ORLY', 'TSCO', 'YUM', 'MCD', 'GRMN', 'RCL']
+  - Industrials: ['AMD', 'WM', 'NSC', 'XRX', 'FAST', 'DG', 'VRSK', 'PAYX', 'TDG', 'ALLE']
+  - Materials: ['BALL', 'APD', 'ECL', 'IFF', 'SHW', 'AVY', 'PPG', 'VMC', 'MLM', 'NEM']
+
+=== 2019-12-31 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Health Care']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Health Care']
+Real top sectors         : ['Health Care', 'Information Technology', 'Communication Services']
+Portfolio return         : 2.66% | SPY 8.99%
+Gross return / execution / financing: 2.87% / 21.28 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 63.33%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Consumer Discretionary: ['CMG', 'SBUX', 'AZO', 'PHM', 'MCD', 'YUM', 'EBAY', 'DHI', 'GRMN', 'TSCO']
+  - Industrials: ['TDG', 'CTAS', 'VRSK', 'WM', 'JCI', 'RSG', 'NOC', 'J', 'ADP', 'PAYX']
+  - Health Care: ['ZTS', 'DHR', 'EW', 'SYK', 'MRK', 'RMD', 'HOLX', 'IQV', 'INCY', 'ABT']
+
+=== 2020-03-31 ===
+Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Consumer Staples']
+Predicted sector names   : ['Information Technology', 'Utilities', 'Consumer Staples']
+Real top sectors         : ['Consumer Staples', 'Health Care', 'Utilities']
+Portfolio return         : -6.75% | SPY -19.45%
+Gross return / execution / financing: -12.82% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Information Technology: ['LRCX', 'KLAC', 'AMAT', 'AAPL', 'SNPS', 'NVDA', 'CDNS', 'STX', 'MSFT', 'QCOM']
+  - Utilities: ['SO', 'ETR', 'SRE', 'NEE', 'AWK', 'AES', 'WEC', 'FE', 'ES', 'LNT']
+  - Consumer Staples: ['TGT', 'TSN', 'EL', 'COST', 'CPB', 'GIS', 'HSY', 'CAG', 'PG', 'MDLZ']
+
+=== 2020-06-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Energy', 'Industrials']
+Predicted sector names   : ['Consumer Discretionary', 'Energy', 'Industrials']
+Real top sectors         : ['Energy', 'Consumer Discretionary', 'Information Technology']
+Portfolio return         : 17.58% | SPY 20.16%
+Gross return / execution / financing: 35.83% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Consumer Discretionary: ['PHM', 'DHI', 'KMX', 'LEN', 'ROST', 'HD', 'TJX', 'CMG', 'BBY', 'SBUX']
+  - Energy: ['MPC', 'PSX', 'VLO', 'CVX', 'COP', 'APA', 'WMB', 'EOG', 'XOM', 'SLB']
+  - Industrials: ['TDG', 'CTAS', 'ALLE', 'LMT', 'NOC', 'J', 'EFX', 'ITW', 'VRSK', 'URI']
+
+=== 2020-09-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Financials']
+Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Financials']
+Real top sectors         : ['Materials', 'Consumer Discretionary', 'Industrials']
+Portfolio return         : 6.26% | SPY 9.04%
+Gross return / execution / financing: 13.07% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Consumer Discretionary: ['CMG', 'LOW', 'DHI', 'AMZN', 'LEN', 'HD', 'NKE', 'EBAY', 'GRMN', 'BBY']
+  - Materials: ['NEM', 'SHW', 'ALB', 'PKG', 'APD', 'ECL', 'BALL', 'AVY', 'IFF', 'EMN']
+  - Financials: ['SPGI', 'MSCI', 'MCO', 'PYPL', 'NDAQ', 'BLK', 'MA', 'ICE', 'FIS', 'V']
+
+=== 2020-12-31 ===
+Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Health Care']
+Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Health Care']
+Real top sectors         : ['Energy', 'Financials', 'Information Technology']
+Portfolio return         : 7.67% | SPY 12.12%
+Gross return / execution / financing: 15.81% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Energy: ['WMB', 'HAL', 'CVX', 'COP', 'VLO', 'EOG', 'MPC', 'XOM', 'PSX', 'APA']
+  - Consumer Discretionary: ['AMZN', 'TSCO', 'BBY', 'CMG', 'LOW', 'EBAY', 'DHI', 'LEN', 'HD', 'GRMN']
+  - Health Care: ['REGN', 'VRTX', 'ALGN', 'HUM', 'DVA', 'TMO', 'UNH', 'IDXX', 'DHR', 'MTD']
+
+=== 2021-03-31 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Communication Services', 'Real Estate']
+Predicted sector names   : ['Consumer Discretionary', 'Communication Services', 'Real Estate']
+Real top sectors         : ['Energy', 'Consumer Discretionary', 'Financials']
+Portfolio return         : 4.85% | SPY 6.35%
+Gross return / execution / financing: 10.17% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 70.00%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Consumer Discretionary: ['AMZN', 'CMG', 'TSCO', 'DHI', 'EBAY', 'LEN', 'NKE', 'LOW', 'HD', 'BBY']
+  - Communication Services: ['NFLX', 'TTWO', 'META', 'CHTR', 'GOOG', 'GOOGL', 'NWSA', 'NWS', 'EA', 'CMCSA']
+  - Real Estate: ['EQIX', 'CCI', 'SBAC', 'DLR', 'PLD', 'EXR', 'PSA', 'ARE', 'AMT', 'CBRE']
+
+=== 2021-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Financials', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Financials', 'Consumer Discretionary']
+Real top sectors         : ['Energy', 'Real Estate', 'Health Care']
+Portfolio return         : 5.58% | SPY 8.36%
+Gross return / execution / financing: 12.02% / 32.48 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 96.67%
+Top20 stocks in pred sectors: 5/20
+Stock picks:
+  - Energy: ['APA', 'DVN', 'HAL', 'FANG', 'MPC', 'OXY', 'SLB', 'EOG', 'VLO', 'COP']
+  - Financials: ['PYPL', 'IVZ', 'SYF', 'CFG', 'FITB', 'COF', 'RF', 'MS', 'AMP', 'GS']
+  - Consumer Discretionary: ['TPR', 'MGM', 'APTV', 'RCL', 'EXPE', 'NCLH', 'DRI', 'F', 'MHK', 'DHI']
+
+=== 2021-09-30 ===
+Predicted sectors (ETFs): ['Industrials', 'Energy', 'Financials']
+Predicted sector names   : ['Industrials', 'Energy', 'Financials']
+Real top sectors         : ['Real Estate', 'Financials', 'Health Care']
+Portfolio return         : 0.02% | SPY 0.57%
+Gross return / execution / financing: 0.38% / 16.80 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 50.00%
+Top20 stocks in pred sectors: 9/20
+Stock picks:
+  - Industrials: ['PWR', 'PVH', 'GM', 'UAA', 'DE', 'DXC', 'FDX', 'URI', 'HCA', 'UA']
+  - Energy: ['DVN', 'FANG', 'HAL', 'MPC', 'SLB', 'EOG', 'APA', 'WMB', 'VLO', 'OXY']
+  - Financials: ['IVZ', 'COF', 'FITB', 'SCHW', 'SYF', 'RF', 'CFG', 'KEY', 'RJF', 'CINF']
+
+=== 2021-12-31 ===
+Predicted sectors (ETFs): ['Information Technology', 'Consumer Staples', 'Health Care']
+Predicted sector names   : ['Information Technology', 'Consumer Staples', 'Health Care']
+Real top sectors         : ['Information Technology', 'Real Estate', 'Materials']
+Portfolio return         : 14.37% | SPY 11.07%
+Gross return / execution / financing: 14.70% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Information Technology: ['FTNT', 'IT', 'AMAT', 'NTAP', 'LRCX', 'STX', 'KEYS', 'ANET', 'KLAC', 'INTU']
+  - Consumer Staples: ['TGT', 'EL', 'PM', 'TAP', 'KR', 'MO', 'TSN', 'COST', 'ADM', 'SYY']
+  - Health Care: ['ALGN', 'WAT', 'LLY', 'A', 'IDXX', 'RMD', 'IQV', 'LH', 'MTD', 'DVA']
+
+=== 2022-03-31 ===
+Predicted sectors (ETFs): ['Health Care', 'Energy', 'Financials']
+Predicted sector names   : ['Health Care', 'Energy', 'Financials']
+Real top sectors         : ['Energy', 'Utilities', 'Materials']
+Portfolio return         : 8.45% | SPY -4.61%
+Gross return / execution / financing: 8.73% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 14/20
+Stock picks:
+  - Health Care: ['PFE', 'LLY', 'DHR', 'IQV', 'LH', 'TMO', 'ZTS', 'CVS', 'MTD', 'WAT']
+  - Energy: ['DVN', 'FANG', 'APA', 'COP', 'EOG', 'OXY', 'XOM', 'MPC', 'CVX', 'WMB']
+  - Financials: ['WFC', 'FITB', 'RJF', 'NDAQ', 'AMP', 'BAC', 'SCHW', 'GS', 'COF', 'RF']
+
+=== 2022-06-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Information Technology']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Information Technology']
+Real top sectors         : ['Consumer Staples', 'Utilities', 'Energy']
+Portfolio return         : -9.73% | SPY -16.11%
+Gross return / execution / financing: -18.78% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Consumer Discretionary: ['F', 'AZO', 'ORLY', 'ULTA', 'LOW', 'MGM', 'TSCO', 'YUM', 'MAR', 'EXPE']
+  - Industrials: ['CF', 'AMD', 'RHI', 'SEE', 'NOC', 'OKE', 'CMA', 'RTX', 'HCA', 'GD']
+  - Information Technology: ['FTNT', 'NVDA', 'ANET', 'IT', 'STX', 'AAPL', 'QCOM', 'AVGO', 'MSFT', 'SNPS']
+
+=== 2022-09-30 ===
+Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Materials']
+Predicted sector names   : ['Energy', 'Information Technology', 'Materials']
+Real top sectors         : ['Energy', 'Consumer Discretionary', 'Financials']
+Portfolio return         : -1.10% | SPY -4.93%
+Gross return / execution / financing: -1.64% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 83.33%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Energy: ['DVN', 'OXY', 'APA', 'COP', 'HAL', 'EOG', 'CVX', 'MPC', 'VLO', 'FANG']
+  - Information Technology: ['HPQ', 'AVGO', 'FTNT', 'SNPS', 'KLAC', 'ANET', 'CDNS', 'HPE', 'AAPL', 'CTSH']
+  - Materials: ['MOS', 'ALB', 'CTVA', 'NUE', 'AMCR', 'PKG', 'LYB', 'LIN', 'NEM', 'FCX']
+
+=== 2022-12-31 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Energy']
+Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Energy']
+Real top sectors         : ['Energy', 'Health Care', 'Industrials']
+Portfolio return         : 6.95% | SPY 7.56%
+Gross return / execution / financing: 14.22% / 15.68 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 46.67%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Consumer Discretionary: ['GPC', 'AZO', 'ULTA', 'ORLY', 'F', 'LKQ', 'MCD', 'MAR', 'LVS', 'LOW']
+  - Materials: ['MOS', 'CTVA', 'NUE', 'ALB', 'AMCR', 'MLM', 'PKG', 'APD', 'VMC', 'LIN']
+  - Energy: ['OXY', 'DVN', 'APA', 'VLO', 'XOM', 'MPC', 'COP', 'EOG', 'CVX', 'FANG']
+
+=== 2023-03-31 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Real Estate']
+Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Real Estate']
+Real top sectors         : ['Information Technology', 'Communication Services', 'Consumer Discretionary']
+Portfolio return         : 2.08% | SPY 7.46%
+Gross return / execution / financing: 4.50% / 16.80 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 50.00%
+Top20 stocks in pred sectors: 4/20
+Stock picks:
+  - Consumer Discretionary: ['GPC', 'LVS', 'AZO', 'ORLY', 'ULTA', 'TJX', 'ROST', 'MCD', 'DRI', 'MAR']
+  - Materials: ['CTVA', 'NUE', 'MOS', 'ALB', 'AMCR', 'APD', 'PKG', 'LYB', 'LIN', 'FCX']
+  - Real Estate: ['HST', 'IRM', 'KIM', 'VTR', 'O', 'REG', 'WELL', 'PSA', 'FRT', 'WY']
+
+=== 2023-06-30 ===
+Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Financials']
+Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Financials']
+Real top sectors         : ['Consumer Discretionary', 'Communication Services', 'Industrials']
+Portfolio return         : 1.30% | SPY 8.68%
+Gross return / execution / financing: 1.49% / 26.88 bps / 0.23%
+Borrowed notional / annual rate: $4,837,967 / 4.45%
+Holdings / turnover      : 30 / 80.00%
+Top20 stocks in pred sectors: 5/20
+Stock picks:
+  - Energy: ['MPC', 'XOM', 'VLO', 'SLB', 'PSX', 'FANG', 'COP', 'OXY', 'CVX', 'EOG']
+  - Consumer Discretionary: ['LVS', 'GPC', 'WYNN', 'PHM', 'ULTA', 'TJX', 'LKQ', 'DHI', 'ROST', 'AZO']
+  - Financials: ['PGR', 'PFG', 'GL', 'AMP', 'MS', 'CBOE', 'HIG', 'BEN', 'GS', 'JPM']
+
+=== 2023-09-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Financials', 'Materials']
+Predicted sector names   : ['Consumer Discretionary', 'Financials', 'Materials']
+Real top sectors         : ['Energy', 'Financials', 'Information Technology']
+Portfolio return         : -2.50% | SPY -3.22%
+Gross return / execution / financing: -4.52% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Consumer Discretionary: ['RCL', 'WYNN', 'PHM', 'LVS', 'DHI', 'CMG', 'LEN', 'ROST', 'DRI', 'BKNG']
+  - Financials: ['AMP', 'JPM', 'AJG', 'AFL', 'CBOE', 'MCO', 'MA', 'AXP', 'MSCI', 'SYF']
+  - Materials: ['VMC', 'MLM', 'NUE', 'LIN', 'FCX', 'PPG', 'APD', 'ECL', 'LYB', 'SHW']
+
+=== 2023-12-31 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Health Care']
+Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Health Care']
+Real top sectors         : ['Real Estate', 'Information Technology', 'Financials']
+Portfolio return         : 18.61% | SPY 11.64%
+Gross return / execution / financing: 15.92% / 26.88 bps / 0.23%
+Borrowed notional / annual rate: $4,778,282 / 4.45%
+Holdings / turnover      : 30 / 80.00%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Consumer Discretionary: ['RCL', 'CCL', 'PHM', 'BKNG', 'DHI', 'CZR', 'LEN', 'WYNN', 'NVR', 'TJX']
+  - Industrials: ['GE', 'BA', 'FDX', 'URI', 'ETN', 'PNR', 'CAT', 'PH', 'ODFL', 'TDG']
+  - Health Care: ['ALGN', 'LLY', 'ISRG', 'WST', 'IDXX', 'UHS', 'SYK', 'COO', 'BSX', 'STE']
+
+=== 2024-03-31 ===
+Predicted sectors (ETFs): ['Energy', 'Real Estate', 'Consumer Discretionary']
+Predicted sector names   : ['Energy', 'Real Estate', 'Consumer Discretionary']
+Real top sectors         : ['Energy', 'Industrials', 'Financials']
+Portfolio return         : 8.21% | SPY 10.39%
+Gross return / execution / financing: 8.48% / 26.88 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 80.00%
+Top20 stocks in pred sectors: 6/20
+Stock picks:
+  - Energy: ['MPC', 'PSX', 'FANG', 'BKR', 'WMB', 'CTRA', 'VLO', 'COP', 'SLB', 'EOG']
+  - Real Estate: ['DLR', 'WELL', 'IRM', 'EQIX', 'HST', 'SPG', 'AVB', 'WY', 'VTR', 'PLD']
+  - Consumer Discretionary: ['RCL', 'PHM', 'TSLA', 'CCL', 'AMZN', 'CMG', 'EXPE', 'BKNG', 'DHI', 'LEN']
+
+=== 2024-06-30 ===
+Predicted sectors (ETFs): ['Consumer Discretionary', 'Health Care', 'Industrials']
+Predicted sector names   : ['Consumer Discretionary', 'Health Care', 'Industrials']
+Real top sectors         : ['Information Technology', 'Utilities', 'Communication Services']
+Portfolio return         : -1.45% | SPY 4.38%
+Gross return / execution / financing: -1.19% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 3/20
+Stock picks:
+  - Consumer Discretionary: ['RCL', 'PHM', 'AMZN', 'RL', 'CMG', 'CCL', 'DHI', 'LEN', 'MAR', 'NCLH']
+  - Health Care: ['LLY', 'DVA', 'ISRG', 'CAH', 'MOH', 'VRTX', 'CI', 'VTRS', 'BSX', 'UHS']
+  - Industrials: ['CEG', 'AMD', 'URI', 'ETN', 'TDG', 'GE', 'PH', 'PCAR', 'HWM', 'MAS']
+
+=== 2024-09-30 ===
+Predicted sectors (ETFs): ['Health Care', 'Industrials', 'Energy']
+Predicted sector names   : ['Health Care', 'Industrials', 'Energy']
+Real top sectors         : ['Utilities', 'Real Estate', 'Industrials']
+Portfolio return         : 5.37% | SPY 5.75%
+Gross return / execution / financing: 5.57% / 20.16 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 60.00%
+Top20 stocks in pred sectors: 7/20
+Stock picks:
+  - Health Care: ['LLY', 'DVA', 'AMGN', 'BSX', 'REGN', 'VRTX', 'ABBV', 'CI', 'ELV', 'DHR']
+  - Industrials: ['CEG', 'GE', 'TT', 'HWM', 'LDOS', 'ETN', 'TDG', 'WAB', 'URI', 'AMD']
+  - Energy: ['FANG', 'MPC', 'PSX', 'VLO', 'WMB', 'CTRA', 'COP', 'EOG', 'XOM', 'HAL']
+
+=== 2024-12-31 ===
+Predicted sectors (ETFs): ['Communication Services', 'Real Estate', 'Materials']
+Predicted sector names   : ['Communication Services', 'Real Estate', 'Materials']
+Real top sectors         : ['Communication Services', 'Financials', 'Consumer Discretionary']
+Portfolio return         : -3.58% | SPY 2.49%
+Gross return / execution / financing: -3.24% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 2/20
+Stock picks:
+  - Communication Services: ['NFLX', 'META', 'TMUS', 'NWSA', 'NWS', 'VZ', 'OMC', 'FOX', 'FOXA', 'EA']
+  - Real Estate: ['IRM', 'SPG', 'CBRE', 'VTR', 'WELL', 'EXR', 'ESS', 'AMT', 'KIM', 'CPT']
+  - Materials: ['IFF', 'ECL', 'NEM', 'SHW', 'IP', 'PKG', 'EMN', 'MLM', 'AMCR', 'LIN']
+
+=== 2025-03-31 ===
+Predicted sectors (ETFs): ['Health Care', 'Industrials', 'Communication Services']
+Predicted sector names   : ['Health Care', 'Industrials', 'Communication Services']
+Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
+Portfolio return         : 0.76% | SPY -4.27%
+Gross return / execution / financing: 1.00% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 73.33%
+Top20 stocks in pred sectors: 8/20
+Stock picks:
+  - Health Care: ['ISRG', 'DVA', 'BSX', 'RMD', 'LLY', 'UHS', 'SYK', 'VTRS', 'CAH', 'ABBV']
+  - Industrials: ['UAL', 'CEG', 'HWM', 'GE', 'TT', 'OKE', 'KMI', 'DAL', 'CMI', 'PWR']
+  - Communication Services: ['NFLX', 'FOX', 'META', 'FOXA', 'TMUS', 'LYV', 'DIS', 'NWS', 'VZ', 'OMC']
+
+=== 2025-06-30 ===
+Predicted sectors (ETFs): ['Communication Services', 'Consumer Discretionary', 'Information Technology']
+Predicted sector names   : ['Communication Services', 'Consumer Discretionary', 'Information Technology']
+Real top sectors         : ['Information Technology', 'Communication Services', 'Industrials']
+Portfolio return         : 17.30% | SPY 10.78%
+Gross return / execution / financing: 17.56% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 76.67%
+Top20 stocks in pred sectors: 12/20
+Stock picks:
+  - Communication Services: ['FOX', 'FOXA', 'TMUS', 'NFLX', 'TTWO', 'META', 'LYV', 'WBD', 'CHTR', 'NWS']
+  - Consumer Discretionary: ['TPR', 'RCL', 'TSLA', 'GRMN', 'CCL', 'RL', 'EXPE', 'BKNG', 'SBUX', 'TJX']
+  - Information Technology: ['FTNT', 'GLW', 'FFIV', 'AVGO', 'FICO', 'TYL', 'AAPL', 'NVDA', 'IBM', 'ORCL']
+
+=== 2025-09-30 ===
+Predicted sectors (ETFs): ['Energy', 'Health Care', 'Consumer Staples']
+Predicted sector names   : ['Energy', 'Health Care', 'Consumer Staples']
+Real top sectors         : ['Information Technology', 'Utilities', 'Consumer Discretionary']
+Portfolio return         : 2.30% | SPY 8.12%
+Gross return / execution / financing: 2.63% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 100.00%
+Top20 stocks in pred sectors: 1/20
+Stock picks:
+  - Energy: ['WMB', 'TRGP', 'BKR', 'MPC', 'CTRA', 'XOM', 'CVX', 'EOG', 'VLO', 'PSX']
+  - Health Care: ['GILD', 'PODD', 'CAH', 'BSX', 'ABT', 'DGX', 'RMD', 'ISRG', 'LH', 'BMY']
+  - Consumer Staples: ['PM', 'WMT', 'MO', 'KR', 'MNST', 'COST', 'KO', 'TAP', 'SJM', 'KMB']
+
+=== 2025-12-31 ===
+Predicted sectors (ETFs): ['Health Care', 'Consumer Staples', 'Industrials']
+Predicted sector names   : ['Health Care', 'Consumer Staples', 'Industrials']
+Real top sectors         : ['Health Care', 'Materials', 'Financials']
+Portfolio return         : 0.56% | SPY 2.67%
+Gross return / execution / financing: 2.72% / 21.28 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
+Holdings / turnover      : 30 / 63.33%
+Top20 stocks in pred sectors: 10/20
+Stock picks:
+  - Health Care: ['PODD', 'GILD', 'CAH', 'COR', 'IDXX', 'INCY', 'BSX', 'LH', 'EW', 'CVS']
+  - Consumer Staples: ['DLTR', 'PM', 'MO', 'WMT', 'KR', 'MNST', 'ADM', 'COST', 'SYY', 'HSY']
+  - Industrials: ['AXON', 'UAL', 'HWM', 'JBL', 'BA', 'GE', 'EQT', 'FAST', 'JCI', 'TEL']

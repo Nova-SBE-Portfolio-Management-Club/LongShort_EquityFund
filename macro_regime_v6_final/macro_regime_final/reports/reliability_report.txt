@@ -1,0 +1,10 @@
+Reliability Score Report
+Score: 61.0/100
+Target: 55.0
+Status: PASS
+Drivers:
+- Data checks WARN count: 3
+- Coverage warning present.
+- History has tickers not in prices.
+- Extreme monthly return outliers present.
+Action: acceptable to present with disclosed assumptions.

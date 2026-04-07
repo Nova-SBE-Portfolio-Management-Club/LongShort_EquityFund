@@ -1,0 +1,13 @@
+check,status,detail
+schema_date_column,PASS,Date column found.
+schema_spy_column,PASS,SPY column found.
+date_parse,PASS,All Date rows parsed.
+date_duplicates,PASS,No duplicate Date rows.
+date_monotonic,PASS,Dates are increasing.
+nonpositive_prices,PASS,No non-positive prices detected.
+date_span,PASS,Rows=316 span_days=9587 from 1999-12-31 to 2026-03-31
+return_outliers,WARN,Monthly returns with |r|>80%: 96 (max allowed 80)
+overall_data_coverage,WARN,Average non-null coverage over active windows: 0.7425 (target 0.88)
+constituent_price_overlap,PASS,Overlap symbols=499/499 (100.00%)
+history_actions,PASS,History actions valid (added/removed).
+history_ticker_in_prices,WARN,History tickers missing from prices: 453

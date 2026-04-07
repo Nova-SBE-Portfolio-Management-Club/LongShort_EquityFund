@@ -1,0 +1,7 @@
+Bootstrap Significance Summary
+Iterations: 5000
+N quarters: 82
+Portfolio annualized Sharpe: 1.473 [95% CI: 1.048, 1.999]
+Alpha annualized (simple): 8.07% [95% CI: 3.32%, 12.72%]
+P(alpha <= 0): 0.001
+P(portfolio Sharpe <= 0): 0.000

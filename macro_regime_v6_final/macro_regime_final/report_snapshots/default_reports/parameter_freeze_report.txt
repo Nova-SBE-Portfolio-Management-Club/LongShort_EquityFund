@@ -1,0 +1,4 @@
+Parameter Freeze Summary
+Snapshot: C:\Users\Lucas Albanese\Downloads\macro_regime_clean\macro_regime_clean\macro_regime\data\frozen_config.json
+Differences vs frozen config: 19
+Lock status: CHANGED (potential re-tuning risk).

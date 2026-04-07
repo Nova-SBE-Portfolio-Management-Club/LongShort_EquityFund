@@ -1,0 +1,2 @@
+profile,expansion_exposure,transition_exposure,contraction_base_exposure,total_return,spy_total_return,ann_return,ann_vol,sharpe,max_drawdown,hit_rate,avg_quarter_ret,avg_expansion_quarter,avg_transition_quarter,avg_contraction_quarter,avg_execution_cost_bps_q,avg_financing_cost_bps_q
+unlevered,1.0,0.8,0.5,20.333302952946823,7.368000753470655,0.16869972685292156,0.12107525200684129,1.393346072424412,-0.116000515766707,0.7317073170731707,0.03974235466179602,0.07512764098668027,0.04362045872965437,0.006114032580869682,23.37596112512851,0.0

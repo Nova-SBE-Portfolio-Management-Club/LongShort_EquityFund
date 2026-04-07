@@ -1,0 +1,2 @@
+Period Backtest Summary
+Generated 6 period slices.

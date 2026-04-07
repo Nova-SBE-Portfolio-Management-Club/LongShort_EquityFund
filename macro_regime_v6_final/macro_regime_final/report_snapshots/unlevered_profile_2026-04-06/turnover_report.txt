@@ -1,0 +1,14 @@
+Turnover / Execution Cost Summary
+Exposure profile: unlevered
+Resolved regime exposures: Expansion=1.00, Transition=0.80, Contraction=0.50
+Average holdings per quarter: 28.90
+Average turnover (one-way): 69.57%
+Median turnover (one-way): 73.33%
+Average applied execution cost: 23.38 bps per quarter
+Average financing drag: 0.00 bps per quarter
+Average annualized financing rate on borrowed balance: n/a
+Average borrowed notional (USD, using configured account NAV): $0
+IBKR-style one-way cost assumption (bps): commission=0.40 + exchange=0.20 + spread=8.00 + slippage=10.00 + impact=15.00 = 33.60
+IBKR Pro USD financing assumption: blended benchmark-plus-spread tiers for 0-100k, 100k-1m, 1m-50m, 50m-250m, and 250m+ borrowed balances.
+Benchmark proxy used in backtest: 3.64% annual.
+Note: fixed per-order minimum ticket costs are approximated in commission bps.

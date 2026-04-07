@@ -1,0 +1,12 @@
+Turnover / Execution Cost Summary
+Average holdings per quarter: 28.90
+Average turnover (one-way): 69.57%
+Median turnover (one-way): 73.33%
+Average applied execution cost: 23.38 bps per quarter
+Average financing drag: 8.07 bps per quarter
+Average annualized financing rate on borrowed balance: 4.67%
+Average borrowed notional (USD, using configured account NAV): $417,136
+IBKR-style one-way cost assumption (bps): commission=0.40 + exchange=0.20 + spread=8.00 + slippage=10.00 + impact=15.00 = 33.60
+IBKR Pro USD financing assumption: blended benchmark-plus-spread tiers for 0-100k, 100k-1m, 1m-50m, 50m-250m, and 250m+ borrowed balances.
+Benchmark proxy used in backtest: 3.64% annual.
+Note: fixed per-order minimum ticket costs are approximated in commission bps.
