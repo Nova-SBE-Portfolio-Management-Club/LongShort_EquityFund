@@ -1,14 +1,17 @@
 import numpy as np
 import pandas as pd
 
+try:
+    from .metrics import annualized_volatility, cagr, sharpe_ratio
+except ImportError:  # pragma: no cover - supports direct script execution
+    from metrics import annualized_volatility, cagr, sharpe_ratio
+
 def perf_stats(rets: pd.Series) -> dict:
     if rets.empty:
         return {}
-    mean_q = float(rets.mean())
-    vol_q  = float(rets.std())
-    ann_ret = (1 + mean_q) ** 4 - 1
-    ann_vol = vol_q * np.sqrt(4)
-    sharpe = ann_ret / (ann_vol + 1e-12)
+    ann_ret = cagr(rets)
+    ann_vol = annualized_volatility(rets)
+    sharpe = sharpe_ratio(rets)
     mdd = max_drawdown((1 + rets).cumprod().values)
     return {"ann_return": ann_ret, "ann_vol": ann_vol, "sharpe": sharpe, "max_dd": mdd}
 

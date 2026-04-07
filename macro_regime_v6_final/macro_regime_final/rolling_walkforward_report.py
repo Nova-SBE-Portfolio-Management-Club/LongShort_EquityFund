@@ -3,16 +3,20 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+try:
+    from .metrics import annualized_volatility, cagr, sharpe_ratio, total_return
+except ImportError:  # pragma: no cover - supports direct script execution
+    from metrics import annualized_volatility, cagr, sharpe_ratio, total_return
+
 
 def _perf(series: pd.Series, freq: int = 4) -> dict:
     if series.empty:
         return {"TotalReturn": np.nan, "CAGR": np.nan, "Vol": np.nan, "Sharpe": np.nan}
-    total = float((1 + series).prod() - 1)
-    years = len(series) / freq
-    cagr = float((1 + total) ** (1 / years) - 1) if years > 0 else np.nan
-    vol = float(series.std() * np.sqrt(freq))
-    sharpe = cagr / (vol + 1e-12)
-    return {"TotalReturn": total, "CAGR": cagr, "Vol": vol, "Sharpe": sharpe}
+    total = total_return(series)
+    growth = cagr(series, periods=freq)
+    vol = annualized_volatility(series, periods=freq)
+    sharpe = sharpe_ratio(series, periods=freq)
+    return {"TotalReturn": total, "CAGR": growth, "Vol": vol, "Sharpe": sharpe}
 
 
 def run_rolling_walkforward_report(

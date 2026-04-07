@@ -3,15 +3,14 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+try:
+    from .metrics import sharpe_ratio
+except ImportError:  # pragma: no cover - supports direct script execution
+    from metrics import sharpe_ratio
+
 
 def _ann_sharpe(quarterly_rets: np.ndarray) -> float:
-    if quarterly_rets.size == 0:
-        return float("nan")
-    mean_q = float(np.mean(quarterly_rets))
-    vol_q = float(np.std(quarterly_rets, ddof=1)) if quarterly_rets.size > 1 else 0.0
-    ann_ret = (1.0 + mean_q) ** 4 - 1.0
-    ann_vol = vol_q * np.sqrt(4.0)
-    return ann_ret / (ann_vol + 1e-12)
+    return sharpe_ratio(quarterly_rets, periods=4)
 
 
 def _ci(x: np.ndarray, alpha: float = 0.05) -> tuple[float, float]:

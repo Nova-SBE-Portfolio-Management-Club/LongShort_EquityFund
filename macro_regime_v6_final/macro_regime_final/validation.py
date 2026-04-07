@@ -3,9 +3,11 @@ import pandas as pd
 
 try:
     from .backtest import run_walkforward_backtest
+    from .metrics import annualized_volatility, cagr, sharpe_ratio
     from .universe import constituents_asof, apply_history_events
 except ImportError:  # pragma: no cover - supports direct script execution
     from backtest import run_walkforward_backtest
+    from metrics import annualized_volatility, cagr, sharpe_ratio
     from universe import constituents_asof, apply_history_events
 
 
@@ -48,12 +50,10 @@ def _to_metrics(name: str, rets: pd.Series, spy: pd.Series) -> dict:
             "AvgAlphaQ": np.nan,
         }
 
-    mean_q = float(r.mean())
-    vol_q = float(r.std())
-    ann_ret = (1 + mean_q) ** 4 - 1
-    ann_vol = vol_q * np.sqrt(4)
+    ann_ret = cagr(r)
+    ann_vol = annualized_volatility(r)
     eq = (1 + r).cumprod()
-    sharpe = ann_ret / (ann_vol + 1e-12)
+    sharpe = sharpe_ratio(r)
     hit = float((r > s).mean())
     alpha = float((r - s).mean())
     return {

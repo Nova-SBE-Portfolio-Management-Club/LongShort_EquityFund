@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 try:
+    from .metrics import annualized_volatility, cagr, sharpe_ratio
     from .paths import reports_dir
     from .sector_model import SectorReturnModel
     from .stock_model import select_stocks_within_sectors
@@ -12,6 +13,7 @@ try:
     from .macro_data import load_macro_features
     from .regime_engine import run_walkforward_regimes, classify_oos
 except ImportError:  # pragma: no cover - supports direct script execution
+    from metrics import annualized_volatility, cagr, sharpe_ratio
     from paths import reports_dir
     from sector_model import SectorReturnModel
     from stock_model import select_stocks_within_sectors
@@ -859,9 +861,9 @@ def run_backtest_pipeline(
             net = turn_df["GrossRet"] - (turn_df["Turnover"] * (bps / 1e4))
             eq = (1 + net).cumprod()
             total = float(eq.iloc[-1] - 1.0) if len(eq) else np.nan
-            ann_ret = float((1 + net.mean()) ** 4 - 1) if len(net) else np.nan
-            ann_vol = float(net.std() * np.sqrt(4)) if len(net) else np.nan
-            sharpe = float(ann_ret / (ann_vol + 1e-12)) if len(net) else np.nan
+            ann_ret = cagr(net, periods=4)
+            ann_vol = annualized_volatility(net, periods=4)
+            sharpe = sharpe_ratio(net, periods=4)
             scen_rows.append(
                 {
                     "Scenario": name,
