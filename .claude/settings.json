@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -u main.py)",
+      "Bash(echo \"PID=$!\")",
+      "Bash(awk '{print \"CPU:\"$3\"% MEM:\"$4\"% CMD:\"$11,$12}')",
+      "Read(//proc/112370/fd/**)",
+      "Bash(strace -p 112370 -e trace=write -c)",
+      "Bash(kill %1)",
+      "Bash(sort -k6,7)",
+      "Bash(awk '{print \"CPU:\"$3\"% MEM:\"$4\"%\"}')",
+      "Bash(awk '{print \"CPU:\"$3\"%\"}')",
+      "Bash(awk '{print \"CPU:\", $3\"%, MEM:\", $4\"%\"}')",
+      "Bash(awk '{print \"running, elapsed:\", $10}')",
+      "Bash(awk '{print $6, $7, $8}')",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}
