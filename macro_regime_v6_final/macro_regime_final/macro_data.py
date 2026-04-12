@@ -17,7 +17,16 @@ Z-scoring:
     Minimum 252 observations required before a z-score is trusted.
 
 Period conventions (enforced throughout):
-    BURN_IN_END   : 2006-12-31  — HMM never trained before this
+    BURN_IN_END   : 2002-12-31  — z-score warm-up only; no HMM training before this.
+                                  All four variables need 252 obs for z-scoring.
+                                  hy_oas_mom is the binding constraint: it requires
+                                  63 days to compute the rate-of-change of HY OAS,
+                                  then another 252 days to z-score that series —
+                                  so reliable data starts ~mid-2001.  2002-12-31
+                                  gives a full calendar year of clean data before
+                                  the HMM begins classifying.
+    PRE_SAMPLE_END: 2006-12-31  — dot-com recovery; walk-forward runs here but
+                                  these quarters are never used to tune any parameter
     INSAMPLE_END  : 2018-12-31  — tune everything here, freeze params
     OOS_START     : 2019-01-01  — first real test, never touch again
     OOS_END       : 2022-12-31  — OOS evaluation window
@@ -32,12 +41,13 @@ from fredapi import Fred
 warnings.filterwarnings("ignore")
 
 # ─── Period boundaries ────────────────────────────────────────────────────────
-DATA_START    = "2000-01-01"
-BURN_IN_END   = "2006-12-31"
-INSAMPLE_END  = "2018-12-31"
-OOS_START     = "2019-01-01"
-OOS_END       = "2022-12-31"
-ROBUST_START  = "2023-01-01"
+DATA_START      = "2000-01-01"
+BURN_IN_END     = "2002-12-31"   # z-score warm-up only; no HMM training before this
+PRE_SAMPLE_END  = "2006-12-31"   # dot-com recovery; walk-forward runs here, never tuned on
+INSAMPLE_END    = "2018-12-31"
+OOS_START       = "2019-01-01"
+OOS_END         = "2022-12-31"
+ROBUST_START    = "2023-01-01"
 
 # ─── FRED series ──────────────────────────────────────────────────────────────
 FRED_SERIES = {
@@ -186,18 +196,20 @@ def _attach_period_labels(df: pd.DataFrame) -> pd.DataFrame:
     Used to enforce strict separation in the regime engine.
 
     Periods:
-        burn_in     → before 2007 (HMM never trained here)
-        in_sample   → 2007–2018 (build and tune)
-        oos         → 2019–2022 (first real test, never tune on this)
-        robustness  → 2023+     (unseen data, final check)
+        burn_in     → 2000–2002  (z-score warm-up only; HMM never trained here)
+        pre_sample  → 2003–2006  (dot-com recovery; walk-forward runs but never tuned on)
+        in_sample   → 2007–2018  (build and tune)
+        oos         → 2019–2022  (first real test, never tune on this)
+        robustness  → 2023+      (unseen data, final check)
     """
     conditions = [
         df.index <= BURN_IN_END,
-        (df.index > BURN_IN_END) & (df.index <= INSAMPLE_END),
+        (df.index > BURN_IN_END) & (df.index <= PRE_SAMPLE_END),
+        (df.index > PRE_SAMPLE_END) & (df.index <= INSAMPLE_END),
         (df.index > INSAMPLE_END) & (df.index <= OOS_END),
         df.index > OOS_END,
     ]
-    labels = ["burn_in", "in_sample", "oos", "robustness"]
+    labels = ["burn_in", "pre_sample", "in_sample", "oos", "robustness"]
     df["period"] = np.select(conditions, labels, default="unknown")
     return df
 
@@ -205,7 +217,7 @@ def _attach_period_labels(df: pd.DataFrame) -> pd.DataFrame:
 def _print_coverage_report(df: pd.DataFrame) -> None:
     """Print a summary of observations per period."""
     counts = df["period"].value_counts().reindex(
-        ["burn_in", "in_sample", "oos", "robustness"], fill_value=0
+        ["burn_in", "pre_sample", "in_sample", "oos", "robustness"], fill_value=0
     )
     print("\n[macro_data] Period coverage:")
     for period, count in counts.items():

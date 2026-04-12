@@ -12,10 +12,11 @@ Architecture
     Hard label       → argmax of state probabilities
     Confidence       → winning probability (used as exposure multiplier)
 
-Exposure mapping (frozen before any backtest):
-    Expansion    → 1.00  (full momentum)
-    Transition   → 0.65  (partial)
-    Contraction  → 0.30  (defensive — momentum crashes here)
+Exposure (model-derived, no hard-coded multipliers):
+    exposure = Σ P(state_i) × health[state_i]
+    where health[state_i] = 1 - normalised_risk_score derived from HMM emission means.
+    Expansion always → 1.0, Contraction always → 0.0 (floor-clipped),
+    Transition → whatever the current training run's emissions produce.
 
 Walk-forward protocol
 ---------------------
@@ -23,15 +24,15 @@ Walk-forward protocol
         1. Train HMM on ALL data from DATA_START through T
            (expanding window — never re-use future data)
         2. Classify the current regime using last CONFIRM_WINDOW days
-        3. Average posterior probabilities across the window to smooth
-           one-day flips without collapsing everything to Transition
-        4. Output: (regime_label, confidence_score, exposure_multiplier)
+        3. Blend posteriors × emission-derived health weights for exposure
+        4. Output: (regime_label, confidence_score, exposure)
 
 Period discipline (enforced internally):
-    - HMM is NEVER trained before BURN_IN_END (insufficient history)
-    - Walk-forward ONLY runs within in_sample period for tuning
-    - OOS and robustness periods are classified using model trained on
-      all in-sample data — NO retraining after INSAMPLE_END
+    - HMM is NEVER trained before BURN_IN_END = 2002-12-31 (z-score warm-up)
+    - 2003–2006 (pre_sample): walk-forward runs here; dot-com recovery
+      provides additional unseen validation that was previously discarded
+    - 2007–2018 (in_sample): tune and build
+    - OOS (2019–2022) and robustness (2023+): frozen model, no retraining
 """
 
 import warnings
@@ -48,22 +49,102 @@ warnings.filterwarnings("ignore")
 
 N_STATES          = 3           # Expansion / Transition / Contraction
 COVARIANCE_TYPE   = "full"      # "diag" is safer for stability, "full" captures correlations
-N_ITER            = 100         # Baum-Welch EM iterations
+N_ITER            = 200         # Baum-Welch EM iterations per restart (50 restarts × 200 iter)
 RANDOM_STATE      = 42          # Reproducibility
 CONFIRM_WINDOW    = 5           # Days used to average posteriors for final regime confirmation
 MIN_TRAIN_DAYS    = 504         # ~2 years minimum before first HMM training
 
-# Exposure multipliers — logic-derived, not optimized
-EXPOSURE_MAP = {
-    "Expansion"   : 1.00,
-    "Transition"  : 0.65,
-    "Contraction" : 0.30,
-}
+# ── Model-derived continuous exposure ────────────────────────────────────────
+# Exposure is computed entirely from the HMM's own output — no human-specified
+# per-regime multipliers.
+#
+# Step 1: After each training pass, read the emission means per state and
+#         compute a risk score using the same formula already used to label
+#         which state is Expansion vs Contraction:
+#
+#             risk = mean(HY_OAS) + mean(VIX) - mean(Yield_Curve) + mean(HY_OAS_Mom)
+#
+#         Normalize to health weights in [0, 1]:
+#             health[Expansion]    = 1.0   (lowest risk score  → full risk-on)
+#             health[Contraction]  = 0.0   (highest risk score → fully defensive)
+#             health[Transition]   = model-derived, between 0 and 1 each run
+#
+# Step 2: Blend by the forward-algorithm posteriors at classification time:
+#             exposure = Σ P(state_i) × health[state_i]
+#         clipped to [floor, 1.0].
+#
+# Result: Expansion, Transition, and Contraction all carry distinct, automatic
+#         weights. Transition's weight is never typed by a human — it is whatever
+#         the current training run's emission means produce.
+#
+# The only design choice remaining is the floor, which prevents full de-risking
+# on ambiguous/uncertain readings. One transparent parameter, clear rationale.
+
+POSTERIOR_EXPOSURE_FLOOR: float = 0.10
+
+
+def _compute_state_health_weights(
+    model         : "GaussianHMM",
+    state_labels  : dict,
+    feature_names : list,
+) -> dict:
+    """
+    Derive a health weight ∈ [0, 1] for each regime state from the HMM's
+    emission means.  Uses the same risk-score formula as _label_states so
+    the labelling and the exposure are always internally consistent.
+
+    Returns  {label: health_weight}  e.g. {"Expansion": 1.0, "Transition": 0.62, "Contraction": 0.0}
+    """
+    means   = model.means_                         # shape (N_STATES, N_FEATURES)
+    hy_idx  = feature_names.index("hy_oas")
+    vix_idx = feature_names.index("vix")
+    yc_idx  = feature_names.index("yield_curve")
+    ra_idx  = feature_names.index("hy_oas_mom")
+
+    risk_scores = {
+        label: (
+            float(means[state_idx, hy_idx])
+            + float(means[state_idx, vix_idx])
+            - float(means[state_idx, yc_idx])
+            + float(means[state_idx, ra_idx])
+        )
+        for state_idx, label in state_labels.items()
+    }
+
+    min_r = min(risk_scores.values())
+    max_r = max(risk_scores.values())
+    span  = max_r - min_r
+
+    if span < 1e-8:
+        # Degenerate case: all states have identical emission means
+        return {label: 0.5 for label in risk_scores}
+
+    # health = 1 - normalized_risk  →  lowest-risk state = 1.0, highest = 0.0
+    return {label: 1.0 - (score - min_r) / span for label, score in risk_scores.items()}
+
+
+def _posterior_weighted_exposure(
+    probs_dict     : dict,
+    health_weights : dict,
+    floor          : float = POSTERIOR_EXPOSURE_FLOOR,
+) -> float:
+    """
+    exposure = Σ P(state_i) × health[state_i],  clipped to [floor, 1.0]
+
+    Both inputs — the posterior probabilities and the health weights — come
+    from the same HMM training pass.  No human-specified multipliers anywhere.
+    """
+    raw = sum(
+        float(probs_dict.get(label, 0.0)) * float(health_weights.get(label, 0.5))
+        for label in health_weights
+    )
+    return float(np.clip(raw, floor, 1.0))
 
 # Period boundaries (must match macro_data.py)
-BURN_IN_END  = "2006-12-31"
-INSAMPLE_END = "2018-12-31"
-OOS_END      = "2022-12-31"
+BURN_IN_END     = "2002-12-31"   # z-score warm-up only
+PRE_SAMPLE_END  = "2006-12-31"   # dot-com recovery walk-forward
+INSAMPLE_END    = "2018-12-31"
+OOS_END         = "2022-12-31"
 
 
 # ─── Data structures ─────────────────────────────────────────────────────────
@@ -89,13 +170,13 @@ def _fit_single_hmm(seed: int, X: np.ndarray, km_means: np.ndarray = None) -> tu
     model = GaussianHMM(
         n_components    = N_STATES,
         covariance_type = COVARIANCE_TYPE,
-        n_iter          = 200,          # was 100
+        n_iter          = N_ITER,
         random_state    = seed,
         tol             = 1e-5,         # tighter stopping tolerance
     )
     if seed >= 10 and km_means is not None:
         model.means_ = km_means
-        model.init_params = "stc" # Only initialize starts and covars
+        model.init_params = "stc"  # init starts (s), transitions (t), covars (c) — keep KMeans means
         
     try:
         model.fit(X)
@@ -115,10 +196,12 @@ def _train_hmm(X: np.ndarray) -> GaussianHMM:
     km.fit(X)
     km_means = km.cluster_centers_
 
-    # Local disable for warnings as joblib threads might bubble them
+    # Use threading backend — numpy/scipy release the GIL so parallelism is real,
+    # and unlike loky processes we don't accumulate leaked semaphores/file handles
+    # across the 65+ successive _train_hmm calls in a full walk-forward run.
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        results = Parallel(n_jobs=-1)(
+        results = Parallel(n_jobs=-1, prefer="threads")(
             delayed(_fit_single_hmm)(seed, X, km_means) for seed in range(50)
         )
 
@@ -254,7 +337,8 @@ def run_walkforward_regimes(
             - Keep the stability flag only as a diagnostic
             - Output regime label + confidence for that date
 
-    CRITICAL: rebalance_dates must all fall within the in_sample period.
+    CRITICAL: rebalance_dates must all fall on or before INSAMPLE_END (2018-12-31).
+    This covers both pre_sample (2003–2006) and in_sample (2007–2018) dates.
     OOS and robustness periods use a single frozen model (see classify_oos).
 
     Parameters
@@ -291,6 +375,11 @@ def run_walkforward_regimes(
         model        = _train_hmm(X_train.values)
         state_labels = _label_states(model, feature_cols)
 
+        # Derive health weights from this training run's emission means.
+        # Transition's weight is whatever the model's emission means produce —
+        # never typed by a human.
+        health_weights = _compute_state_health_weights(model, state_labels, feature_cols)
+
         # Classify using last CONFIRM_WINDOW days
         X_window = X_train.values[-CONFIRM_WINDOW:]
         raw_regime, raw_confidence, _ = _classify_current(model, X_window, state_labels)
@@ -302,11 +391,12 @@ def run_walkforward_regimes(
         regime = raw_regime
         confidence = raw_confidence
 
-        exposure = EXPOSURE_MAP[regime]
-
         # Full probability vector for the last observation
-        last_probs  = posteriors[-1]
-        probs_dict  = {state_labels[i]: float(last_probs[i]) for i in range(N_STATES)}
+        last_probs = posteriors[-1]
+        probs_dict = {state_labels[i]: float(last_probs[i]) for i in range(N_STATES)}
+
+        # Exposure: fully model-derived blend of posteriors × health weights
+        exposure = _posterior_weighted_exposure(probs_dict, health_weights)
 
         records.append({
             "date"               : dt,
@@ -360,6 +450,7 @@ def classify_oos(
     print(f"[regime] Training frozen OOS model on {len(X_insample)} in-sample days...")
     model        = _train_hmm(X_insample.values)
     state_labels = _label_states(model, feature_cols)
+    health_weights = _compute_state_health_weights(model, state_labels, feature_cols)
 
     print(f"[regime] State labels from emission means:")
     for state_idx, label in state_labels.items():
@@ -387,10 +478,11 @@ def classify_oos(
         regime = raw_regime
         confidence = raw_confidence
 
-        exposure = EXPOSURE_MAP[regime]
-
         last_probs = posteriors[-1]
         probs_dict = {state_labels[i]: float(last_probs[i]) for i in range(N_STATES)}
+
+        # Exposure: fully model-derived blend of posteriors × health weights
+        exposure = _posterior_weighted_exposure(probs_dict, health_weights)
 
         records.append({
             "date"               : dt,
@@ -452,7 +544,17 @@ def build_full_regime_history(features_df: pd.DataFrame) -> pd.DataFrame:
         index=X_full.index,
         name="confidence",
     )
-    exposure_series = regime_series.map(EXPOSURE_MAP).rename("exposure")
+    # Continuous exposure from health weights × posteriors — no discrete lookup table
+    health_weights  = _compute_state_health_weights(model, state_labels, feature_cols)
+    exposure_series = pd.Series(
+        [_posterior_weighted_exposure(
+             {state_labels[i]: float(posteriors[t, i]) for i in range(N_STATES)},
+             health_weights,
+         )
+         for t in range(len(hidden_states))],
+        index=X_full.index,
+        name="exposure",
+    )
 
     history = pd.concat(
         [features_df[feature_cols], regime_series, confidence_series, exposure_series],
@@ -478,6 +580,8 @@ def validate_regime_history(history: pd.DataFrame) -> None:
     not a reason to change the exposure multipliers.
 
     Known ground truth:
+        2001-03 to 2002-09 → should be Contraction/Transition (dot-com crash + recession)
+        2003-01 to 2006-12 → should be mostly Expansion (dot-com recovery bull)
         2008-09 to 2009-06 → should be Contraction (GFC)
         2010-01 to 2015-12 → should be mostly Expansion (post-GFC bull)
         2020-03 to 2020-05 → should be Contraction (COVID crash)
@@ -488,11 +592,13 @@ def validate_regime_history(history: pd.DataFrame) -> None:
 
     checks = [
         # Hard checks: these MUST be defensive (Transition or Contraction)
+        ("DotCom Crash",   "2001-03-01", "2002-09-30", ["Contraction", "Transition"], 0.60, True),
         ("GFC Peak",       "2008-09-01", "2009-06-30", ["Contraction", "Transition"], 0.80, True),
         ("COVID Crash",    "2020-03-01", "2020-05-31", ["Contraction", "Transition"], 0.60, True),
         ("Inflation 2022", "2022-01-01", "2022-12-31", ["Contraction", "Transition"], 0.40, True),
 
         # Soft checks: these should NOT be mostly Contraction (would mean over-defensive)
+        ("DotCom Recovery","2003-01-01", "2006-12-31", ["Expansion", "Transition"],   0.55, False),
         ("Post-GFC Bull",  "2013-01-01", "2015-12-31", ["Expansion", "Transition"],   0.60, False),
     ]
 
@@ -550,15 +656,18 @@ def stress_test_regime_sensitivity(
     This is a diagnostic only — it does not change any parameters.
     """
     rng = np.random.default_rng(seed)
-    base_exposure = history["regime"].map(EXPOSURE_MAP)
+    base_exposure = history["exposure"]   # already model-derived from posteriors
 
+    all_regimes = list(history["regime"].unique())
     correlations = []
     for _ in range(n_trials):
-        perturbed = history["regime"].copy()
-        flip_idx  = rng.choice(len(perturbed), size=int(len(perturbed) * flip_pct), replace=False)
-        all_regimes = list(EXPOSURE_MAP.keys())
-        perturbed.iloc[flip_idx] = rng.choice(all_regimes, size=len(flip_idx))
-        perturbed_exposure = perturbed.map(EXPOSURE_MAP)
+        perturbed_regime = history["regime"].copy()
+        flip_idx = rng.choice(len(perturbed_regime), size=int(len(perturbed_regime) * flip_pct), replace=False)
+        perturbed_regime.iloc[flip_idx] = rng.choice(all_regimes, size=len(flip_idx))
+        # Map perturbed labels back to the same health weights so comparison is fair
+        regime_to_health = {r: float(base_exposure[history["regime"] == r].mean())
+                            for r in all_regimes if (history["regime"] == r).any()}
+        perturbed_exposure = perturbed_regime.map(regime_to_health).fillna(base_exposure.mean())
         corr = base_exposure.corr(perturbed_exposure)
         correlations.append(corr)
 

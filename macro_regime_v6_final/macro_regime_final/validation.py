@@ -232,7 +232,7 @@ def run_bias_diagnostics(
             stock_prices_m=stock_prices_m,
             stock_returns_q=stock_returns_q,
             spy_returns_q=spy_returns_q,
-            n_trials=20,
+            n_trials=50,   # 20 was too small; 500 was impractical (runs full backtests); 50 is sufficient
             constituents_history=constituents_history,
         )
     )

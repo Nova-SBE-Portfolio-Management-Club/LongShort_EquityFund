@@ -15,8 +15,9 @@ Trigger
 
 Action when triggered
 ---------------------
-    Override current allocation to Contraction exposure (0.30) regardless
-    of what the HMM says.  Override holds until deactivation.
+    Override current allocation to kill_switch_contraction_exp (default 0.20)
+    regardless of what the HMM says.  Override holds until deactivation.
+    This is a true replacement of the regime exposure, not an additional scaling.
 
 Deactivation (hysteresis)
 -------------------------
@@ -69,7 +70,7 @@ _DEFAULT_DEACT_ZSCORE    : float = 2.0
 _DEFAULT_WINDOW          : int   = 5
 _DEFAULT_MIN_OBS         : int   = 252
 _DEFAULT_FRED_SERIES     : str   = "BAMLH0A0HYM2"
-_DEFAULT_CONTRACTION_EXP : float = 0.30
+_DEFAULT_CONTRACTION_EXP : float = 0.20   # must match kill_switch_contraction_exp in config.py
 
 
 def load_cached_kill_switch_history() -> pd.DataFrame:
@@ -269,11 +270,11 @@ def get_kill_switch_status(
     window      = int(getattr(cfg,   "kill_switch_window",          _DEFAULT_WINDOW))
     min_obs     = int(getattr(cfg,   "kill_switch_min_obs",         _DEFAULT_MIN_OBS))
     fred_series = str(getattr(cfg,   "kill_switch_fred_series",     _DEFAULT_FRED_SERIES))
-    cont_exp    = float(getattr(cfg, "regime_exposure_contraction", _DEFAULT_CONTRACTION_EXP))
+    cont_exp    = float(getattr(cfg, "kill_switch_contraction_exp", _DEFAULT_CONTRACTION_EXP))
 
     # Pull HY OAS from FRED using the established client pattern
     try:
-        from macro_data import _get_fred_client  # noqa: PLC0415
+        from .macro_data import _get_fred_client  # noqa: PLC0415
     except ImportError:
         from macro_data import _get_fred_client  # noqa: PLC0415
 
@@ -412,20 +413,35 @@ def apply_kill_switch_to_returns(
     ks_history      : pd.DataFrame,
     return_col      : str   = "PortRet",
     contraction_exp : float = _DEFAULT_CONTRACTION_EXP,
+    regime_exp_col  : str   = "RegimeExp",
 ) -> pd.DataFrame:
     """
     Apply kill switch exposure override to a quarterly backtest return series.
 
-    At each quarterly date, look up the kill switch status as of that date
-    (using the last available daily reading up to and including that date).
-    If active, scale the portfolio return by contraction_exp / 1.0.
+    When active, the kill switch replaces the regime exposure with contraction_exp.
+    The override is a true replacement — not a further scaling on top of the regime
+    exposure that is already embedded in return_col.
+
+    Mechanics
+    ---------
+    return_col already contains  gross_ret × regime_exp - costs.
+    To override regime_exp → contraction_exp we rescale:
+
+        PortRetKS = return_col × (contraction_exp / regime_exp)
+
+    clipped so the scale factor never exceeds 1.0 (the kill switch only reduces
+    exposure, never increases it).  When the kill switch is inactive, PortRetKS
+    equals return_col unchanged.
 
     Parameters
     ----------
     returns_df      : Backtest DataFrame indexed by quarterly date.
+                      Must contain regime_exp_col (e.g. "RegimeExp").
     ks_history      : Output of build_kill_switch_history().
-    return_col      : Column name of raw portfolio returns to scale.
-    contraction_exp : Exposure to apply when kill switch is active.
+    return_col      : Column name of the portfolio return to override.
+    contraction_exp : Target exposure when kill switch is active.
+    regime_exp_col  : Column in returns_df holding the regime engine's exposure
+                      for that quarter (used to compute the rescale factor).
 
     Returns
     -------
@@ -433,13 +449,13 @@ def apply_kill_switch_to_returns(
         ks_active        : bool
         ks_zscore        : float
         ks_reason        : str
-        ks_exposure      : effective exposure applied
-        PortRetKS        : return_col scaled by ks_exposure
+        ks_exposure      : effective exposure after override
+        PortRetKS        : return_col after kill switch override
     """
     out = returns_df.copy()
-    ks_active_list  = []
-    ks_zscore_list  = []
-    ks_reason_list  = []
+    ks_active_list   = []
+    ks_zscore_list   = []
+    ks_reason_list   = []
     ks_exposure_list = []
 
     for qt in out.index:
@@ -449,26 +465,40 @@ def apply_kill_switch_to_returns(
             ks_active_list.append(False)
             ks_zscore_list.append(np.nan)
             ks_reason_list.append("no_data")
-            ks_exposure_list.append(1.0)
+            ks_exposure_list.append(float(out.loc[qt, regime_exp_col]) if regime_exp_col in out.columns else 1.0)
             continue
-        row = avail.iloc[-1]
-        active   = bool(row["active"])
-        zscore   = float(row["zscore"]) if not np.isnan(row["zscore"]) else np.nan
-        reason   = str(row["reason"])
-        exposure = contraction_exp if active else 1.0
+        row    = avail.iloc[-1]
+        active = bool(row["active"])
+        zscore = float(row["zscore"]) if not np.isnan(row["zscore"]) else np.nan
+        reason = str(row["reason"])
+
+        if active:
+            ks_exposure_list.append(contraction_exp)
+        else:
+            regime_exp = float(out.loc[qt, regime_exp_col]) if regime_exp_col in out.columns else 1.0
+            ks_exposure_list.append(regime_exp)
 
         ks_active_list.append(active)
         ks_zscore_list.append(zscore)
         ks_reason_list.append(reason)
-        ks_exposure_list.append(exposure)
 
     out["ks_active"]   = ks_active_list
     out["ks_zscore"]   = ks_zscore_list
     out["ks_reason"]   = ks_reason_list
     out["ks_exposure"] = ks_exposure_list
 
-    if return_col in out.columns:
-        out["PortRetKS"] = out[return_col] * out["ks_exposure"]
+    if return_col in out.columns and regime_exp_col in out.columns:
+        # Rescale: replace the baked-in regime_exp with ks_exposure.
+        # Cap scale at 1.0 — kill switch never increases exposure.
+        regime_exp_series = out[regime_exp_col].replace(0.0, np.nan)
+        scale = (out["ks_exposure"] / regime_exp_series).clip(upper=1.0).fillna(1.0)
+        out["PortRetKS"] = out[return_col] * scale
+    elif return_col in out.columns:
+        # Fallback: RegimeExp column absent — cannot compute a proper rescale.
+        # Copy return_col unchanged so downstream callers always have PortRetKS.
+        # This path should never be reached in production (regime engine always
+        # emits a RegimeExp column); it is preserved as a safety net only.
+        out["PortRetKS"] = out[return_col].copy()
 
     return out
 

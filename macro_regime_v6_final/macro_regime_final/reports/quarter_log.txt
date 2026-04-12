@@ -25,7 +25,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Materials', 'Consumer Discretionary']
 Real top sectors         : ['Real Estate', 'Materials', 'Industrials']
-Portfolio return         : 8.38% | SPY 4.69%
+Portfolio return         : 0.68% | SPY 4.69%
 Gross return / execution / financing: 8.72% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -39,7 +39,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Financials']
 Predicted sector names   : ['Energy', 'Materials', 'Financials']
 Real top sectors         : ['Energy', 'Consumer Staples', 'Communication Services']
-Portfolio return         : -1.58% | SPY -1.53%
+Portfolio return         : -0.42% | SPY -1.53%
 Gross return / execution / financing: -2.89% / 13.44 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 40.00%
@@ -53,7 +53,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Health Care']
 Predicted sector names   : ['Information Technology', 'Utilities', 'Health Care']
 Real top sectors         : ['Real Estate', 'Information Technology', 'Communication Services']
-Portfolio return         : 9.29% | SPY 5.41%
+Portfolio return         : 0.63% | SPY 5.41%
 Gross return / execution / financing: 9.63% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -67,7 +67,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Industrials', 'Utilities']
 Predicted sector names   : ['Energy', 'Industrials', 'Utilities']
 Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Discretionary']
-Portfolio return         : 8.26% | SPY 6.61%
+Portfolio return         : 0.60% | SPY 6.61%
 Gross return / execution / financing: 8.51% / 24.64 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
@@ -81,7 +81,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Health Care', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Health Care', 'Consumer Discretionary']
 Real top sectors         : ['Materials', 'Utilities', 'Energy']
-Portfolio return         : 5.03% | SPY 0.67%
+Portfolio return         : 0.46% | SPY 0.67%
 Gross return / execution / financing: 5.26% / 22.40 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 66.67%
@@ -95,7 +95,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Financials']
 Predicted sector names   : ['Energy', 'Information Technology', 'Financials']
 Real top sectors         : ['Energy', 'Industrials', 'Information Technology']
-Portfolio return         : 7.56% | SPY 6.39%
+Portfolio return         : 0.54% | SPY 6.39%
 Gross return / execution / financing: 7.79% / 23.52 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
@@ -109,7 +109,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Financials']
 Predicted sector names   : ['Energy', 'Materials', 'Financials']
 Real top sectors         : ['Energy', 'Health Care', 'Information Technology']
-Portfolio return         : 1.97% | SPY 1.91%
+Portfolio return         : 0.25% | SPY 1.91%
 Gross return / execution / financing: 4.30% / 17.92 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 53.33%
@@ -123,7 +123,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Financials', 'Materials']
 Predicted sector names   : ['Energy', 'Financials', 'Materials']
 Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
-Portfolio return         : -1.46% | SPY -3.67%
+Portfolio return         : -0.36% | SPY -3.67%
 Gross return / execution / financing: -2.77% / 7.84 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 23.33%
@@ -137,7 +137,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Materials']
 Predicted sector names   : ['Energy', 'Information Technology', 'Materials']
 Real top sectors         : ['Real Estate', 'Consumer Discretionary', 'Energy']
-Portfolio return         : -3.95% | SPY -9.29%
+Portfolio return         : -0.91% | SPY -9.29%
 Gross return / execution / financing: -7.62% / 14.56 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 43.33%
@@ -151,7 +151,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Energy']
 Predicted sector names   : ['Information Technology', 'Utilities', 'Energy']
 Real top sectors         : ['Energy', 'Utilities', 'Information Technology']
-Portfolio return         : 5.29% | SPY -2.54%
+Portfolio return         : 0.93% | SPY -2.54%
 Gross return / execution / financing: 10.89% / 15.68 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 46.67%
@@ -165,7 +165,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Real Estate']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Real Estate']
 Real top sectors         : ['Consumer Discretionary', 'Consumer Staples', 'Real Estate']
-Portfolio return         : -1.31% | SPY -8.84%
+Portfolio return         : -0.53% | SPY -8.84%
 Gross return / execution / financing: -1.95% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 100.00%
@@ -179,7 +179,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Utilities', 'Information Technology', 'Consumer Discretionary']
 Predicted sector names   : ['Utilities', 'Information Technology', 'Consumer Discretionary']
 Real top sectors         : ['Utilities', 'Consumer Staples', 'Health Care']
-Portfolio return         : -8.81% | SPY -21.57%
+Portfolio return         : -1.97% | SPY -21.57%
 Gross return / execution / financing: -17.10% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -193,7 +193,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Consumer Discretionary', 'Utilities']
 Predicted sector names   : ['Information Technology', 'Consumer Discretionary', 'Utilities']
 Real top sectors         : ['Information Technology', 'Consumer Discretionary', 'Materials']
-Portfolio return         : -1.43% | SPY -11.25%
+Portfolio return         : -0.36% | SPY -11.25%
 Gross return / execution / financing: -2.68% / 8.96 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 26.67%
@@ -207,7 +207,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Financials', 'Materials']
 Predicted sector names   : ['Consumer Discretionary', 'Financials', 'Materials']
 Real top sectors         : ['Real Estate', 'Financials', 'Materials']
-Portfolio return         : 1.74% | SPY 16.28%
+Portfolio return         : 0.14% | SPY 16.28%
 Gross return / execution / financing: 4.00% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -221,9 +221,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Financials', 'Real Estate']
 Predicted sector names   : ['Materials', 'Financials', 'Real Estate']
 Real top sectors         : ['Financials', 'Materials', 'Real Estate']
-Portfolio return         : 27.53% | SPY 15.38%
-Gross return / execution / financing: 23.32% / 21.28 bps / 0.25%
-Borrowed notional / annual rate: $261,535 / 4.83%
+Portfolio return         : 21.47% | SPY 15.38%
+Gross return / execution / financing: 23.32% / 21.28 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 63.33%
 Top20 stocks in pred sectors: 15/20
 Stock picks:
@@ -235,9 +235,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Consumer Discretionary', 'Real Estate']
 Predicted sector names   : ['Materials', 'Consumer Discretionary', 'Real Estate']
 Real top sectors         : ['Information Technology', 'Health Care', 'Real Estate']
-Portfolio return         : 12.71% | SPY 6.11%
-Gross return / execution / financing: 10.91% / 14.56 bps / 0.24%
-Borrowed notional / annual rate: $333,526 / 4.79%
+Portfolio return         : 10.77% | SPY 6.11%
+Gross return / execution / financing: 10.91% / 14.56 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 43.33%
 Top20 stocks in pred sectors: 2/20
 Stock picks:
@@ -249,9 +249,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Financials', 'Energy', 'Consumer Discretionary']
 Predicted sector names   : ['Financials', 'Energy', 'Consumer Discretionary']
 Real top sectors         : ['Consumer Discretionary', 'Financials', 'Industrials']
-Portfolio return         : 6.31% | SPY 5.42%
-Gross return / execution / financing: 5.68% / 26.88 bps / 0.24%
-Borrowed notional / annual rate: $375,905 / 4.77%
+Portfolio return         : 5.42% | SPY 5.42%
+Gross return / execution / financing: 5.68% / 26.88 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 80.00%
 Top20 stocks in pred sectors: 15/20
 Stock picks:
@@ -263,7 +263,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Utilities', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Utilities', 'Consumer Discretionary']
 Real top sectors         : ['Utilities', 'Consumer Staples', 'Real Estate']
-Portfolio return         : -4.90% | SPY -11.36%
+Portfolio return         : -1.10% | SPY -11.36%
 Gross return / execution / financing: -9.50% / 14.56 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 43.33%
@@ -277,7 +277,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Information Technology']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Information Technology']
 Real top sectors         : ['Consumer Discretionary', 'Materials', 'Industrials']
-Portfolio return         : 9.19% | SPY 11.16%
+Portfolio return         : 1.63% | SPY 11.16%
 Gross return / execution / financing: 18.90% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -291,9 +291,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Consumer Discretionary', 'Financials']
 Predicted sector names   : ['Materials', 'Consumer Discretionary', 'Financials']
 Real top sectors         : ['Energy', 'Materials', 'Financials']
-Portfolio return         : 11.90% | SPY 10.76%
-Gross return / execution / financing: 10.35% / 28.00 bps / 0.24%
-Borrowed notional / annual rate: $415,011 / 4.76%
+Portfolio return         : 10.07% | SPY 10.76%
+Gross return / execution / financing: 10.35% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
 Top20 stocks in pred sectors: 15/20
 Stock picks:
@@ -305,9 +305,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Industrials', 'Materials']
 Predicted sector names   : ['Energy', 'Industrials', 'Materials']
 Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
-Portfolio return         : 11.66% | SPY 5.90%
-Gross return / execution / financing: 10.11% / 23.52 bps / 0.24%
-Borrowed notional / annual rate: $464,395 / 4.75%
+Portfolio return         : 9.87% | SPY 5.90%
+Gross return / execution / financing: 10.11% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
 Top20 stocks in pred sectors: 3/20
 Stock picks:
@@ -319,9 +319,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Communication Services', 'Utilities']
 Predicted sector names   : ['Energy', 'Communication Services', 'Utilities']
 Real top sectors         : ['Health Care', 'Consumer Discretionary', 'Utilities']
-Portfolio return         : -0.85% | SPY 0.03%
-Gross return / execution / financing: -0.32% / 22.40 bps / 0.24%
-Borrowed notional / annual rate: $518,529 / 4.74%
+Portfolio return         : -0.54% | SPY 0.03%
+Gross return / execution / financing: -0.32% / 22.40 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 26 / 66.67%
 Top20 stocks in pred sectors: 3/20
 Stock picks:
@@ -333,7 +333,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Utilities', 'Information Technology', 'Industrials']
 Predicted sector names   : ['Utilities', 'Information Technology', 'Industrials']
 Real top sectors         : ['Utilities', 'Consumer Staples', 'Consumer Discretionary']
-Portfolio return         : -7.02% | SPY -13.82%
+Portfolio return         : -1.63% | SPY -13.82%
 Gross return / execution / financing: -13.49% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -347,7 +347,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Information Technology', 'Utilities']
 Predicted sector names   : ['Industrials', 'Information Technology', 'Utilities']
 Real top sectors         : ['Energy', 'Industrials', 'Materials']
-Portfolio return         : 6.33% | SPY 11.62%
+Portfolio return         : 1.15% | SPY 11.62%
 Gross return / execution / financing: 12.96% / 14.56 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 43.33%
@@ -361,9 +361,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Real Estate', 'Energy']
 Predicted sector names   : ['Materials', 'Real Estate', 'Energy']
 Real top sectors         : ['Financials', 'Information Technology', 'Consumer Discretionary']
-Portfolio return         : 10.58% | SPY 12.69%
-Gross return / execution / financing: 9.30% / 33.60 bps / 0.24%
-Borrowed notional / annual rate: $508,286 / 4.74%
+Portfolio return         : 8.93% | SPY 12.69%
+Gross return / execution / financing: 9.30% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
 Top20 stocks in pred sectors: 0/20
 Stock picks:
@@ -375,7 +375,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Real Estate', 'Materials']
 Predicted sector names   : ['Industrials', 'Real Estate', 'Materials']
 Real top sectors         : ['Utilities', 'Consumer Staples', 'Real Estate']
-Portfolio return         : -0.04% | SPY -2.84%
+Portfolio return         : -0.12% | SPY -2.84%
 Gross return / execution / financing: 0.18% / 13.44 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 40.00%
@@ -389,9 +389,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Financials', 'Consumer Discretionary']
 Predicted sector names   : ['Industrials', 'Financials', 'Consumer Discretionary']
 Real top sectors         : ['Energy', 'Materials', 'Financials']
-Portfolio return         : 6.07% | SPY 6.35%
-Gross return / execution / financing: 5.47% / 24.64 bps / 0.24%
-Borrowed notional / annual rate: $561,819 / 4.73%
+Portfolio return         : 4.91% | SPY 6.35%
+Gross return / execution / financing: 5.47% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
 Top20 stocks in pred sectors: 9/20
 Stock picks:
@@ -403,9 +403,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Real Estate']
 Predicted sector names   : ['Energy', 'Materials', 'Real Estate']
 Real top sectors         : ['Communication Services', 'Materials', 'Industrials']
-Portfolio return         : 4.23% | SPY -0.38%
-Gross return / execution / financing: 4.01% / 33.60 bps / 0.24%
-Borrowed notional / annual rate: $595,923 / 4.72%
+Portfolio return         : 3.61% | SPY -0.38%
+Gross return / execution / financing: 4.01% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
 Top20 stocks in pred sectors: 2/20
 Stock picks:
@@ -417,9 +417,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Utilities']
 Predicted sector names   : ['Communication Services', 'Energy', 'Utilities']
 Real top sectors         : ['Communication Services', 'Consumer Staples', 'Financials']
-Portfolio return         : 18.51% | SPY 10.50%
-Gross return / execution / financing: 15.82% / 23.52 bps / 0.24%
-Borrowed notional / annual rate: $621,125 / 4.72%
+Portfolio return         : 15.57% | SPY 10.50%
+Gross return / execution / financing: 15.82% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 70.00%
 Top20 stocks in pred sectors: 3/20
 Stock picks:
@@ -431,9 +431,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Real Estate']
 Predicted sector names   : ['Communication Services', 'Energy', 'Real Estate']
 Real top sectors         : ['Communication Services', 'Financials', 'Information Technology']
-Portfolio return         : -0.33% | SPY 2.94%
-Gross return / execution / financing: 0.04% / 13.69 bps / 0.24%
-Borrowed notional / annual rate: $736,091 / 4.71%
+Portfolio return         : -0.10% | SPY 2.94%
+Gross return / execution / financing: 0.04% / 13.69 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 40.74%
 Top20 stocks in pred sectors: 1/20
 Stock picks:
@@ -445,9 +445,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Energy', 'Industrials']
 Predicted sector names   : ['Communication Services', 'Energy', 'Industrials']
 Real top sectors         : ['Industrials', 'Materials', 'Energy']
-Portfolio return         : 10.56% | SPY 5.24%
-Gross return / execution / financing: 9.11% / 13.69 bps / 0.24%
-Borrowed notional / annual rate: $733,683 / 4.71%
+Portfolio return         : 8.97% | SPY 5.24%
+Gross return / execution / financing: 9.11% / 13.69 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 40.74%
 Top20 stocks in pred sectors: 3/20
 Stock picks:
@@ -459,9 +459,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Real Estate']
 Predicted sector names   : ['Energy', 'Materials', 'Real Estate']
 Real top sectors         : ['Financials', 'Communication Services', 'Industrials']
-Portfolio return         : 8.51% | SPY 10.52%
-Gross return / execution / financing: 7.49% / 23.52 bps / 0.24%
-Borrowed notional / annual rate: $811,137 / 4.70%
+Portfolio return         : 7.25% | SPY 10.52%
+Gross return / execution / financing: 7.49% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
 Top20 stocks in pred sectors: 3/20
 Stock picks:
@@ -473,9 +473,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Real Estate', 'Communication Services']
 Predicted sector names   : ['Energy', 'Real Estate', 'Communication Services']
 Real top sectors         : ['Utilities', 'Real Estate', 'Information Technology']
-Portfolio return         : 5.93% | SPY 1.70%
-Gross return / execution / financing: 5.25% / 13.44 bps / 0.23%
-Borrowed notional / annual rate: $880,145 / 4.70%
+Portfolio return         : 5.11% | SPY 1.70%
+Gross return / execution / financing: 5.25% / 13.44 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 40.00%
 Top20 stocks in pred sectors: 1/20
 Stock picks:
@@ -487,9 +487,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Utilities']
 Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Utilities']
 Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
-Portfolio return         : 9.76% | SPY 5.16%
-Gross return / execution / financing: 8.54% / 24.64 bps / 0.24%
-Borrowed notional / annual rate: $932,342 / 4.69%
+Portfolio return         : 8.29% | SPY 5.16%
+Gross return / execution / financing: 8.54% / 24.64 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
 Top20 stocks in pred sectors: 6/20
 Stock picks:
@@ -501,7 +501,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Communication Services', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Communication Services', 'Consumer Discretionary']
 Real top sectors         : ['Health Care', 'Consumer Staples', 'Information Technology']
-Portfolio return         : -0.49% | SPY 1.13%
+Portfolio return         : -0.23% | SPY 1.13%
 Gross return / execution / financing: -0.66% / 16.80 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 50.00%
@@ -515,9 +515,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Industrials', 'Utilities']
 Predicted sector names   : ['Information Technology', 'Industrials', 'Utilities']
 Real top sectors         : ['Real Estate', 'Utilities', 'Consumer Discretionary']
-Portfolio return         : 12.80% | SPY 4.90%
-Gross return / execution / financing: 11.15% / 33.60 bps / 0.24%
-Borrowed notional / annual rate: $1,018,315 / 4.68%
+Portfolio return         : 10.33% | SPY 4.90%
+Gross return / execution / financing: 11.15% / 33.60 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
 Top20 stocks in pred sectors: 4/20
 Stock picks:
@@ -529,9 +529,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Real Estate', 'Information Technology', 'Energy']
 Predicted sector names   : ['Real Estate', 'Information Technology', 'Energy']
 Real top sectors         : ['Communication Services', 'Health Care', 'Materials']
-Portfolio return         : 0.25% | SPY 0.88%
-Gross return / execution / financing: 0.62% / 26.88 bps / 0.23%
-Borrowed notional / annual rate: $1,148,659 / 4.65%
+Portfolio return         : 0.35% | SPY 0.88%
+Gross return / execution / financing: 0.62% / 26.88 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 80.00%
 Top20 stocks in pred sectors: 2/20
 Stock picks:
@@ -543,9 +543,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Communication Services', 'Energy']
 Predicted sector names   : ['Materials', 'Communication Services', 'Energy']
 Real top sectors         : ['Communication Services', 'Health Care', 'Materials']
-Portfolio return         : 2.87% | SPY 0.20%
-Gross return / execution / financing: 2.78% / 22.40 bps / 0.24%
-Borrowed notional / annual rate: $1,151,492 / 4.65%
+Portfolio return         : 2.55% | SPY 0.20%
+Gross return / execution / financing: 2.78% / 22.40 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 27 / 66.67%
 Top20 stocks in pred sectors: 4/20
 Stock picks:
@@ -557,7 +557,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Utilities', 'Communication Services', 'Energy']
 Predicted sector names   : ['Utilities', 'Communication Services', 'Energy']
 Real top sectors         : ['Utilities', 'Communication Services', 'Consumer Staples']
-Portfolio return         : -1.45% | SPY -6.42%
+Portfolio return         : -0.40% | SPY -6.42%
 Gross return / execution / financing: -2.60% / 14.40 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 28 / 42.86%
@@ -571,9 +571,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Information Technology', 'Health Care']
 Predicted sector names   : ['Communication Services', 'Information Technology', 'Health Care']
 Real top sectors         : ['Communication Services', 'Health Care', 'Consumer Staples']
-Portfolio return         : 8.78% | SPY 7.02%
-Gross return / execution / financing: 7.71% / 24.00 bps / 0.24%
-Borrowed notional / annual rate: $1,167,438 / 4.65%
+Portfolio return         : 7.47% | SPY 7.02%
+Gross return / execution / financing: 7.71% / 24.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 28 / 71.43%
 Top20 stocks in pred sectors: 7/20
 Stock picks:
@@ -585,9 +585,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Utilities', 'Communication Services']
 Predicted sector names   : ['Materials', 'Utilities', 'Communication Services']
 Real top sectors         : ['Utilities', 'Materials', 'Consumer Staples']
-Portfolio return         : 11.74% | SPY 1.33%
-Gross return / execution / financing: 10.18% / 24.33 bps / 0.23%
-Borrowed notional / annual rate: $1,269,927 / 4.63%
+Portfolio return         : 9.87% | SPY 1.33%
+Gross return / execution / financing: 10.18% / 24.33 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 29 / 72.41%
 Top20 stocks in pred sectors: 4/20
 Stock picks:
@@ -599,9 +599,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Energy', 'Health Care']
 Predicted sector names   : ['Materials', 'Energy', 'Health Care']
 Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
-Portfolio return         : 9.02% | SPY 2.46%
-Gross return / execution / financing: 7.90% / 22.40 bps / 0.23%
-Borrowed notional / annual rate: $1,419,051 / 4.60%
+Portfolio return         : 7.31% | SPY 2.46%
+Gross return / execution / financing: 7.90% / 22.40 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 66.67%
 Top20 stocks in pred sectors: 7/20
 Stock picks:
@@ -613,9 +613,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Materials', 'Industrials']
 Predicted sector names   : ['Energy', 'Materials', 'Industrials']
 Real top sectors         : ['Information Technology', 'Communication Services', 'Financials']
-Portfolio return         : 2.67% | SPY 3.78%
-Gross return / execution / financing: 2.54% / 14.56 bps / 0.23%
-Borrowed notional / annual rate: $1,547,097 / 4.58%
+Portfolio return         : 2.40% | SPY 3.78%
+Gross return / execution / financing: 2.54% / 14.56 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 43.33%
 Top20 stocks in pred sectors: 2/20
 Stock picks:
@@ -627,9 +627,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Consumer Staples', 'Energy']
 Predicted sector names   : ['Communication Services', 'Consumer Staples', 'Energy']
 Real top sectors         : ['Financials', 'Industrials', 'Energy']
-Portfolio return         : 2.13% | SPY 3.95%
-Gross return / execution / financing: 2.17% / 23.52 bps / 0.23%
-Borrowed notional / annual rate: $1,588,396 / 4.58%
+Portfolio return         : 1.93% | SPY 3.95%
+Gross return / execution / financing: 2.17% / 23.52 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
 Top20 stocks in pred sectors: 0/20
 Stock picks:
@@ -641,9 +641,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Consumer Staples', 'Consumer Discretionary']
 Predicted sector names   : ['Health Care', 'Consumer Staples', 'Consumer Discretionary']
 Real top sectors         : ['Information Technology', 'Health Care', 'Communication Services']
-Portfolio return         : 8.31% | SPY 5.92%
-Gross return / execution / financing: 7.37% / 30.24 bps / 0.23%
-Borrowed notional / annual rate: $1,622,297 / 4.57%
+Portfolio return         : 7.07% | SPY 5.92%
+Gross return / execution / financing: 7.37% / 30.24 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 90.00%
 Top20 stocks in pred sectors: 5/20
 Stock picks:
@@ -655,9 +655,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Consumer Staples', 'Communication Services']
 Predicted sector names   : ['Industrials', 'Consumer Staples', 'Communication Services']
 Real top sectors         : ['Health Care', 'Financials', 'Communication Services']
-Portfolio return         : 1.95% | SPY 3.07%
-Gross return / execution / financing: 2.05% / 28.00 bps / 0.23%
-Borrowed notional / annual rate: $1,757,167 / 4.56%
+Portfolio return         : 1.77% | SPY 3.07%
+Gross return / execution / financing: 2.05% / 28.00 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
 Top20 stocks in pred sectors: 4/20
 Stock picks:
@@ -669,7 +669,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Utilities', 'Consumer Staples', 'Information Technology']
 Predicted sector names   : ['Utilities', 'Consumer Staples', 'Information Technology']
 Real top sectors         : ['Information Technology', 'Energy', 'Materials']
-Portfolio return         : 6.66% | SPY 4.42%
+Portfolio return         : 4.52% | SPY 4.42%
 Gross return / execution / financing: 6.94% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -683,7 +683,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Consumer Staples', 'Health Care']
 Predicted sector names   : ['Energy', 'Consumer Staples', 'Health Care']
 Real top sectors         : ['Consumer Staples', 'Industrials', 'Consumer Discretionary']
-Portfolio return         : 8.24% | SPY 6.76%
+Portfolio return         : 5.61% | SPY 6.76%
 Gross return / execution / financing: 8.52% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -697,7 +697,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Energy', 'Information Technology']
 Predicted sector names   : ['Health Care', 'Energy', 'Information Technology']
 Real top sectors         : ['Information Technology', 'Health Care', 'Communication Services']
-Portfolio return         : 2.11% | SPY -1.00%
+Portfolio return         : 0.89% | SPY -1.00%
 Gross return / execution / financing: 2.26% / 15.68 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 46.67%
@@ -711,7 +711,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Information Technology', 'Communication Services']
 Predicted sector names   : ['Consumer Discretionary', 'Information Technology', 'Communication Services']
 Real top sectors         : ['Energy', 'Communication Services', 'Real Estate']
-Portfolio return         : 4.40% | SPY 3.55%
+Portfolio return         : 2.88% | SPY 3.55%
 Gross return / execution / financing: 4.66% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -725,7 +725,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Energy', 'Communication Services']
 Predicted sector names   : ['Industrials', 'Energy', 'Communication Services']
 Real top sectors         : ['Health Care', 'Industrials', 'Information Technology']
-Portfolio return         : 1.56% | SPY 7.65%
+Portfolio return         : 0.94% | SPY 7.65%
 Gross return / execution / financing: 1.79% / 23.52 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
@@ -739,7 +739,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Utilities', 'Consumer Staples', 'Information Technology']
 Predicted sector names   : ['Utilities', 'Consumer Staples', 'Information Technology']
 Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Staples']
-Portfolio return         : -3.99% | SPY -13.53%
+Portfolio return         : -1.07% | SPY -13.53%
 Gross return / execution / financing: -7.32% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -753,9 +753,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Consumer Discretionary', 'Information Technology']
 Predicted sector names   : ['Industrials', 'Consumer Discretionary', 'Information Technology']
 Real top sectors         : ['Information Technology', 'Energy', 'Consumer Discretionary']
-Portfolio return         : 23.63% | SPY 13.53%
-Gross return / execution / financing: 20.10% / 25.76 bps / 0.23%
-Borrowed notional / annual rate: $2,149,634 / 4.53%
+Portfolio return         : 18.89% | SPY 13.53%
+Gross return / execution / financing: 20.10% / 25.76 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
 Top20 stocks in pred sectors: 8/20
 Stock picks:
@@ -767,7 +767,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Materials', 'Real Estate', 'Financials']
 Predicted sector names   : ['Materials', 'Real Estate', 'Financials']
 Real top sectors         : ['Financials', 'Communication Services', 'Consumer Discretionary']
-Portfolio return         : 4.74% | SPY 4.23%
+Portfolio return         : 2.86% | SPY 4.23%
 Gross return / execution / financing: 5.07% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -781,7 +781,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Materials']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Materials']
 Real top sectors         : ['Utilities', 'Real Estate', 'Consumer Staples']
-Portfolio return         : 0.82% | SPY 1.75%
+Portfolio return         : 0.43% | SPY 1.75%
 Gross return / execution / financing: 1.06% / 24.64 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
@@ -795,7 +795,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Health Care']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Health Care']
 Real top sectors         : ['Health Care', 'Information Technology', 'Communication Services']
-Portfolio return         : 2.66% | SPY 8.99%
+Portfolio return         : 1.60% | SPY 8.99%
 Gross return / execution / financing: 2.87% / 21.28 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 63.33%
@@ -809,7 +809,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Utilities', 'Consumer Staples']
 Predicted sector names   : ['Information Technology', 'Utilities', 'Consumer Staples']
 Real top sectors         : ['Consumer Staples', 'Health Care', 'Utilities']
-Portfolio return         : -6.75% | SPY -19.45%
+Portfolio return         : -1.62% | SPY -19.45%
 Gross return / execution / financing: -12.82% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -823,7 +823,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Energy', 'Industrials']
 Predicted sector names   : ['Consumer Discretionary', 'Energy', 'Industrials']
 Real top sectors         : ['Energy', 'Consumer Discretionary', 'Information Technology']
-Portfolio return         : 17.58% | SPY 20.16%
+Portfolio return         : 3.25% | SPY 20.16%
 Gross return / execution / financing: 35.83% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -837,7 +837,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Financials']
 Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Financials']
 Real top sectors         : ['Materials', 'Consumer Discretionary', 'Industrials']
-Portfolio return         : 6.26% | SPY 9.04%
+Portfolio return         : 1.03% | SPY 9.04%
 Gross return / execution / financing: 13.07% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -851,7 +851,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Health Care']
 Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Health Care']
 Real top sectors         : ['Energy', 'Financials', 'Information Technology']
-Portfolio return         : 7.67% | SPY 12.12%
+Portfolio return         : 1.35% | SPY 12.12%
 Gross return / execution / financing: 15.81% / 23.52 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
@@ -865,7 +865,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Communication Services', 'Real Estate']
 Predicted sector names   : ['Consumer Discretionary', 'Communication Services', 'Real Estate']
 Real top sectors         : ['Energy', 'Consumer Discretionary', 'Financials']
-Portfolio return         : 4.85% | SPY 6.35%
+Portfolio return         : 0.78% | SPY 6.35%
 Gross return / execution / financing: 10.17% / 23.52 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 70.00%
@@ -879,7 +879,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Financials', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Financials', 'Consumer Discretionary']
 Real top sectors         : ['Energy', 'Real Estate', 'Health Care']
-Portfolio return         : 5.58% | SPY 8.36%
+Portfolio return         : 0.88% | SPY 8.36%
 Gross return / execution / financing: 12.02% / 32.48 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 96.67%
@@ -893,7 +893,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Industrials', 'Energy', 'Financials']
 Predicted sector names   : ['Industrials', 'Energy', 'Financials']
 Real top sectors         : ['Real Estate', 'Financials', 'Health Care']
-Portfolio return         : 0.02% | SPY 0.57%
+Portfolio return         : -0.13% | SPY 0.57%
 Gross return / execution / financing: 0.38% / 16.80 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 50.00%
@@ -907,7 +907,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Information Technology', 'Consumer Staples', 'Health Care']
 Predicted sector names   : ['Information Technology', 'Consumer Staples', 'Health Care']
 Real top sectors         : ['Information Technology', 'Real Estate', 'Materials']
-Portfolio return         : 14.37% | SPY 11.07%
+Portfolio return         : 8.35% | SPY 11.07%
 Gross return / execution / financing: 14.70% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -921,7 +921,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Energy', 'Financials']
 Predicted sector names   : ['Health Care', 'Energy', 'Financials']
 Real top sectors         : ['Energy', 'Utilities', 'Materials']
-Portfolio return         : 8.45% | SPY -4.61%
+Portfolio return         : 5.23% | SPY -4.61%
 Gross return / execution / financing: 8.73% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -935,7 +935,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Information Technology']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Information Technology']
 Real top sectors         : ['Consumer Staples', 'Utilities', 'Energy']
-Portfolio return         : -9.73% | SPY -16.11%
+Portfolio return         : -2.21% | SPY -16.11%
 Gross return / execution / financing: -18.78% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -949,7 +949,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Information Technology', 'Materials']
 Predicted sector names   : ['Energy', 'Information Technology', 'Materials']
 Real top sectors         : ['Energy', 'Consumer Discretionary', 'Financials']
-Portfolio return         : -1.10% | SPY -4.93%
+Portfolio return         : -0.44% | SPY -4.93%
 Gross return / execution / financing: -1.64% / 28.00 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 83.33%
@@ -963,7 +963,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Energy']
 Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Energy']
 Real top sectors         : ['Energy', 'Health Care', 'Industrials']
-Portfolio return         : 6.95% | SPY 7.56%
+Portfolio return         : 1.27% | SPY 7.56%
 Gross return / execution / financing: 14.22% / 15.68 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 46.67%
@@ -977,7 +977,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Materials', 'Real Estate']
 Predicted sector names   : ['Consumer Discretionary', 'Materials', 'Real Estate']
 Real top sectors         : ['Information Technology', 'Communication Services', 'Consumer Discretionary']
-Portfolio return         : 2.08% | SPY 7.46%
+Portfolio return         : 0.28% | SPY 7.46%
 Gross return / execution / financing: 4.50% / 16.80 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 50.00%
@@ -991,9 +991,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Consumer Discretionary', 'Financials']
 Predicted sector names   : ['Energy', 'Consumer Discretionary', 'Financials']
 Real top sectors         : ['Consumer Discretionary', 'Communication Services', 'Industrials']
-Portfolio return         : 1.30% | SPY 8.68%
-Gross return / execution / financing: 1.49% / 26.88 bps / 0.23%
-Borrowed notional / annual rate: $4,837,967 / 4.45%
+Portfolio return         : 1.22% | SPY 8.68%
+Gross return / execution / financing: 1.49% / 26.88 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 80.00%
 Top20 stocks in pred sectors: 5/20
 Stock picks:
@@ -1005,7 +1005,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Financials', 'Materials']
 Predicted sector names   : ['Consumer Discretionary', 'Financials', 'Materials']
 Real top sectors         : ['Energy', 'Financials', 'Information Technology']
-Portfolio return         : -2.50% | SPY -3.22%
+Portfolio return         : -0.70% | SPY -3.22%
 Gross return / execution / financing: -4.52% / 24.64 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
@@ -1019,9 +1019,9 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Industrials', 'Health Care']
 Predicted sector names   : ['Consumer Discretionary', 'Industrials', 'Health Care']
 Real top sectors         : ['Real Estate', 'Information Technology', 'Financials']
-Portfolio return         : 18.61% | SPY 11.64%
-Gross return / execution / financing: 15.92% / 26.88 bps / 0.23%
-Borrowed notional / annual rate: $4,778,282 / 4.45%
+Portfolio return         : 14.81% | SPY 11.64%
+Gross return / execution / financing: 15.92% / 26.88 bps / 0.00%
+Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 80.00%
 Top20 stocks in pred sectors: 10/20
 Stock picks:
@@ -1033,7 +1033,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Real Estate', 'Consumer Discretionary']
 Predicted sector names   : ['Energy', 'Real Estate', 'Consumer Discretionary']
 Real top sectors         : ['Energy', 'Industrials', 'Financials']
-Portfolio return         : 8.21% | SPY 10.39%
+Portfolio return         : 5.08% | SPY 10.39%
 Gross return / execution / financing: 8.48% / 26.88 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 80.00%
@@ -1047,7 +1047,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Consumer Discretionary', 'Health Care', 'Industrials']
 Predicted sector names   : ['Consumer Discretionary', 'Health Care', 'Industrials']
 Real top sectors         : ['Information Technology', 'Utilities', 'Communication Services']
-Portfolio return         : -1.45% | SPY 4.38%
+Portfolio return         : -1.01% | SPY 4.38%
 Gross return / execution / financing: -1.19% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -1061,7 +1061,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Industrials', 'Energy']
 Predicted sector names   : ['Health Care', 'Industrials', 'Energy']
 Real top sectors         : ['Utilities', 'Real Estate', 'Industrials']
-Portfolio return         : 5.37% | SPY 5.75%
+Portfolio return         : 3.31% | SPY 5.75%
 Gross return / execution / financing: 5.57% / 20.16 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 60.00%
@@ -1075,7 +1075,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Real Estate', 'Materials']
 Predicted sector names   : ['Communication Services', 'Real Estate', 'Materials']
 Real top sectors         : ['Communication Services', 'Financials', 'Consumer Discretionary']
-Portfolio return         : -3.58% | SPY 2.49%
+Portfolio return         : -2.38% | SPY 2.49%
 Gross return / execution / financing: -3.24% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -1089,7 +1089,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Industrials', 'Communication Services']
 Predicted sector names   : ['Health Care', 'Industrials', 'Communication Services']
 Real top sectors         : ['Energy', 'Utilities', 'Consumer Staples']
-Portfolio return         : 0.76% | SPY -4.27%
+Portfolio return         : 0.37% | SPY -4.27%
 Gross return / execution / financing: 1.00% / 24.64 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 73.33%
@@ -1103,7 +1103,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Communication Services', 'Consumer Discretionary', 'Information Technology']
 Predicted sector names   : ['Communication Services', 'Consumer Discretionary', 'Information Technology']
 Real top sectors         : ['Information Technology', 'Communication Services', 'Industrials']
-Portfolio return         : 17.30% | SPY 10.78%
+Portfolio return         : 10.60% | SPY 10.78%
 Gross return / execution / financing: 17.56% / 25.76 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 76.67%
@@ -1117,7 +1117,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Energy', 'Health Care', 'Consumer Staples']
 Predicted sector names   : ['Energy', 'Health Care', 'Consumer Staples']
 Real top sectors         : ['Information Technology', 'Utilities', 'Consumer Discretionary']
-Portfolio return         : 2.30% | SPY 8.12%
+Portfolio return         : 1.19% | SPY 8.12%
 Gross return / execution / financing: 2.63% / 33.60 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 100.00%
@@ -1131,7 +1131,7 @@ Stock picks:
 Predicted sectors (ETFs): ['Health Care', 'Consumer Staples', 'Industrials']
 Predicted sector names   : ['Health Care', 'Consumer Staples', 'Industrials']
 Real top sectors         : ['Health Care', 'Materials', 'Financials']
-Portfolio return         : 0.56% | SPY 2.67%
+Portfolio return         : 0.96% | SPY 2.67%
 Gross return / execution / financing: 2.72% / 21.28 bps / 0.00%
 Borrowed notional / annual rate: $0 / 0.00%
 Holdings / turnover      : 30 / 63.33%

@@ -55,8 +55,10 @@ try:
         build_full_regime_history,
         _train_hmm,
         _label_states,
-        EXPOSURE_MAP,
+        _compute_state_health_weights,
+        _posterior_weighted_exposure,
         CONFIRM_WINDOW,
+        POSTERIOR_EXPOSURE_FLOOR,
     )
     from .sector_model import SectorReturnModel
     from .stock_model import select_stocks_within_sectors
@@ -81,8 +83,10 @@ except ImportError:
         build_full_regime_history,
         _train_hmm,
         _label_states,
-        EXPOSURE_MAP,
+        _compute_state_health_weights,
+        _posterior_weighted_exposure,
         CONFIRM_WINDOW,
+        POSTERIOR_EXPOSURE_FLOOR,
     )
     from sector_model import SectorReturnModel
     from stock_model import select_stocks_within_sectors
@@ -226,6 +230,10 @@ def get_regime(cfg: Config, warn_list: list[str]) -> RegimeReading:
         print(f"  [1/5] Training HMM on {len(X_insample)} in-sample days...", end=" ", flush=True)
         model        = _train_hmm(X_insample.values)
         state_labels = _label_states(model, feature_cols)
+
+        # Derive health weights from this model's emission means — same
+        # formula used in the backtest.  Transition's weight is automatic.
+        health_weights = _compute_state_health_weights(model, state_labels, feature_cols)
         print("OK")
 
         # Classify using last CONFIRM_WINDOW days
@@ -251,13 +259,17 @@ def get_regime(cfg: Config, warn_list: list[str]) -> RegimeReading:
 
         probs_dict = {state_labels[i]: float(last_probs[i]) for i in range(3)}
 
+        # Exposure: fully model-derived — posteriors × emission-mean health weights
+        floor    = float(getattr(cfg, "regime_posterior_floor", POSTERIOR_EXPOSURE_FLOOR))
+        exposure = _posterior_weighted_exposure(probs_dict, health_weights, floor=floor)
+
         # HY OAS z-score for context (latest reading)
         hy_z = float(features_df["hy_oas"].dropna().iloc[-1])
 
         return RegimeReading(
             regime           = regime,
             confidence       = confidence,
-            exposure         = float(EXPOSURE_MAP.get(regime, 1.0)),
+            exposure         = exposure,
             is_stable        = is_stable,
             prob_expansion   = probs_dict.get("Expansion",    0.0),
             prob_transition  = probs_dict.get("Transition",   0.0),

@@ -222,12 +222,17 @@ def run_walkforward_backtest(
             print("\n[backtest] Building HMM regime classification exactly once for this session...")
             macro_feats = load_macro_features()
 
+            # Walk-forward covers both pre_sample (2003–2006) and in_sample (2007–2018).
+            # The HMM retrains at each quarterly date on all data up to that point.
+            # Pre-sample quarters are never used to tune any parameter — they are
+            # purely additional validation that was previously discarded.
             q_dates_insample = [d for d in q_dates if d <= pd.Timestamp("2018-12-31")]
             regime_insample = run_walkforward_regimes(
-                features_df=macro_feats, 
+                features_df=macro_feats,
                 rebalance_dates=pd.DatetimeIndex(q_dates_insample)
             )
 
+            # OOS (2019–2022) and robustness (2023+) use the frozen model.
             q_dates_oos = [d for d in q_dates if d > pd.Timestamp("2018-12-31")]
             regime_oos = classify_oos(
                 features_df=macro_feats, 
@@ -320,7 +325,10 @@ def run_walkforward_backtest(
             max_abs_stock_quarter_return=cfg.max_abs_stock_quarter_return,
         )
 
-        # Apply HMM regime exposure logic
+        # Apply HMM regime exposure — read directly from regime engine output.
+        # The exposure value was computed by _posterior_weighted_exposure() inside
+        # the regime engine using emission-mean-derived health weights × posteriors.
+        # No hard-coded multipliers here.
         if not regime_df.empty and next_dt in regime_df.index:
             reg_row = regime_df.loc[next_dt]
             regime = str(reg_row['regime'])
@@ -334,12 +342,8 @@ def run_walkforward_backtest(
             prob_transition = float(reg_row.get('prob_transition', np.nan))
             prob_contraction = float(reg_row.get('prob_contraction', np.nan))
 
-            base_exposure = float(cfg.resolved_regime_exposure(regime))
-
-            if regime == "Contraction":
-                regime_exp = base_exposure * regime_conf
-            else:
-                regime_exp = base_exposure
+            # Use the exposure the regime engine already computed (posteriors × health weights)
+            regime_exp = float(reg_row['exposure'])
         else:
             regime = "Unknown"
             regime_conf = 1.0
@@ -732,27 +736,30 @@ def run_backtest_pipeline(
 
     # ── Kill switch overlay ────────────────────────────────────────────────────
     # Pull HY OAS from FRED and apply kill switch exposure overlay.
-    # Produces bt_df["PortRetKS"] — portfolio return scaled to 0.30 when active.
+    # Produces bt_df["PortRetKS"] — portfolio return rescaled to kill_switch_contraction_exp when active.
     # bt_df["PortRet"] is left unchanged (pre-kill-switch baseline is preserved).
     try:
-        from macro_data import _get_fred_client  # noqa: PLC0415
+        try:
+            from .macro_data import _get_fred_client  # noqa: PLC0415
+        except ImportError:
+            from macro_data import _get_fred_client  # noqa: PLC0415
         _fred_ks  = _get_fred_client()
         _hy_raw   = _fred_ks.get_series(
             getattr(cfg, "kill_switch_fred_series", "BAMLH0A0HYM2")
         )
         _ks_hist  = build_kill_switch_history(
             hy_oas_series   = _hy_raw,
-            trigger_zscore  = float(getattr(cfg, "kill_switch_trigger_zscore", 3.0)),
-            deact_zscore    = float(getattr(cfg, "kill_switch_deact_zscore",   2.0)),
-            window          = int(getattr(cfg,   "kill_switch_window",          5)),
-            min_obs         = int(getattr(cfg,   "kill_switch_min_obs",         252)),
-            contraction_exp = float(getattr(cfg, "regime_exposure_contraction", 0.30)),
+            trigger_zscore  = float(getattr(cfg, "kill_switch_trigger_zscore",   3.0)),
+            deact_zscore    = float(getattr(cfg, "kill_switch_deact_zscore",     2.0)),
+            window          = int(getattr(cfg,   "kill_switch_window",            5)),
+            min_obs         = int(getattr(cfg,   "kill_switch_min_obs",           252)),
+            contraction_exp = float(getattr(cfg, "kill_switch_contraction_exp",  0.20)),
         )
         bt_df = apply_kill_switch_to_returns(
             returns_df      = bt_df,
             ks_history      = _ks_hist,
             return_col      = "PortRet",
-            contraction_exp = float(getattr(cfg, "regime_exposure_contraction", 0.30)),
+            contraction_exp = float(getattr(cfg, "kill_switch_contraction_exp",  0.20)),
         )
         ks_csv = out_dir / "kill_switch_history.csv"
         _ks_hist.to_csv(ks_csv)
@@ -766,7 +773,7 @@ def run_backtest_pipeline(
                 returns_df=bt_df,
                 ks_history=_ks_hist,
                 return_col="PortRet",
-                contraction_exp=float(getattr(cfg, "regime_exposure_contraction", 0.30)),
+                contraction_exp=float(getattr(cfg, "kill_switch_contraction_exp", 0.20)),
             )
             print(
                 f"[kill_switch] WARNING: live HY OAS refresh failed ({_ks_err}). "
@@ -802,7 +809,8 @@ def run_backtest_pipeline(
         avg_financing_rate = float(turn_df["FinancingRateAnnual"].replace(0.0, np.nan).mean())
         avg_borrowed_usd = float(turn_df["BorrowedNotionalUSD"].mean())
         avg_n = float(turn_df["NHoldings"].mean())
-        resolved_exposures = cfg.resolved_regime_exposures()
+        # Exposure is now model-derived per quarter; report realized average instead
+        avg_regime_exp = float(bt_df["RegimeExp"].mean()) if "RegimeExp" in bt_df.columns else float("nan")
         one_way_bps = (
             float(cfg.commission_bps_oneway)
             + float(cfg.exchange_fee_bps_oneway)
@@ -814,13 +822,8 @@ def run_backtest_pipeline(
             "\n".join(
                 [
                     "Turnover / Execution Cost Summary",
-                    f"Exposure profile: {getattr(cfg, 'regime_exposure_profile', 'custom')}",
-                    (
-                        "Resolved regime exposures: "
-                        f"Expansion={resolved_exposures['Expansion']:.2f}, "
-                        f"Transition={resolved_exposures['Transition']:.2f}, "
-                        f"Contraction={resolved_exposures['Contraction']:.2f}"
-                    ),
+                    "Exposure: model-derived (posteriors × emission-mean health weights)",
+                    f"Average realized exposure per quarter: {avg_regime_exp:.3f}" if not __import__('math').isnan(avg_regime_exp) else "Average realized exposure: n/a",
                     f"Average holdings per quarter: {avg_n:.2f}",
                     f"Average turnover (one-way): {avg_turn:.2%}",
                     f"Median turnover (one-way): {med_turn:.2%}",
