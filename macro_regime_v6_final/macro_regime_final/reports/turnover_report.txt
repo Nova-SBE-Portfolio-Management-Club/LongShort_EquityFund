@@ -1,10 +1,10 @@
 Turnover / Execution Cost Summary
 Exposure: model-derived (posteriors × emission-mean health weights)
 Average realized exposure per quarter: 0.516
-Average holdings per quarter: 28.90
-Average turnover (one-way): 69.57%
-Median turnover (one-way): 73.33%
-Average applied execution cost: 23.38 bps per quarter
+Average holdings per quarter: 14.63
+Average turnover (one-way): 74.96%
+Median turnover (one-way): 80.00%
+Average applied execution cost: 25.19 bps per quarter
 Average financing drag: 0.00 bps per quarter
 Average annualized financing rate on borrowed balance: n/a
 Average borrowed notional (USD, using configured account NAV): $0

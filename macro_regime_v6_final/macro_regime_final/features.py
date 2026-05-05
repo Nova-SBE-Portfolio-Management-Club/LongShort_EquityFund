@@ -50,3 +50,27 @@ def stock_momentum_12_1(px_m: pd.DataFrame) -> pd.Series:
     r_1 = px_m.pct_change(1)
     mom_12_1 = (1 + r_12) / (1 + r_1) - 1
     return mom_12_1.iloc[-1]
+
+
+def stock_momentum_12_1_voladj(px_m: pd.DataFrame, vol_window: int = 6) -> pd.Series:
+    """
+    Volatility-adjusted 12-1 momentum: raw 12-1 return divided by trailing volatility.
+
+    Equivalent to a Sharpe ratio of the recent trend. Ranks stocks by the
+    consistency of their momentum, not just its magnitude. Stocks with high
+    returns but erratic price paths score lower than stocks with steady trends.
+
+    Theoretical basis: momentum crashes concentrate in high-vol/high-momentum
+    names (Barroso & Santa-Clara 2015, Daniel & Moskowitz 2016). Vol-adjusting
+    pre-filters noisy signals and preserves clean, persistent trends.
+
+    vol_window: months of trailing returns used to estimate volatility (default 6).
+    """
+    r_12 = px_m.pct_change(12)
+    r_1 = px_m.pct_change(1)
+    mom_12_1 = (1 + r_12) / (1 + r_1) - 1
+
+    trailing_vol = px_m.pct_change().rolling(vol_window).std().iloc[-1]
+    trailing_vol = trailing_vol.replace(0, np.nan)
+
+    return (mom_12_1.iloc[-1] / trailing_vol).fillna(0.0)

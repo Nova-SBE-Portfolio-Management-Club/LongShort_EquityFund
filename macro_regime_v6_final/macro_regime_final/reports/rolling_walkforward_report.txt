@@ -1,7 +1,7 @@
 Rolling Walk-Forward Summary
 Windows: 11
 Train/Test/Step quarters: 32/8/4
-Mean Sharpe decay (Test/Train): 1.137
-Median Sharpe decay (Test/Train): 0.713
-Mean Test CAGR alpha vs SPY: 0.18%
+Mean Sharpe decay (Test/Train): 1.142
+Median Sharpe decay (Test/Train): 0.870
+Mean Test CAGR alpha vs SPY: 0.01%
 Windows beating SPY on Test CAGR: 6/11

@@ -1,8 +1,9 @@
 Reliability Score Report
-Score: 89.0/100
+Score: 79.0/100
 Target: 55.0
 Status: PASS
 Drivers:
 - Data checks WARN count: 1
 - History has tickers not in prices.
+- Shuffled-label sanity still too strong.
 Action: acceptable to present with disclosed assumptions.
