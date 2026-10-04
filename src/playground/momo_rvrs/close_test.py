@@ -1,4 +1,3 @@
-# src/playground/MomentumReversal/close_test.py
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -337,4 +336,3 @@ def run_period_splits() -> None:
 
 if __name__ == "__main__":
     run_period_splits()
-

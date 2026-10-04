@@ -1,8 +1,5 @@
-# src/playground/MomentumReversal/test.py
 from __future__ import annotations
 
-import os
-import inspect
 from dataclasses import dataclass
 
 import numpy as np
@@ -18,15 +15,6 @@ from src.playground.momo_rvrs.signals import (
     compute_portfolio_returns,
     perf_metrics_from_log_returns,
 )
-
-# ------------------------------------------------------------
-# DEBUG: prove which files are actually running / imported
-# ------------------------------------------------------------
-print("RUNNING TEST.PY:", os.path.abspath(__file__))
-import src.playground.momo_rvrs.data_loader as dl  # noqa: E402
-
-print("DATA_LOADER IMPORTED FROM:", inspect.getfile(dl))
-print("GET_SP500_PRICES DEFINED IN:", inspect.getfile(dl.get_sp500_prices))
 
 # ============================================================
 # CONFIG (edit these only)
@@ -222,4 +210,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

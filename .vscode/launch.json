@@ -2,13 +2,40 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run basic_ranking.py",
-      "type": "python",
+      "name": "Run synthetic backtest demo",
+      "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/playground/basic_ranking/basic_ranking.py",
+      "program": "${workspaceFolder}/src/playground/backtest_demo.py",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "env": { "PYTHONPATH": "${workspaceFolder}/src" },
+      "justMyCode": true
+    },
+    {
+      "name": "Run database application",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/src",
+      "justMyCode": true
+    },
+    {
+      "name": "Run macro-regime research pipeline",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.playground.macro_regime.main",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "Run earnings-surprise strategy",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/playground/earnings_surprise/best_earnsurp.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "justMyCode": true
     }
   ]

@@ -63,7 +63,7 @@ def generate_sp500_csv(force: bool = False) -> pd.DataFrame:
         columns={"Symbol": "ticker", "GICS Sector": "sector"}
     )
 
-    # Remove any known-bad tickers (keep your previous behavior)
+    # Exclude the ticker flagged in the existing universe.
     bad = {"XYZ"}
     df = df[~df["ticker"].isin(bad)].copy()
 
@@ -110,7 +110,7 @@ def download_adjclose_panel(
     end: str | None = None,
 ) -> pd.DataFrame:
     """
-    Download Adj Close panel only (backward-compatible with your original code).
+    Download an adjusted-close price panel.
     """
     if end is None:
         end = date.today().isoformat()
