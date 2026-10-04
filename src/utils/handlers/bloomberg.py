@@ -5,7 +5,6 @@ Functions to handle the BLOOMBERG command
 import os
 import pandas as pd
 import datetime as dt
-import csv
 
 from database import DB_Engine, MacroData_Info
 
@@ -23,7 +22,10 @@ def export_yc_data(db: DB_Engine):
     
     if not(data):
         # If data is empty
-        countries = db.get_all_countries()
+        countries = [country for country in db.get_all_countries() if country.yc_code]
+        if not countries:
+            print("Add country yc_code values before exporting yield-curve requests.")
+            return
         macrodata_infos = []
         for country in countries:
      
@@ -63,19 +65,11 @@ def import_from_csv(db: DB_Engine, filename: str):
         print(f"File {filename} does not exist.")
         return
 
-    # Read CSV file
-    with open(file_path, mode='r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip header if there is one
-
-        if filename == "bl_all.csv":
-            companies = [row[0] for row in reader]
-            db.insert_bloomberg_codes(companies)  # Call insert function for Bloomberg codes
-        elif filename == "yc_data.csv":
-            yc_data = [(row[0], dt.datetime.strptime(row[1], "%Y-%m-%d")) for row in reader]
-            db.insert_yc_data(yc_data)  # Call insert function for yield curve data
-        else:
-            print("Unsupported file type.")
+    if filename == "yc_data.csv" or filename.startswith("bl_"):
+        print("These exports contain request metadata, not observations to import.")
+        print("Importing Bloomberg responses into the database is not implemented yet.")
+    else:
+        print("Unsupported file type.")
 
 def handle_bloomberg_command(db):
     """Initiates the Bloomberg command handling process."""
@@ -98,7 +92,14 @@ def handle_bloomberg_command(db):
 
     elif choice == "1":
         print("\nAvailable files to import:")
-        files = [f for f in os.listdir("bloomberg/exports/") if f.endswith(".csv")]
+        export_path = "bloomberg/exports/"
+        if not os.path.isdir(export_path):
+            print("No exported files found.")
+            return
+        files = sorted(f for f in os.listdir(export_path) if f.endswith(".csv"))
+        if not files:
+            print("No exported CSV files found.")
+            return
         
         for idx, file in enumerate(files):
             print(f"  ({idx}) {file}")
@@ -127,4 +128,6 @@ def handle_bloomberg_command(db):
 
 
 if __name__ == "__main__":
-    handle_bloomberg_command()
+    db = DB_Engine()
+    db.connect()
+    handle_bloomberg_command(db)

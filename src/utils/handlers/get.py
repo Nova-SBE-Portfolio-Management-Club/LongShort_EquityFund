@@ -2,9 +2,7 @@
 Functions to handle the GET command
 """
 
-import os
-from ..messages      import *
-import pandas as pd
+from ..messages import GET_COMMAND_INPUT, DIGIT_ONLY_WARNING
 
 
 from database import DB_Engine
@@ -48,83 +46,21 @@ def handle_get_company(db: DB_Engine):
         print()
     
     
-def handle_get_pairs():
-    
-    return
-    # TODO: Fix this
-    
-    """Handle the GET pairs command.""" 
-    conn = 0#get_database_connection()
-    cur = conn.cursor()
-    option = input("Count (0)\nCount By Country (1)\n")
+def handle_get_pairs(db: DB_Engine):
+    """Handle an unfinished menu option."""
+    print("Pair queries are not implemented in the menu yet.")
 
-    if option == "0":
-        cur.execute("SELECT COUNT(DISTINCT pair) FROM pairs;")
-        count = cur.fetchone()[0]
-        """Count all pairs."""
-        print(f"Total pairs: {count}")
 
-    elif option == "1":
-        cur.execute("SELECT country, COUNT(DISTINCT pair) FROM pairs GROUP BY companies.country;")
-        pairs_by_countries = cur.fetchall()
-        """Count pairs by country."""
-        print(pairs_by_countries)
-    
-    cur.close()
-    conn.close()
-    
-    
-def handle_get_pricedata():
-    
-    return
-    # TODO: Fix this
-    
-    """Handle the GET price data command."""
-    conn = 0#get_database_connection()
-    cur = conn.cursor()
-    option = input("Count (0)\nCompany\n")
+def handle_get_pricedata(db: DB_Engine):
+    """Handle an unfinished menu option."""
+    print("Price-data menu queries are not implemented in the menu yet.")
 
-    if option == "0":
-        cur.execute("SELECT COUNT(DISTINCT pair) FROM price_data;")
-        count = cur.fetchone()[0]
-        """Count all price data."""
-        print(f"Total price data: {count}")
 
-    else:
-        
-        cur.execute("SELECT * FROM price_data WHERE pair = %s ORDER BY timestamp DESC LIMIT 1;", (option,))
-        price_data = cur.fetchone()
-        """Show price data for a company."""
-        print(price_data)
-        
-    cur.close()
-    conn.close()
-    
-    
-def handle_get_industry():
-    
-    return
-    # TODO: Fix this
-    
-    """Handle the GET industry command."""
-    conn = 0#get_database_connection()
-    cur = conn.cursor()
-    option = input("Count (0)\nShow All (1)\n")
+def handle_get_industry(db: DB_Engine):
+    """Handle an unfinished menu option."""
+    print("Industry queries are not implemented in the menu yet.")
 
-    if option == "1":
-        """Show all industries."""
-        cur.execute("SELECT COUNT(DISTINCT industries) FROM industries;")
-        industries = cur.fetchall()
-        print(industries)
-    elif option == "0":
-        cur.execute("SELECT COUNT(DISTINCT industries) FROM industries;")
-        count = cur.fetchone()[0]
-        """Count all industries."""
-        print(f"Total different industries: {count}")
-    cur.close()
-    conn.close()
-    
-    
+
 def handle_get_command(db: DB_Engine):
     
     exit = False

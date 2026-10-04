@@ -8,7 +8,7 @@ import pandas as pd
 
 
 # ============================================================
-# Core / original functions (what you had first)
+# Return and ranking functions
 # ============================================================
 
 def compute_log_returns(prices: pd.DataFrame) -> pd.DataFrame:
@@ -203,7 +203,7 @@ def perf_metrics_from_log_returns(log_ret: pd.Series, periods_per_year: int = 25
 
 
 # ============================================================
-# Overlapping cohorts (what you had originally, kept together)
+# Overlapping cohorts
 # ============================================================
 
 @dataclass

@@ -28,8 +28,7 @@ from urllib.error import URLError
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, Boolean, Float, PrimaryKeyConstraint, ForeignKeyConstraint
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import declarative_base, relationship
 
 ###############################################################################
 
@@ -76,9 +75,9 @@ class Asset(Base):
             return self.ticker == other.ticker
         return False
     
-    # To create cascading behaviour -> If an asset gets deleted, the company will also be deleted (vice-versa)
-    asset_child_company = relationship("Company", back_populates="company_parent", cascade="all, delete")
-    asset_child_future = relationship("Futures", back_populates="future_parent", cascade="all, delete")
+    # Read subtype rows; joined-table inheritance handles their insert/delete order.
+    asset_child_company = relationship("Company", back_populates="company_parent", viewonly=True)
+    asset_child_future = relationship("Futures", back_populates="future_parent", viewonly=True)
 
     # This will indicate to SQLAlchemy that this is the parent of the next class
     __mapper_args__ = {
@@ -226,9 +225,9 @@ class Company(Asset):
     
     
     # Foreign-Key Relationships
-    company_parent      = relationship("Asset", back_populates="asset_child_company", cascade="all, delete")
-    company_country     = relationship("Country", back_populates="country_companies", cascade="all, delete")
-    company_pricedatas  = relationship("PriceData",back_populates='pricedata_company')
+    company_parent      = relationship("Asset", back_populates="asset_child_company", viewonly=True)
+    company_country     = relationship("Country", back_populates="country_companies")
+    company_pricedatas  = relationship("PriceData",back_populates='pricedata_company', cascade="all, delete")
 
     # Table Args - Needed to handle conflicts 
     #__table_args__ = (UniqueConstraint("ticker", name="unique_company_ticker"),)
@@ -324,7 +323,7 @@ class PriceData(Base):
         return False
     
     # Foreign Key Relationship
-    pricedata_company = relationship("Company",back_populates='company_pricedatas', cascade="all, delete")
+    pricedata_company = relationship("Company",back_populates='company_pricedatas')
     
     # Define Composite Primary Key
     __table_args__ = (
@@ -380,7 +379,7 @@ class Futures(Asset):
         return False
     
     # Relationships
-    future_parent = relationship("Asset", back_populates="asset_child_future", cascade="all, delete")
+    future_parent = relationship("Asset", back_populates="asset_child_future", viewonly=True)
     
     __mapper_args__ = {
         'polymorphic_identity': 'future',
@@ -548,4 +547,3 @@ class MiscData_Info(Base):
 
 ###############################################################################
 ###############################################################################
-

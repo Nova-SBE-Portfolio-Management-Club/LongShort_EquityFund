@@ -8,8 +8,8 @@ Countries = [
     'japan',
     'norway',
     'spain',
-    'sweden'
+    'sweden',
     'portugal',
-    'united kingdon',
+    'united kingdom',
     'united states',
 ]

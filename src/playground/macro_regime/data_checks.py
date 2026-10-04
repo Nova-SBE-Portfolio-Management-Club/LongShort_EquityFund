@@ -136,7 +136,8 @@ def run_data_checks(
         )
 
     if isinstance(dt, pd.Series):
-        dates = pd.DatetimeIndex(dt.dropna().sort_values().unique())
+        # Keep each date paired with its price row, including invalid input rows.
+        dates = pd.DatetimeIndex(dt)
     else:
         dates = pd.DatetimeIndex([])
     if len(dates) > 0 and not px.empty:

@@ -1,0 +1,117 @@
+{
+  "artifact_sha256": {
+    "earnings_surprise.md": "c4799c30f8b73b63884a3cfc9b45f67de97be713a7711abeece0ae256416bb62",
+    "earnings_surprise.returns.csv": "7e8903bce72d4fdb3fabf5cde7441662f03431dad1acf4a0f3342563760dc578",
+    "figures/earnings_surprise.png": "2f54c89b5b749abbb2a7f7964d7d838410396d8d984807e7d3e3cd0cb6aeef45"
+  },
+  "config": {
+    "earnings_path": "src/playground/earnings_surprise/earningssurprise_S&Pall.xlsx",
+    "earnings_sheet": "Data",
+    "entry_lag_bdays": 1,
+    "holding_long_bdays": 7,
+    "holding_short_bdays": 3,
+    "max_weight_long": 0.2,
+    "max_weight_short": 0.2,
+    "min_longs_for_shorts": 3,
+    "prices_path": "src/playground/earnings_surprise/S&P_dailyprices_clean.csv",
+    "start_date": "2010-01-01",
+    "sue_thresh_long": 1.0,
+    "sue_thresh_short": -2.0,
+    "sue_window_q": 8,
+    "z_thresh_long": 1.0,
+    "z_thresh_short": -1.5,
+    "z_window_q": 8
+  },
+  "data_audit": {
+    "active_forward_filled_price_cells": 0,
+    "active_missing_return_cells": 821,
+    "average_gross_exposure": 0.4088554514060188,
+    "checks_passed": [
+      "unique ordered price dates and unique ticker columns",
+      "finite positive observed prices",
+      "independent capped-weight reconstruction",
+      "portfolio return equals long plus short contributions",
+      "no short-only positions and gross exposure at most 100%"
+    ],
+    "earnings_rows": 38626,
+    "flat_periods": 1148,
+    "input_missing_price_cells": 392157,
+    "kind": "reproduction of the existing earnings implementation",
+    "maximum_gross_exposure": 1.0000000000000002,
+    "price_rows": 5325,
+    "price_tickers": 497,
+    "signal_tickers_missing_from_prices": [
+      "EXPD UN Equity",
+      "FISV UW Equity",
+      "GRMN UN Equity",
+      "IBKR UW Equity",
+      "SMCI UW Equity",
+      "UAL UW Equity"
+    ]
+  },
+  "environment": {
+    "matplotlib": "3.10.7",
+    "numpy": "2.3.4",
+    "openpyxl": "3.1.5",
+    "pandas": "2.3.3",
+    "python": "3.13.9"
+  },
+  "input_sha256": {
+    "src/playground/earnings_surprise/S&P_dailyprices_clean.csv": "539619546009dc8abc18f5cce07150d85057e2c8112b5f01568ed075f516cd5e",
+    "src/playground/earnings_surprise/earningssurprise_S&Pall.xlsx": "5cdb28bd44d115db447a504fe0c2ae6b8a6653a9450bff4d1430864f4ab34574"
+  },
+  "metrics": {
+    "Equal-weight price-file universe": {
+      "Annualized Return": 0.1819561751017982,
+      "Annualized Volatility": 0.1808950673922038,
+      "Avg Loss": -0.007766144780460273,
+      "Avg Win": 0.007478808927446728,
+      "Best Day": 0.11276437671550904,
+      "Max Drawdown": -0.3830025001907231,
+      "Sharpe Ratio": 1.0152179567255344,
+      "Total Days": 4054.0,
+      "Total Return": 13.721775763269072,
+      "Win Rate": 0.5572274296990627,
+      "Worst Day": -0.12825034065121751
+    },
+    "L/S capped": {
+      "Annualized Return": 0.23576229935356754,
+      "Annualized Volatility": 0.0947329208835736,
+      "Avg Loss": -0.004064080196406945,
+      "Avg Win": 0.00515647461149067,
+      "Best Day": 0.04681667976410103,
+      "Max Drawdown": -0.08095647094156155,
+      "Sharpe Ratio": 2.282636357429438,
+      "Total Days": 4054.0,
+      "Total Return": 29.129028780489172,
+      "Win Rate": 0.40651208682782436,
+      "Worst Day": -0.041095416238459095
+    },
+    "L/S uncapped": {
+      "Annualized Return": 0.26602778332201027,
+      "Annualized Volatility": 0.1360973626034178,
+      "Avg Loss": -0.006028592668775989,
+      "Avg Win": 0.006966651823228832,
+      "Best Day": 0.08930036930652441,
+      "Max Drawdown": -0.16209610981224942,
+      "Sharpe Ratio": 1.8017231698915557,
+      "Total Days": 4054.0,
+      "Total Return": 43.46673488039657,
+      "Win Rate": 0.4047853971386285,
+      "Worst Day": -0.07959842237361064
+    }
+  },
+  "observed_periods": 4054,
+  "periods_per_year": 252,
+  "risk_free_rate": 0,
+  "sample_end": "2026-03-04",
+  "sample_start": "2010-01-21",
+  "source_sha256": {
+    "scripts/reproduce_results.py": "e659a2aa5abb7848cff5b122cbb786ebb9b1059f8446ba19393951d44e206acd",
+    "src/playground/backtest_demo.py": "bc15aed437a44baf6e78ddaedddc8b3f8af262b89edd82ddd82ca484a951dc32",
+    "src/playground/earnings_surprise/backtest.py": "d79f43a9e56d77e23f1d56b7078ef98d110a7e438f6e24195a06aa6e41a82b77",
+    "src/playground/earnings_surprise/best_earnsurp.py": "dc6adfec1e608ca0a5ceed9d76412d0fe220089f8154862811a770530dd5a4fc",
+    "src/utils/backtest.py": "31d5199066a7647cc6e0ff998443266da38ad730b4d4872b4e4b416c0e3db035"
+  },
+  "trading_cost_bps": 0
+}

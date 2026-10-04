@@ -3,14 +3,10 @@ Functions to handle the POPULATE command
 """
 
 
-def handle_populate_command():
-    pass
-
 # Imports
 
 import os
 import pandas as pd
-import numpy as np
 
 from database import DB_Engine, Country
 
@@ -27,8 +23,7 @@ def handle_populate_command(db: DB_Engine):
     print(f"A template file is available at: {template_path}")
 
     while True:
-        input("[\nPress Enter after uploading the file.") 
-        print(file_path, os.path.exists(file_path),os.path.exists(os.path.abspath("src/"+file_path)))
+        input("\nPress Enter after uploading the file.")
         if os.path.exists(file_path):
             try:
                 df = pd.read_csv(file_path)
@@ -45,12 +40,12 @@ def handle_populate_command(db: DB_Engine):
         print("\nFile not found. Please upload 'countries.csv' and try again.")
 
     for _, row in df.iterrows():
-        print(row["yfinance_code"],type(row["yfinance_code"]))
         country_name = row["name"].strip()
         isin_code = row["isin_code"].strip()
         bloomberg_code = row["bloomberg_code"].strip()
-        yfinance_code = row["yfinance_code"].strip() if type(row["yfinance_code"])==str else None
+        yfinance_code = row["yfinance_code"].strip() if isinstance(row["yfinance_code"], str) else None
         currency = row["currency"].strip()
+        yc_code = str(row["yc_code"]).strip() if pd.notna(row.get("yc_code")) else None
     
         
         country = Country(
@@ -58,7 +53,8 @@ def handle_populate_command(db: DB_Engine):
             isin_code=isin_code,
             bloomberg_code=bloomberg_code,
             yfinance_code=yfinance_code,
-            currency=currency
+            currency=currency,
+            yc_code=yc_code
         )
         
         if not db.exists_country(country):

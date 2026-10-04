@@ -97,9 +97,9 @@ Code alignment in `make_sector_training_set`:
 - `X_q`: features at quarter-end \(T\).
 - `Y_q_next`: quarter returns shifted by -1 so each row at \(T\) maps to \(T+1\) return.
 
-This is explicitly designed to avoid lookahead:
+At a decision quarter \(T\):
 
-- Train uses data only up to current decision quarter.
+- Training uses label rows strictly before \(T\); the label at \(T\) contains a return that is not known yet.
 - Test/trade return is the following quarter.
 
 ## 7) Sector Prediction Model (Ridge Regression)
@@ -265,4 +265,4 @@ In `macro_regime/reports/`:
 ## 16) Step 7 and Step 8 Additions
 
 - Step 7 (delisting integration): the code can now inject delisting returns into stock quarterly return series before portfolio construction. This is recorded in `reports/delisting_integration_results.csv`.
-- Step 8 (strict governance): default settings now enforce reliability, universe realism, frozen config consistency, and delisting coverage gates. In strict mode, backtest can fail intentionally when controls are not satisfied.
+- Step 8 (strict governance): default settings enforce reliability, universe realism, and frozen configuration consistency. Delisting coverage enforcement is optional and disabled by default (`enforce_delisting_data_gate=False`). The backtest can fail when enabled controls are not satisfied; see the folder README for baseline setup.

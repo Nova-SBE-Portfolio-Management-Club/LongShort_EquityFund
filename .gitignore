@@ -1,21 +1,52 @@
-# Ignore pychache
-
+# Python caches and build artifacts
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
 
-# Ignore virtual environment
-
+# Virtual environments
 ls_venv/
-.venv
+.venv/
+venv/
 
-# Ignore env variables
-
+# Local credentials
 .env
+.env.*
+!.env.example
 
-# Ignore Bloomberg Exports (but not the folder)
-src/bloomberg/exports/*        
-!src/bloomberg/exports/*.png
+# Operating system and notebook artifacts
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
 
-# local data/cache
+# Local Bloomberg exports
+src/bloomberg/exports/*
+
+# Local research data and caches
 src/playground/**/data/
+src/playground/**/cache/
+.yfinance_cache/
 *.parquet
+
+# Keep the existing macro-regime research inputs visible to Git
+!src/playground/macro_regime/data/
+src/playground/macro_regime/data/*
+!src/playground/macro_regime/data/stock_prices.csv
+!src/playground/macro_regime/data/sp500_constituents.csv
+!src/playground/macro_regime/data/constituents_history_template.csv
+!src/playground/macro_regime/data/delisting_returns.csv
+
+# Generated research reports and plots
+src/playground/**/reports/
+ranking_*.csv
 *.png
+
+# Curated figures intended for documentation
+!docs/figures/*.png
+!docs/results/figures/*.png

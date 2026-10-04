@@ -2,7 +2,6 @@
 main.py
 """
 
-
 from utils.handlers import *
 
 from utils.messages import *
@@ -10,22 +9,22 @@ from utils.messages import *
 from database import DB_Engine
 
 
-if __name__ == '__main__':
-    
+if __name__ == "__main__":
+
     db = DB_Engine()
     db.connect()
 
     exit = False
-    while not(exit):
-        
+    while not (exit):
+
         cmd = str(input(FIRST_MAIN_INPUT))
-        
-        if not(cmd.isdigit()):
+
+        if not (cmd.isdigit()):
             print(DIGIT_ONLY_WARNING)
-        
+
         else:
             cmd = int(cmd)
-            
+
             if cmd == 0:
                 handle_get_command(db)
             elif cmd == 1:
@@ -36,5 +35,3 @@ if __name__ == '__main__':
                 handle_bloomberg_command(db)
             else:
                 exit = True
-        
-        

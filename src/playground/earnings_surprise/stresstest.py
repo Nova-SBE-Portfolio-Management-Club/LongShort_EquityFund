@@ -27,6 +27,8 @@ from copy import deepcopy
 
 from best_earnsurp import (
     CONFIG,
+    drawdown_curve,
+    summary_stats,
     load_earnings,
     load_prices,
     compute_sue,
@@ -71,15 +73,15 @@ def calc_metrics_dict(s: pd.Series) -> dict:
         return {"Ann.Ret%": np.nan, "Vol%": np.nan, "Sharpe": np.nan,
                 "WinRate%": np.nan, "MaxDD%": np.nan, "Calmar": np.nan}
 
-    ann_ret  = s.mean() * 252
-    ann_vol  = s.std() * np.sqrt(252)
-    sharpe   = ann_ret / ann_vol if ann_vol > 0 else np.nan
+    stats = summary_stats(s, risk_free_rate=0.0)
+    ann_ret = stats["Annualized Return"]
+    ann_vol = stats["Annualized Volatility"]
+    sharpe = stats["Sharpe Ratio"]
 
     active   = s[s != 0]
     win_rate = (active > 0).mean() if len(active) > 0 else np.nan
 
-    cum    = (1 + s).cumprod()
-    max_dd = ((cum - cum.cummax()) / cum.cummax()).min()
+    max_dd = stats["Max Drawdown"]
     calmar = ann_ret / abs(max_dd) if max_dd != 0 else np.nan
 
     return {
@@ -424,9 +426,7 @@ def test_drawdown_analysis(port_ret: pd.Series, top_n=5):
     print(f"TEST 6: TOP {top_n} DRAWDOWN EPISODES")
     print("=" * 100)
 
-    cum = (1 + port_ret.fillna(0)).cumprod()
-    rolling_max = cum.cummax()
-    drawdown = (cum - rolling_max) / rolling_max
+    drawdown = drawdown_curve(port_ret.fillna(0))
 
     # Find drawdown episodes
     is_dd = drawdown < 0

@@ -6,23 +6,21 @@ from statsmodels.tsa.stattools import coint
 
 def correlation(series1, series2):
     """
-    Calculate the correlation between two time series.
+    Calculate Pearson correlation rescaled from [-1, 1] to [0, 1].
     
     Parameters:
     series1 (pd.Series): First time series.
     series2 (pd.Series): Second time series.
     
     Returns:
-    float: Correlation coefficient.
+    float: Rescaled correlation score.
     """
     return (series1.corr(series2)+1)/2
 
 def coint_mapper(p_value):
     """
-    This functions maps the p-value of the cointegration test to a distribution [0,1] that
-    gives more importance to the high values [0.9, 1], and low importance to the low values [0, 0.9].
-    
-    It will be the cointegration score that will be used to rank the pairs.
+    Transform a score in [0, 1], emphasizing values near 1.
+    The cointegration function supplies 1 - p_value, so low p-values score higher.
     """
     return (0.25*p_value)/(1.25 - p_value)
 

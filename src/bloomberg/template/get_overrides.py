@@ -28,7 +28,8 @@ def main():
         # Create and fill the request for the reference data
         request = fieldInfoService.createRequest("FieldInfoRequest")
         
-        request.append("id", "PG_REVENUE")
+        field_name = "PG_REVENUE"
+        request.append("id", field_name)
         # request.append("id", "EBITDA")
         # You can add more fields
 
@@ -47,7 +48,6 @@ def main():
                 print(msg)
                 
                 if (msg.hasElement('fieldData')):
-                    print('ahoy')
 
                     fieldData = msg.getElement('fieldData').getValue(0)
                     
@@ -115,7 +115,7 @@ def processMessage(msg):
                 numElements = fields.numElements()
                 for j in range(numElements):
                     field = fields.getElement(j)
-                    print(f"{field.name()} aaa\t\t ola{field}adeus ")
+                    print(f"{field.name()}\t\t{field}")
 
         fieldExceptions = security.getElement("fieldExceptions")
         if fieldExceptions.numValues() > 0:
@@ -129,4 +129,5 @@ def processMessage(msg):
                 )
 
 
-main()
+if __name__ == "__main__":
+    main()
