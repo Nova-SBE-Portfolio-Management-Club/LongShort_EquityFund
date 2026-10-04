@@ -1,9 +1,2 @@
-pandas
-numpy
-yfinance
-scikit-learn
-scipy
-matplotlib
-seaborn
-jupyter
-jinja2
+# Compatibility entry point; the shared research dependencies live at repo root.
+-r ../../../requirements-research.txt

@@ -1,0 +1,6 @@
+# Core environment plus the additional strategy and notebook dependencies.
+-r requirements.txt
+scikit-learn
+openpyxl
+pyarrow
+seaborn

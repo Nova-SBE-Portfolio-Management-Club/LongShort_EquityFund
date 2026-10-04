@@ -1,0 +1,66 @@
+{
+  "artifact_sha256": {
+    "figures/synthetic_demo.png": "0ab82e301289717475a6f6bba93653f0bf7a9e463cf302f132876ea0094aae89",
+    "synthetic_demo.md": "3ecddf3df17e3109c4aa4c88c10e071262b42e02cd83639b190e37b90ab66e54",
+    "synthetic_demo.returns.csv": "46fcc65c716034108e00d51fa701b34d459c059980d933ccc872c60141535b6e"
+  },
+  "config": {
+    "gross_leverage": 1,
+    "initial_capital": 100000,
+    "periods": 252,
+    "seed": 42
+  },
+  "data_audit": {
+    "discarded_periods": 0,
+    "kind": "synthetic demonstration"
+  },
+  "environment": {
+    "matplotlib": "3.10.7",
+    "numpy": "2.3.4",
+    "openpyxl": "3.1.5",
+    "pandas": "2.3.3",
+    "python": "3.13.9"
+  },
+  "input_sha256": {},
+  "metrics": {
+    "Flat cash": {
+      "Annualized Return": 0.0,
+      "Annualized Volatility": 0.0,
+      "Avg Loss": 0.0,
+      "Avg Win": 0.0,
+      "Best Day": 0.0,
+      "Max Drawdown": 0.0,
+      "Sharpe Ratio": null,
+      "Total Days": 252.0,
+      "Total Return": 0.0,
+      "Win Rate": 0.0,
+      "Worst Day": 0.0
+    },
+    "Synthetic 1x gross": {
+      "Annualized Return": -0.034605846383823906,
+      "Annualized Volatility": 0.14613695332345797,
+      "Avg Loss": -0.006926477367317057,
+      "Avg Win": 0.007414131003721893,
+      "Best Day": 0.029236102307484264,
+      "Max Drawdown": -0.14506094113701196,
+      "Sharpe Ratio": -0.1683304015841674,
+      "Total Days": 252.0,
+      "Total Return": -0.03460584638382602,
+      "Win Rate": 0.47619047619047616,
+      "Worst Day": -0.022685130444125286
+    }
+  },
+  "observed_periods": 252,
+  "periods_per_year": 252,
+  "risk_free_rate": 0,
+  "sample_end": "2023-12-19",
+  "sample_start": "2023-01-02",
+  "source_sha256": {
+    "scripts/reproduce_results.py": "e659a2aa5abb7848cff5b122cbb786ebb9b1059f8446ba19393951d44e206acd",
+    "src/playground/backtest_demo.py": "bc15aed437a44baf6e78ddaedddc8b3f8af262b89edd82ddd82ca484a951dc32",
+    "src/playground/earnings_surprise/backtest.py": "d79f43a9e56d77e23f1d56b7078ef98d110a7e438f6e24195a06aa6e41a82b77",
+    "src/playground/earnings_surprise/best_earnsurp.py": "dc6adfec1e608ca0a5ceed9d76412d0fe220089f8154862811a770530dd5a4fc",
+    "src/utils/backtest.py": "31d5199066a7647cc6e0ff998443266da38ad730b4d4872b4e4b416c0e3db035"
+  },
+  "trading_cost_bps": 0
+}
