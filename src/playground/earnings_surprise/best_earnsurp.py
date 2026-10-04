@@ -13,24 +13,32 @@ PEAD Strategy A (SUE & Z-Score) with Long-Anchored Short Overlay
     * NEW: Per-name weight cap — no single position can exceed a max
       percentage of its book. Excess weight goes to cash (reduces exposure).
 
-This file is designed to be upload-ready for a quant research repo.
 """
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+from pathlib import Path
+
 import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+try:
+    from .backtest import drawdown_curve, summary_stats
+except ImportError:  # Support direct script execution from the repository root.
+    from backtest import drawdown_curve, summary_stats
 
 
 # ============================================================
 # CONFIG
 # ============================================================
 
+STRATEGY_DIR = Path(__file__).resolve().parent
+
 CONFIG = {
     # Paths
-    "earnings_path"   : "/Users/noah/Documents/Nova SBE/PMC/earningssurprise_S&Pall.xlsx",
+    "earnings_path"   : str(STRATEGY_DIR / "earningssurprise_S&Pall.xlsx"),
     "earnings_sheet"  : "Data",
-    "prices_path"     : "/Users/noah/Documents/Nova SBE/PMC/S&P_dailyprices_clean.csv",
+    "prices_path"     : str(STRATEGY_DIR / "S&P_dailyprices_clean.csv"),
 
     # SUE parameters
     "sue_window_q"    : 8,      # rolling quarters for forecast error std
@@ -51,8 +59,8 @@ CONFIG = {
     "min_longs_for_shorts": 3,  # Mindestanzahl Longs, damit Shorts erlaubt sind
 
     # --- NEW: Position concentration cap ---
-    "max_weight_long"  : 0.2,  # max 5% of total portfolio per long name
-    "max_weight_short" : 0.2,  # max 5% of total portfolio per short name
+    "max_weight_long"  : 0.2,  # max 20% of total portfolio per long name
+    "max_weight_short" : 0.2,  # max 20% of total portfolio per short name
 
     # Backtest start
     "start_date"      : "2010-01-01",
@@ -269,7 +277,7 @@ def compute_portfolio_returns_long_anchored_50_50(
     - This means on days with few signals, exposure is reduced rather
       than concentrating into a handful of names
 
-    Example: 2 longs, 50% book → 25% each → capped to 5% each → 10% total long
+    Example with a 5% cap: 2 longs, 50% book → 25% each → capped to 5% each → 10% total long
              This dramatically reduces idiosyncratic risk on low-signal days.
 
     Returns:
@@ -284,7 +292,8 @@ def compute_portfolio_returns_long_anchored_50_50(
         short_exposure : total short weight per day (after cap)
     """
 
-    returns = prices.pct_change()
+    # Forward-fill quotes before computing returns; the report audits missing prices.
+    returns = prices.ffill().pct_change(fill_method=None)
 
     common_dates   = sig.index.intersection(returns.index)
     common_tickers = sig.columns.intersection(returns.columns)
@@ -296,7 +305,6 @@ def compute_portfolio_returns_long_anchored_50_50(
     short_mask_raw = sig == -1
 
     n_long  = long_mask_raw.sum(axis=1)
-    n_short = short_mask_raw.sum(axis=1)
 
     # --- Uncapped weights (original logic) ---
     n_long_safe = n_long.replace(0, np.nan)
@@ -384,17 +392,17 @@ def metrics(series: pd.Series, label: str):
     - Calmar ratio
     """
     s        = series.dropna()
-    ann_ret  = s.mean() * 252
-    ann_vol  = s.std()  * np.sqrt(252)
-    sharpe   = ann_ret / ann_vol if ann_vol > 0 else np.nan
+    stats    = summary_stats(s, risk_free_rate=0)
+    ann_ret  = stats["Annualized Return"]
+    ann_vol  = stats["Annualized Volatility"]
+    sharpe   = stats["Sharpe Ratio"]
 
     # Active-day win rate: only count days where the portfolio had exposure
     active   = s[s != 0]
     win_rate = (active > 0).mean() if len(active) > 0 else np.nan
     pct_active = len(active) / len(s) * 100 if len(s) > 0 else 0
 
-    cum      = (1 + s).cumprod()
-    max_dd   = ((cum - cum.cummax()) / cum.cummax()).min()
+    max_dd   = stats["Max Drawdown"]
     calmar   = ann_ret / abs(max_dd) if max_dd != 0 else np.nan
 
     print(f"{label:25s} | Ret {ann_ret*100:6.2f}%  Vol {ann_vol*100:5.2f}%  "
@@ -423,8 +431,7 @@ def plot_equity_curves(port_ret, port_ret_uncap, long_ret, short_ret, bench_ret,
     cum_short   = (1 + short_ret.fillna(0)).cumprod()
     cum_bench   = (1 + bench_ret.fillna(0)).cumprod()
 
-    rolling_max = cum_ls.cummax()
-    drawdown    = (cum_ls - rolling_max) / rolling_max
+    drawdown    = drawdown_curve(port_ret)
 
     fig, axes = plt.subplots(2, 1, figsize=(14, 9),
                              gridspec_kw={"height_ratios": [3, 1]})

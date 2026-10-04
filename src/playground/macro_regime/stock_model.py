@@ -35,7 +35,7 @@ def select_stocks_within_sectors(
         px_full = stock_prices_m[tickers]
         valid_len = px_full.notna().sum(axis=0)
         seasoned = valid_len[valid_len >= int(min_history_months)].index.tolist()
-        px_full = px_full[seasoned] if seasoned else px_full
+        px_full = px_full[seasoned]
         if len(px_full) > 18:
             px_window = px_full.iloc[-18:]
         else:
@@ -46,7 +46,7 @@ def select_stocks_within_sectors(
 
         # liquidity filter
         liquid = [t for t in px.columns if float(dv.get(t, 0.0)) >= min_avg_dollar_vol]
-        px = px[liquid] if liquid else px
+        px = px[liquid]
 
         if px.shape[1] == 0:
             picks[sec] = []

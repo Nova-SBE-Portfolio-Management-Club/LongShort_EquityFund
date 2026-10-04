@@ -32,11 +32,7 @@ load_dotenv()
 
 class SingletonMeta(type):
     """
-    This is a definition of a Meta Class.
-    It will allow us to create only one instance of DB_Engine (see below).
-
-    Do not worry if you cannot fully grasp what it is doing.
-    If curious, ask chatGPT, he will explain it better than me.
+    Reuse one DB_Engine instance so application commands share a connection pool.
     """
     
     _instances = {}
@@ -95,7 +91,7 @@ class DB_Engine(metaclass=SingletonMeta):
     def exists_pair(self, pair: Pair) -> bool:
         # Checks if a Pair object already exists in database
         with Session(self.engine) as session:
-            session.query(Pair).filter_by(tickerA=pair.tickerA, tickerB=pair.tickerB).first() is not None
+            return session.query(Pair).filter_by(tickerA=pair.tickerA, tickerB=pair.tickerB).first() is not None
 
     def get_all_pairs(self) -> List[Pair]:
         # Returns list of all Pair objects stored in database
@@ -106,15 +102,18 @@ class DB_Engine(metaclass=SingletonMeta):
         # Checks if a PriceData object already exists in database
         with Session(self.engine) as session:
             return session.query(PriceData).filter_by(
-                ticker=pricedata.ticker, price=pricedata.price
+                ticker=pricedata.ticker, date=pricedata.date
             ).first() is not None
         
     def get_all_pricedata(self, company: str, to_pandas: bool = False):
         # Returns all PriceData for a company as a list or pandas DataFrame
         with Session(self.engine) as session:
-            data = session.query(PriceData).filter_by(ticker=company).all()
+            data = session.query(PriceData).filter_by(ticker=company).order_by(PriceData.date).all()
             if to_pandas:
-                return pd.DataFrame([{"ticker": d.ticker, "price": d.price, "date": d.date} for d in data])
+                return pd.DataFrame(
+                    [d.to_dict() for d in data],
+                    columns=["ticker", "date", "open_price", "close_price"]
+                )
             return data
         
     def insert_price_data(self, price_data: List[PriceData]) -> bool:
@@ -144,27 +143,6 @@ class DB_Engine(metaclass=SingletonMeta):
         finally:
             session.close()
     
-    def __insert_company_pricedata(self, company: str, n_years: int):
-        """
-        == DEPRECATED ==
-        To Delete in Future Reviews
-        
-        Fetches historical stock data for a company using yfinance and saves it to database
-        """
-        stock = yf.Ticker(company)
-        df = stock.history(period=f"{n_years}y")
-
-        if df.empty:
-            print(f"No data found for {company}.")
-            return
-
-        with Session(self.engine) as session:
-            price_data_objects = [
-                PriceData(ticker=company, date=index, price=row["Close"]) for index, row in df.iterrows()
-            ]
-            session.bulk_save_objects(price_data_objects)
-            session.commit()
-            
     def get_company_pricedata(self, company: str, start: str, end: str):
         # Retrieves PriceData for a company within a specified date range
         with Session(self.engine) as session:
@@ -172,7 +150,7 @@ class DB_Engine(metaclass=SingletonMeta):
                 PriceData.ticker == company,
                 PriceData.date >= start,
                 PriceData.date <= end
-            ).all()
+            ).order_by(PriceData.date).all()
             if not data:
                 print(f"Warning: No data found for {company} between {start} and {end}.")
             return data
@@ -336,7 +314,7 @@ class DB_Engine(metaclass=SingletonMeta):
             
     def set_invalid_asset(self, ticker: str) -> None:
         """
-        Marks an asset as invalid by setting its last_update_date to None.
+        Marks an asset as invalid by setting its valid flag to False.
         
         ticker      (str):  The ticker of the asset to mark as invalid.
         """
@@ -651,10 +629,9 @@ class DB_Engine(metaclass=SingletonMeta):
         """
         session = self.sessionmaker()
         try:
-            # Assuming you have a relationship or a foreign key "country_id" in Company.
             companies = (
                 session.query(Company)
-                .filter_by(country_id=country.id)
+                .filter_by(country=country.name)
                 .all()
             )
             return companies
@@ -705,6 +682,7 @@ class DB_Engine(metaclass=SingletonMeta):
             results = (
                 session.query(Country.yc_code, MacroData_Info.last_update_date)
                 .join(MacroData_Info, MacroData_Info.country == Country.name)
+                .filter(Country.yc_code.isnot(None), Country.yc_code != "")
                 .distinct(Country.name)
                 .all()
             )
@@ -787,4 +765,3 @@ if __name__ == '__main__':
     #db1.insert_asset(Ftr)
 
     a = db1.get_yc_data()
-

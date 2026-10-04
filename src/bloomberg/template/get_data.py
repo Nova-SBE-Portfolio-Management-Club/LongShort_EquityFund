@@ -107,7 +107,7 @@ def processMessage(msg):
                 numElements = fields.numElements()
                 for j in range(numElements):
                     field = fields.getElement(j)
-                    print(f"{field.name()} aaa\t\t ola{field}adeus ")
+                    print(f"{field.name()}\t\t{field}")
 
         fieldExceptions = security.getElement("fieldExceptions")
         if fieldExceptions.numValues() > 0:
@@ -121,4 +121,5 @@ def processMessage(msg):
                 )
 
 
-main()
+if __name__ == "__main__":
+    main()

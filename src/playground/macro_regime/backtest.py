@@ -70,13 +70,13 @@ def run_walkforward_backtest(
         next_dt = q_dates[i+1]  # quarter to trade
         assert next_dt > dt, "Quarter alignment error: next_dt must be strictly after dt."
 
-        # Train on all data up to dt (inclusive)
+        # Labels at dt contain next quarter's return and are not known yet.
         X_train = sector_features_q.loc[:dt]
-        Y_train = sector_labels_q.loc[:dt]
+        Y_train = sector_labels_q.loc[sector_labels_q.index < dt]
         if not X_train.empty:
             assert X_train.index.max() <= dt, "Feature leakage detected in training window."
         if not Y_train.empty:
-            assert Y_train.index.max() <= dt, "Label leakage detected in training window."
+            assert Y_train.index.max() < dt, "Label leakage detected in training window."
         assert next_dt not in X_train.index, "Feature leakage detected: test quarter present in training features."
 
         model = SectorReturnModel(alpha=10.0)
